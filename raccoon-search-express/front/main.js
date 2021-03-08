@@ -15,9 +15,9 @@ const eventSlider = new EventSlider($mileageEventSlide);
 const mallEventSlider = new MallEventSlider($buttonGroup);
 const requestData = new RequestData(PAGE, ITEMS, CURRENT);
 
-fetchAPI.getRecomKeyword();
 fetchAPI.getMileageList();
 fetchAPI.getMallEventList();
+fetchAPI.getRollingKeyword();
 requestData.requestData();
 
 eventSlider.addEvent();
