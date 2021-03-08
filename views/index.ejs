@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel="stylesheet" href="/stylesheets/reset.css" />
+        <link rel="stylesheet" href="/stylesheets/index.css" />
+    </head>
+
+    <body>
+        <div class="all-wrapper">
+            <div class="header">
+                <div class="header__logo-search">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="/images/logo_shw.png" />
+                        </a>
+                    </div>
+
+                    <div class="search">
+                        <input
+                            type="text"
+                            id="search"
+                            name="search"
+                            size="55"
+                            autocomplete="off"
+                            placeholder="검색어를 입력하세요"
+                        />
+                        <button type="button">
+                            <span class="i-search"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="header__menu">
+                    <div class="header__menu__wrapper">
+                        <div class="category">
+                            <button type="button">
+                                <span class="i-category"></span>
+                                <span>카테고리</span>
+                            </button>
+                        </div>
+                        <span class="txt-bar"></span>
+
+                        <ul class="list-hot">
+                            <li><a href="#">핫딜</a></li>
+                            <li><a href="#">베스트100</a></li>
+                            <li>
+                                <a href="#"
+                                    >할인특가<span class="emphasis"></span
+                                ></a>
+                            </li>
+                            <li><a href="#">기획전</a></li>
+                        </ul>
+                        <span class="txt-bar"></span>
+
+                        <ul class="list-hash">
+                            <li><a href="#">#건강식품</a></li>
+                            <li><a href="#">#제철음식</a></li>
+                            <li><a href="#">#블루투스이어폰</a></li>
+                            <li><a href="#">#커블체어</a></li>
+                            <li>
+                                <a href="#"
+                                    >#노트북<span class="emphasis"></span
+                                ></a>
+                            </li>
+                        </ul>
+
+                        <ul class="list-usergroup">
+                            <li>
+                                <a href="#">
+                                    <span class="i-user"></span>
+                                    <span>로그인</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="i-recent"></span>
+                                    <span>최근본 상품</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="content__main">
+                    <div class="content__main__one">
+                        <a href="/">
+                            <img/>
+                        </a>
+                    </div>
+
+                    <div class="content__main__carousel">
+                        <div class="slide">
+                            <% for(let i = 0; i <= 2; i++) { 
+                                let className = `transformX__${i}`;
+                                if (i === 2) className = `transformX__-1`;
+                            %>
+                            <div class='<%= className  %> item'>
+                                <img />
+                            </div>
+                            <% } %>
+                        </div>
+
+                        <div class="paging">
+                            <span class="paging__inner">
+                                <span class="current"></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+
+                            <button class="paging--prev">
+                                <span class="i-slide__paging--prev"></span>
+                            </button>
+                            <button class="paging--next">
+                                <span class="i-slide__paging--next"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content__more">
+                    <div class="content__more__view">
+                        <ul><!-- 더보기 데이터 동적 생성 --></ul>                        
+                    </div>
+
+                    <button
+                        type="button"
+                        class="content__more__btn"
+                        value="1"
+                    ></button>
+                </div>
+
+                <div class="content__hot">
+                    <p class="content__hot__info">지금뜨는 테마 카테고리</p>
+
+                    <div class="content__hot__carousel">
+                        
+                        <!-- 0 ~ 7 , -2 -1 순서로 하기 위해 다른 방식으로 만듬 -->
+                        <ul>
+                            <% for(let i = 0; i <= 9; i++) { %>
+                                <% 
+                                    let idx = i; 
+                                    if (i === 8) idx = -2
+                                    else if (i === 9) idx = -1;
+
+                                    const className = `transformX__${idx}`;
+                                %>
+                                <li class= <%=className%> id= <%= i %> >
+                                    <a>
+                                        <img />
+                                        <div>
+                                            <span class="txt-bold"></span>
+                                            <span class="txt-info"></span>
+                                            <span class="i-theme"></span>
+                                        </div>
+                                    </a>
+                                </li>
+                            <% } %>                                                        
+                        </ul>
+                        <button class="carousel__special--prev">
+                            <span class="i-slide__special--prev"></span>
+                        </button>
+                        <button class="carousel__special--next">
+                            <span class="i-slide__special--next"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="module" src="./javascripts/index.js"></script>
+</html>
