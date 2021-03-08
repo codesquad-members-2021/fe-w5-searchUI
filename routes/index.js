@@ -1,9 +1,8 @@
-const express = require('express');
-const router = express.Router();
+import express from "express";
 
-/* GET home page. */
+const router = express.Router();
 router.get('/', (req, res) => {
-    res.render('index', { title: '쇼핑하우 by kakaocommerce' });
+    res.render('index', { title: '쇼핑하우 by kakaocommerce - Search UI' });
 });
 
-module.exports = router;
+export default router;

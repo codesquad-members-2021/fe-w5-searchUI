@@ -1,11 +1,13 @@
-const moreData = require('../data/more.js');
-const {     
-    mileageList: mainCarouselData,
-    mallEventList: hotCarouselData,
-    event: bestData,
-} = require('../data/planningData.json');   // https://shoppinghow.kakao.com/v1.0/shophow/top/planningEvent.json
+import moreData from "../data/more.js";
+// import {     
+//     // mileageList: mainCarouselData,
+//     // mallEventList: hotCarouselData,
+//     // event: bestData,
+// } from '../data/planningData.json';   // https://shoppinghow.kakao.com/v1.0/shophow/top/planningEvent.json
 
-const express = require('express');
+import planningData from '../data/planningData.json';
+
+import express from "express";
 const router = express.Router();
 
 /* 더보기 데이터 정보 전부 가져오기 */
@@ -35,7 +37,7 @@ router.get('/moreData/:pageIdx', (req, res) => {
 /* 상단 왼쪽 best item */
 router.get('/bestData', (req, res) => {
     try {
-        res.status(200).json(bestData);
+        res.status(200).json(planningData.event);
     } catch (err) {
         res.status(500).json({ err });
     }
@@ -44,6 +46,7 @@ router.get('/bestData', (req, res) => {
 
 /* 상단 오른쪽 캐러셀 데이터 */
 router.get('/mainCarouselData', (req, res) => {
+    const mainCarouselData = planningData.mileageList;
     try {
         if (!mainCarouselData || mainCarouselData.length <= 0)
             throw new Error('[!!] 상단 캐러셀 데이터가 존재하지 않습니다.');
@@ -54,10 +57,9 @@ router.get('/mainCarouselData', (req, res) => {
     }
 });
 
-
-
 /* 하단 캐러셀 데이터 가져오기 */
 router.get('/hotCarouselData', (req, res) => {
+    const hotCarouselData = planningData.mallEventList;
     try {
         const postData = hotCarouselData.slice(0, 10);
 
@@ -70,4 +72,4 @@ router.get('/hotCarouselData', (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

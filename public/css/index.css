@@ -122,20 +122,20 @@
 }
 
 .icon, .i-recent, .i-user, .i-category, .i-search {
-  background: url("/images/ico_gnb_shw.png") no-repeat;
+  background: url("/img/ico_gnb_shw.png") no-repeat;
   background-size: 130px 90px;
   display: block;
 }
 .icon__carousel, .i-slide__paging--next, .i-slide__paging--prev {
-  background: url("/images/img_home.png") no-repeat;
+  background: url("/img/img_home.png") no-repeat;
   display: block;
 }
 .icon__comm2, .i-theme {
-  background: url("/images/ico_comm2.gif") no-repeat;
+  background: url("/img/ico_comm2.gif") no-repeat;
   display: block;
 }
 .icon__special, .i-slide__special--next, .i-slide__special--prev {
-  background: url("/images/img_special.png") no-repeat;
+  background: url("/img/img_special.png") no-repeat;
   display: block;
 }
 

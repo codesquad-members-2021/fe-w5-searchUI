@@ -108,22 +108,22 @@ $oneWidth: 10%;
 
 // icon ---------------------------------------------------------------- [2]
 .icon {
-    background: url('/images/ico_gnb_shw.png') no-repeat;
+    background: url('/img/ico_gnb_shw.png') no-repeat;
     background-size: 130px 90px;
     display: block;
 
     &__carousel {
-        background: url('/images/img_home.png') no-repeat;
+        background: url('/img/img_home.png') no-repeat;
         display: block;
     }
 
     &__comm2 {
-        background: url('/images/ico_comm2.gif') no-repeat;
+        background: url('/img/ico_comm2.gif') no-repeat;
         display: block;
     }
 
     &__special {
-        background: url('/images/img_special.png') no-repeat;
+        background: url('/img/img_special.png') no-repeat;
         display: block;
     }
 }
