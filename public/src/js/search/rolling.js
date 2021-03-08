@@ -14,16 +14,18 @@ class RecommendRolling {
     this.autoRolling();
   }
   autoRolling() {
-    this.rolling();
     if (this.step === 11) {
       this.render();
       this.step = 0;
     }
-    setTimeout(this.autoRolling.bind(this), 3000);
+    setTimeout(() => {
+      this.rolling();
+      this.autoRolling();
+    }, 3000);
   }
   rolling() {
-    this.setRollingAnimation({ moveY: this.oneStep * this.step * -1 });
     this.step++;
+    this.setRollingAnimation({ moveY: this.oneStep * this.step * -1, transition: 'all 1s' });
   }
   getRecommendHTML() {
     const { PLACEHOLDER_ITEM } = CLASS_LIST;
@@ -41,7 +43,7 @@ class RecommendRolling {
   }
   setRollingAnimation({ moveY = 0, transition = '' }) {
     this.recommendList.style.transition = transition;
-    this.recommendList.style.transform = `translate3d(0, ${moveY}px, 0)`;
+    this.recommendList.style.transform = `translateY(${moveY}px`;
   }
 }
 
