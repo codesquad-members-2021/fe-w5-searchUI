@@ -1,0 +1,23 @@
+{
+  "name": "fe-w5-searchui",
+  "version": "1.0.0",
+  "description": "자동검색 UI",
+  "main": "server.js",
+  "type" : "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codesqurd-master-DD/fe-w5-searchUI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codesqurd-master-DD/fe-w5-searchUI/issues"
+  },
+  "homepage": "https://github.com/codesqurd-master-DD/fe-w5-searchUI#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
