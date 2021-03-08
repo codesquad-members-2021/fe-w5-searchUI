@@ -1,0 +1,15 @@
+{
+  "contents": [
+    {
+      "rightpannel1": {
+        "imgurl": "http://localhost:8080/public/img/rightpannel1.png"
+      },
+      "rightpannel2": {
+        "imgurl": "http://localhost:8080/public/img/rightpannel2.png"
+      },
+      "rightpannel3": {
+        "imgurl": "http://localhost:8080/public/img/rightpannel3.png"
+      }
+    }
+  ]
+}
