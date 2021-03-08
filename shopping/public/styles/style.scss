@@ -1,0 +1,17 @@
+@import "./vars.scss";
+@import "./header.scss";
+@import "./main.scss";
+@import "./footer.scss";
+body,
+ul,
+li,
+button,
+a,
+input {
+  all: unset;
+}
+
+button,
+a {
+  cursor: pointer;
+}
