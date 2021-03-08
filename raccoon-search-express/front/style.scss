@@ -41,10 +41,10 @@ fieldset {
   padding-inline-end: 0.75em;
   padding-block-end: 0.625em;
   min-inline-size: min-content;
-  // border-width: 2px;
-  // border-style: groove;
-  // border-color: threedface;
-  // border-image: initial;
+}
+
+.fld_shwsearch {
+  padding: 0;
 }
 
 .screen-out {
@@ -83,6 +83,9 @@ header {
         width: 119px;
         height: auto;
       }
+    }
+    .link_shw {
+      display: block;
     }
 
     .search-bar {
@@ -166,7 +169,7 @@ header {
     .list_rollkeywords {
       position: absolute;
       left: 0;
-      top: -8px;
+      top: -10px;
       width: 100%;
 
       li {
@@ -194,6 +197,53 @@ header {
       @extend .list_rollkeywords;
       transform: translate3d(0px, -32px, 0px);
       transition-duration: 300ms;
+    }
+  }
+
+  .wrap_suggestion {
+    position: absolute;
+    left: 0;
+    top: 53px;
+    z-index: 10;
+    width: 100%;
+    border: 1px solid #f95139;
+    border-radius: 10px;
+    background-color: #fff;
+    box-sizing: border-box;
+    text-align: left;
+
+    .inner_suggestion {
+      overflow: hidden;
+      padding: 25px 29px 23px;
+    }
+    .tit_suggestion {
+      display: block;
+      padding-bottom: 5px;
+      font-size: 16px;
+      color: #a6a6a6;
+      letter-spacing: -0.04em;
+    }
+    .list_keyword {
+      overflow: hidden;
+      float: left;
+      width: 50%;
+
+      li {
+        overflow: hidden;
+        height: 21px;
+        padding: 12px 15px 0 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .num_rank {
+        margin-right: 10px;
+        font-weight: 700;
+      }
+    }
+    .link_keyword {
+      font-size: 14px;
+      letter-spacing: -0.05em;
+      color: #222;
     }
   }
 
