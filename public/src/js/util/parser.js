@@ -11,4 +11,6 @@ export const hotDealParser = (data) =>
     .map((v) => {
       return { imgurl: v.imgurl, title: v.text, info: v.text2 };
     })
-    .slice(10);
+    .slice(0, 10);
+
+export const recommendParser = (data) => data.map((v) => v.keyword).slice(0, 10);

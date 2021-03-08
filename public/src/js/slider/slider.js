@@ -1,4 +1,4 @@
-import { CLASS_LIST } from './util/data';
+import { CLASS_LIST } from '../util/data';
 
 class Slider {
   constructor({ data, selectors, animation, makeHtmlFn }) {

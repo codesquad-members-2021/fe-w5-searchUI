@@ -1,5 +1,5 @@
-import { CLASS_LIST } from './util/data.js';
-import { makeItemList, makeMoreBtn, ul } from './util/htmlTemplate.js';
+import { CLASS_LIST } from '../util/data.js';
+import { makeItemList, makeMoreBtn, ul } from '../util/htmlTemplate.js';
 
 class MoreButtonView {
   constructor(data, { container, moreBtn }) {

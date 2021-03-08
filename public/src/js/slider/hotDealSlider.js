@@ -1,5 +1,5 @@
 import Slide from './slider.js';
-import { makeItemList } from './util/htmlTemplate.js';
+import { makeItemList } from '../util/htmlTemplate.js';
 
 class HotDealSlider extends Slide {
   constructor(data, selectors, animation) {

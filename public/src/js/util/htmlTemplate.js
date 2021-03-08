@@ -1,3 +1,5 @@
+import { createDom } from './util.js';
+
 export const makeSlideItem = (imgurl) => `
 <div class="slide-item">
     <img src="${imgurl}"/>
@@ -23,4 +25,6 @@ export const makeMoreBtn = ({ now, total, fold = false }) => `
 <span><i class="fas fa-angle-${fold ? 'up' : 'down'}"></i></span>
 `;
 
-export const ul = ({ value, classes }) => `<ul class='${classes.join(' ')}'>${value}</ul>`;
+export const li = createDom('li');
+
+export const ul = createDom('ul');
