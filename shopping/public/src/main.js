@@ -58,6 +58,13 @@ const howSameItems = api(urls.howSame)(setHtmls, htmlMaker.homeContentsList, ins
 const contPartnerHtml = document.querySelector(".cont_partner");
 const partners = api(urls.partners)(setHtmls, htmlMaker.partnerList, insertContents)(contPartnerHtml);
 
+/*********************************** w5 - searchUi *****************************************/
+// 여기서부터 이번주 미션 시작
+// 개략적인 계획
+// 1. 일단 "작동"에 집중한 기능 구현
+// 2. 리팩토링
+// 3. 3주차 코드도 리팩토링
+
 // amazon-search test
 async function request(inputValue) {
   const response = await fetch(urls.recommendedWords(inputValue));
