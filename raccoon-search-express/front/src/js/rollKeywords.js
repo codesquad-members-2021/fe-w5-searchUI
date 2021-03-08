@@ -5,24 +5,46 @@ class RollingKeywords {
   constructor(data) {
     this.data = data;
     this.lists = $('.list_rollkeywords');
-    this.target = $('.search-bar');
+    this.searchBar = $('.search-bar');
+    this.timer;
   }
 
   addEvent() {
-    this.target.addEventListener('click', this.hideKeywords);
+    this.searchBar.addEventListener('click', this.openSuggestionBox);
+    this.searchBar.addEventListener('mouseover', this.timerCleaner);
+    this.searchBar.addEventListener('mouseleave', this.closeSuggestionBox);
   }
 
-  hideKeywords(e) {
-    const currentDom = (event, className) => event.currentTarget.querySelector(className);
+  timerCleaner() {
+    clearTimeout(this.timer);
+  }
 
-    if (currentDom(e, '.wrap_rollkeywords')) {
-      const rollKeywords = currentDom(e, '.wrap_rollkeywords');
-      const searchBox = currentDom(e, '.box_search');
-      const suggestion = currentDom(e, '.wrap_suggestion');
+  openSuggestionBox(e) {
+    const currentDom = (event, className) => event.currentTarget.querySelector(className);
+    const rollKeywords = currentDom(e, '.wrap_rollkeywords');
+    const searchBox = currentDom(e, '.box_search');
+    const suggestion = currentDom(e, '.wrap_suggestion');
+
+    if (rollKeywords) {
       rollKeywords.style.display = 'none';
       searchBox.style.borderColor = '#f95139';
       suggestion.style.display = 'block';
+      return;
     }
+  }
+
+  closeSuggestionBox(e) {
+    const currentDom = (event, className) => event.currentTarget.querySelector(className);
+    const rollKeywords = currentDom(e, '.wrap_rollkeywords');
+    const searchBox = currentDom(e, '.box_search');
+    const suggestion = currentDom(e, '.wrap_suggestion');
+
+    this.timer = setTimeout(() => {
+      rollKeywords.style.display = 'block';
+      searchBox.style.borderColor = '#cecfd1';
+      suggestion.style.display = 'none';
+    }, 300);
+    return;
   }
 
   drawRollingKeywords() {
@@ -50,7 +72,8 @@ class RollingKeywords {
         this.lists.classList.replace('list_rollkeywords--rolling', 'list_rollkeywords');
       }, ms);
     // );
-
+    // addEventListner('transitionend', cb) from dd
+    // setInterval -> delay -> rolling
     setInterval(() => {
       this.lists.classList.replace('list_rollkeywords', 'list_rollkeywords--rolling');
       rollingAnimation(ANIMATION_DURATION);
