@@ -21,4 +21,18 @@ export default class RollingKeywords {
     }, ``);
     return keywordList;
   }
+
+  startRolling() {
+    console.log('start rolling');
+    setInterval(() => {
+      console.log('replace class');
+      this.lists.classList.replace('list_rollkeywords', 'list_rollkeywords--rolling');
+      setTimeout(() => {
+        console.log(this.lists.firstElementChild);
+        this.lists.insertBefore(this.lists.firstElementChild, null);
+        this.lists.classList.replace('list_rollkeywords--rolling', 'list_rollkeywords');
+        console.log('return class');
+      }, 300);
+    }, 3000);
+  }
 }
