@@ -4,7 +4,7 @@
 
 ## front-end
 
-- 기존 "쇼핑하우" UI를 클론해온다.
+- 기존 "쇼핑하우" UI를 클론해온다. (👌)
 - 검색창 UI 개발
   1. Rolling List UI
      - carousel UI clone
@@ -27,4 +27,4 @@
 ## back-end
 
 - 자동완성키워드 데이터
-  1. input을 key로 같는 value들을 전송해준다.
+  1. input을 key로 같는 value들을 전송해준다. (👌)
