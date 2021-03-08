@@ -23,16 +23,19 @@ export default class RollingKeywords {
   }
 
   startRolling() {
-    console.log('start rolling');
-    setInterval(() => {
-      console.log('replace class');
-      this.lists.classList.replace('list_rollkeywords', 'list_rollkeywords--rolling');
+    const ANIMATION_DURATION = 300;
+    const ROLLING_INTERVAL = 3000;
+    const rollingAnimation = (ms) =>
+      // new Promise((resolve) =>
       setTimeout(() => {
-        console.log(this.lists.firstElementChild);
         this.lists.insertBefore(this.lists.firstElementChild, null);
         this.lists.classList.replace('list_rollkeywords--rolling', 'list_rollkeywords');
-        console.log('return class');
-      }, 300);
-    }, 3000);
+      }, ms);
+    // );
+
+    setInterval(() => {
+      this.lists.classList.replace('list_rollkeywords', 'list_rollkeywords--rolling');
+      rollingAnimation(ANIMATION_DURATION);
+    }, ROLLING_INTERVAL);
   }
 }
