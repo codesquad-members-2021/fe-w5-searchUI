@@ -1,7 +1,7 @@
 import HotDealSection from './hotDealSection';
 import MileageEventCarousel from './mileageEventCarousel';
 import MallEventSection from './mallEventSection';
-import RollingKeywords from './rollKeywords';
+import { RollingKeywords } from './rollKeywords';
 import { PAGE } from '../../main';
 
 export default class FetchAPI {

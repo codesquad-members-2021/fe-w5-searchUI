@@ -1,10 +1,28 @@
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
-export default class RollingKeywords {
+class RollingKeywords {
   constructor(data) {
     this.data = data;
     this.lists = $('.list_rollkeywords');
+    this.target = $('.search-bar');
+  }
+
+  addEvent() {
+    this.target.addEventListener('click', this.hideKeywords);
+  }
+
+  hideKeywords(e) {
+    const currentDom = (event, className) => event.currentTarget.querySelector(className);
+
+    if (currentDom(e, '.wrap_rollkeywords')) {
+      const rollKeywords = currentDom(e, '.wrap_rollkeywords');
+      const searchBox = currentDom(e, '.box_search');
+      const suggestion = currentDom(e, '.wrap_suggestion');
+      rollKeywords.style.display = 'none';
+      searchBox.style.borderColor = '#f95139';
+      suggestion.style.display = 'block';
+    }
   }
 
   drawRollingKeywords() {
@@ -39,3 +57,5 @@ export default class RollingKeywords {
     }, ROLLING_INTERVAL);
   }
 }
+
+export { RollingKeywords };
