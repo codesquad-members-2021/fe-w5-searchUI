@@ -17,11 +17,6 @@ export default class FetchAPI {
       failed: 'Request failed',
     };
   }
-  getRecomKeyword = () => {
-    fetch(this.url.recomKeyword)
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-  };
 
   getMileageList = () =>
     fetch(this.url.mileageList)
@@ -61,6 +56,17 @@ export default class FetchAPI {
         }
         hotDealSection.drawExtraList();
         hotDealSection.updateMoreListNumber(count, data.dataLength);
+        return data;
+      })
+      .then((status) => console.log(this.req.sucess, status.code))
+      .catch((error) => console.log(this.req.failed, error));
+  };
+
+  getRecomKeyword = () => {
+    fetch(this.url.recomKeyword)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.list);
         return data;
       })
       .then((status) => console.log(this.req.sucess, status.code))
