@@ -25,24 +25,48 @@ body {
     }
 
     .nav-search-bar {
+        margin-left: 2rem;
         position: relative;
     }
 
     .search-bar {
-        margin-left: 2rem;
         padding: $search-bar-padding;
         width: 38rem;
         border: 1px solid $main-grey-color;
         border-radius: 1rem;
         }
 
-        .fa-search {
+    .fa-search {
             transform: translate(-2.5rem, 50%);
             font-size: 1.5rem;
             color: $primary-color;
             position: absolute;
+    }
+
+    .search-rollkeywords {
+        top: 0.9rem;
+        position: absolute;
+        height: 2rem;
+        overflow: hidden;
+        text-align: left;
+    }
+    
+    .nav-search-rank {
+        transform: translateY(0);
+        transition: transform 0.5s ease-in;
+
+        span {
+            margin: 0 1rem;
+        }
+        
+        li {
+            margin-bottom: 1rem;
+            font-size: $search-bar-font-size;
+            color: $main-grey-color;
+ 
         }
     }
+}
 
 .under-nav-wrapper {
      margin: 0 auto;
