@@ -8,6 +8,8 @@ class RollingKeywords {
     this.searchBar = $('.search-bar');
     this.keyword = $$('.list_keyword');
     this.rankNumber = 1;
+    this.input = $('.search-bar--keyword')
+    this.suggestion = $('.wrap_suggestion')
     this.timer;
   }
 
@@ -15,6 +17,8 @@ class RollingKeywords {
     this.searchBar.addEventListener('click', this.openSuggestionBox);
     this.searchBar.addEventListener('mouseover', this.timerCleaner);
     this.searchBar.addEventListener('mouseleave', this.closeSuggestionBox);
+    this.input.addEventListener('input', this.hideSuggestKeyword.bind(this))
+    
   }
 
   timerCleaner() {
@@ -109,9 +113,13 @@ class RollingKeywords {
 // 4. 1초 이상 아무 입력이 없으면 서버에서 데이터를 받아온다???
 // 추가미션. 최근 검색어 기능
 
-hideSuggestKeyword () {}
+hideSuggestKeyword () {
+  this.suggestion.querySelector('.inner_suggestion').style.display = 'none'
+}
 
-fetchSimilarword () {}
+fetchSimilarword () {
+
+}
 
 getSimilarword() {}
 
