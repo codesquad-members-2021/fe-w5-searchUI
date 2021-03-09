@@ -1,6 +1,6 @@
 import { _ } from './util.js'
-import { Slide } from './slide.js'
-import { ImageLoader } from './image_loader.js'
+// import { Slide } from './slide.js'
+// import { ImageLoader } from './image_loader.js'
 import { Search } from './search.js'
 
 const selectors = {
@@ -12,7 +12,9 @@ const selectors = {
     seeMore: _.$('.main__see-more-button'),
     secondContent: _.$('.main__2nd-content'),
     searchBar: _.$('.header__search-bar'),
-    suggestion: _.$('.search-bar__suggestion'),
+    searchInput: _.$('.search-bar__input'),
+    suggestionHot: _.$('.search-bar__suggestion-hot'),
+    suggestionRecommend: _.$('.search-bar__suggestion-recommend'),
     rollItems: _.$('.search-bar__roll-items')
 }
 new Search(selectors)

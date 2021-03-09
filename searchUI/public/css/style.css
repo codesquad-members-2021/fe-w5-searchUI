@@ -2,6 +2,14 @@
   visibility: hidden;
 }
 
+.focused {
+  border: 1px solid orange !important;
+}
+
+.orange {
+  color: orange;
+}
+
 .header-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -47,6 +55,7 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  z-index: 2;
 }
 
 .header__search-bar .search-bar__icon {
@@ -90,7 +99,7 @@
   width: 100%;
 }
 
-.search-bar__suggestion {
+.search-bar__suggestion-hot {
   position: absolute;
   padding: 0.5rem;
   padding-left: 1.5rem;
@@ -104,7 +113,7 @@
   background-color: white;
 }
 
-.search-bar__suggestion ol {
+.search-bar__suggestion-hot ol {
   padding-top: 0.5rem;
   height: 10rem;
   display: -webkit-box;
@@ -118,7 +127,35 @@
       flex-wrap: wrap;
 }
 
-.search-bar__suggestion ol li {
+.search-bar__suggestion-hot ol li {
+  font-size: 90%;
+  padding-top: 1rem;
+}
+
+.search-bar__suggestion-recommend {
+  position: absolute;
+  padding: 0.5rem;
+  padding-left: 1.5rem;
+  padding-bottom: 1rem;
+  top: 3rem;
+  left: 0;
+  width: 29rem;
+  border-radius: 0.7rem;
+  border: 1px solid orange;
+  background-color: white;
+}
+
+.search-bar__suggestion-recommend ol {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.search-bar__suggestion-recommend ol li {
   font-size: 90%;
   padding-top: 1rem;
 }
@@ -168,5 +205,134 @@
 
 .navbar__menu .navbar__menu--item span {
   padding-left: 1rem;
+}
+
+.main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 1rem;
+  background-color: #e2e2e2;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.main .main__1st-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  width: 970px;
+  background-color: white;
+}
+
+.main .main__see-more-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 970px;
+  height: 2rem;
+  background-color: #cecfd1;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+._1st-content--slide {
+  overflow: hidden;
+}
+
+._1st-content--slide .slide--wrapper {
+  white-space: nowrap;
+  position: relative;
+  width: 1455px;
+  left: -485px;
+  height: 340px;
+}
+
+._1st-content--slide .slide--wrapper .slide--item {
+  display: inline-block;
+}
+
+.slide--arrow {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  position: absolute;
+  top: 250px;
+  left: 617px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.slide--arrow .left-button,
+.slide--arrow .right-button {
+  background-color: transparent;
+  border: none;
+  color: #cecfd1;
+  font-size: 300%;
+}
+
+.slide--arrow .scroll-button {
+  background-color: #e2e2e2;
+  position: relative;
+  top: 8px;
+  margin: 0px 2px;
+  width: 30px;
+  border: none;
+  height: 10px;
+}
+
+.slide--arrow .slide-on {
+  background-color: black;
+}
+
+.main__2nd-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+._2nd-content--list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 970px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background-color: white;
+}
+
+._2nd-content--list li {
+  width: 200px;
+  padding: 1rem;
+  line-height: 110%;
+}
+
+._2nd-content--list li img {
+  width: 200px;
+}
+
+._2nd-content--list li ._2nd-content--title {
+  font-size: 85%;
+  font-weight: bold;
+}
+
+._2nd-content--list li ._2nd-content--description {
+  font-size: 80%;
+  color: #888;
 }
 /*# sourceMappingURL=style.css.map */
