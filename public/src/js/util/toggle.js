@@ -1,7 +1,8 @@
 class Toggle {
-  constructor({ toggleCheckList, toggleList }) {
+  constructor({ toggleCheckList, showList, hiddenList }) {
     this.toggleCheckList = toggleCheckList;
-    this.toggleList = toggleList;
+    this.showList = showList;
+    this.hiddenList = hiddenList;
   }
   init() {
     this.onEvent();
@@ -10,7 +11,10 @@ class Toggle {
     document.addEventListener('click', this.handleClick.bind(this));
   }
   handleClick({ target }) {
-    if (this.isInclude(target)) this.toggleHidden();
+    if (this.isInclude(target)) {
+      this.hidden();
+      this.show();
+    }
   }
   isInclude(target) {
     for (const toggleTarget of this.toggleCheckList) {
@@ -18,9 +22,14 @@ class Toggle {
     }
     return false;
   }
-  toggleHidden() {
-    this.toggleList.forEach((v) => {
+  hidden() {
+    this.hiddenList.forEach((v) => {
       v.classList.add('hidden');
+    });
+  }
+  show() {
+    this.showList.forEach((v) => {
+      if (v.classList.contains('hidden')) v.classList.remove('hidden');
     });
   }
 }

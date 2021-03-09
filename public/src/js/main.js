@@ -29,6 +29,7 @@ const hotDealSelector = { container: hotDealContainer, slideList: hotDealSlideLi
 const hotDealAnimation = { oneStep: 260.6, transition: 'all 0.3s' };
 
 //추천 리스트 rolling
+const rollingContainer = _.$('.placeholder-container');
 const recommendList = _.$('.placeholder-list');
 const recommendSelector = { recommendList };
 const rollingAnimation = { oneStep: 54, transition: 'all 1s' };
@@ -37,12 +38,13 @@ const rollingAnimation = { oneStep: 54, transition: 'all 1s' };
 const searchTabContainer = _.$('.search-tab-container');
 const searchTab = _.$('.search-tab');
 const searchInput = _.$('.box_search>input');
-const searchTabSelector = { searchTabContainer, searchTab, searchInput };
+const searchTabSelector = { searchTabContainer, searchTab, searchInput, rollingContainer };
 
 //토글
 const searchTotal = _.$('.header__search');
 const toggleCheckList = [searchTotal];
-const toggleList = [searchTabContainer];
+const hiddenList = [searchTabContainer];
+const showList = [rollingContainer];
 
 //슬라이더
 getData(URL.SLIDE).then((res) => {
@@ -84,5 +86,5 @@ getData(URL.RECOMMEND).then((res) => {
 });
 
 //토글
-const toggle = new Toggle({ toggleCheckList, toggleList });
+const toggle = new Toggle({ toggleCheckList, showList, hiddenList });
 toggle.init();

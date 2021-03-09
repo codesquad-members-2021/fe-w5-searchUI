@@ -6,6 +6,7 @@ class SearchTab {
     this.searchTab = selector.searchTab;
     this.searchTabContainer = selector.searchTabContainer;
     this.searchInput = selector.searchInput;
+    this.rollingContainer = selector.rollingContainer;
   }
   init() {
     this.onEvent();
@@ -15,7 +16,10 @@ class SearchTab {
     this.searchInput.addEventListener('input', this.handleInput.bind(this));
   }
   handleClick({ target: { value } }) {
-    if (!value) this.renderSearchTab();
+    if (!value) {
+      this.renderSearchTab();
+      this.hiddenRolling();
+    }
   }
   handleInput({ target: { value } }) {}
 
@@ -36,6 +40,9 @@ class SearchTab {
     if (this.searchTabContainer.classList.contains('hidden')) {
       this.searchTabContainer.classList.remove('hidden');
     }
+  }
+  hiddenRolling() {
+    this.rollingContainer.classList.add('hidden');
   }
 }
 
