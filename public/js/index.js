@@ -1,6 +1,7 @@
 import _ from './util.js';
 import IndexController from './index/IndexController.js';
 import DataManager from './index/DataManager.js';
+import SearchController from "./index/SearchController.js";
 
 const serverInfo = {serverURL: 'http://localhost:3001'};
 const dataManager = new DataManager(serverInfo);
@@ -30,3 +31,14 @@ const options = {
 };
 
 new IndexController(dataManager, indexWrappers, controlItems, options).init();
+
+new SearchController(_.$('.search')).init();
+
+// indexController에 넣던지.. 분리하기 -----------------------------------------------
+_.addEvent(_.$('.all-wrapper'), 'mouseover', ({target}) => {
+    const closestTarget = _.closestSelector(target, '.search');
+
+    if (!closestTarget)
+        _.classToggleForce(_.$('.search .search__suggestion'), 'visibility--hidden', true);
+});
+// ---------------------------------------------------------------------------------

@@ -253,6 +253,15 @@ a {
     margin: 0 auto;
 }
 
+.visibility--hidden {
+    visibility: hidden;
+}
+
+.display--none {
+    display: none;
+}
+
+
 
 // header ----------------------------------------------------------------
 $header-fontWeight: 700;
@@ -270,6 +279,7 @@ $menu-fontSize: 16px;
 
 .header__logo-search {
     @extend .flex-center;
+    $search-borderColor: #f95139;
 
     width: $width;
     margin: $auto;
@@ -284,50 +294,140 @@ $menu-fontSize: 16px;
         }
     }
 
-    .search {
-        $search-borderColor: #cecfd1;
+    .search {        
+        margin: 0 24px 0 30px;
+        padding: 0px 60px 0px 30px;
+        position: relative;
+    }
 
+    .search__bar {
         width: 670px;
         height: 54px;
-        margin: 0 24px 0 30px;
-        padding: 16px 60px 14px 30px;
-
+        
         border-radius: 10px;
         border: 1px solid $search-borderColor;
 
         background-color: $white;
         box-sizing: border-box;
-
+        padding: 2px 22px;
         position: relative;
+
+        input {
+            color: $black;
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            font-weight: $header-fontWeight;
+            font-size: 20px;
+            line-height: 22px;
+
+            letter-spacing: $header-letterSpacing;
+        }
+        
+        button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 52px;
+            height: 52px;
+        }
+
+        span {
+            margin: $auto;
+        }        
     }
 
-
-
-    .search input {
-        color: $black;
-        display: block;
-        width: 100%;
-        height: 100%;
-        border: 0;
-        font-weight: $header-fontWeight;
-        font-size: 20px;
-        line-height: 22px;
-
-        letter-spacing: $header-letterSpacing;
-    }
-
-    .search button {
+    .search__bar__rolling {
+        width: inherit;
+        height: inherit;
         position: absolute;
-        right: 0;
         top: 0;
-        width: 52px;
-        height: 52px;
+        padding: 1px 2px;
+        font-size: 20px;
+        overflow: hidden;
+        
+        ul {
+            height: inherit;
+            width: inherit;
+            color: #bebebe;
+            font-weight: 800;
+        }
+        ul > li {            
+            position: absolute;
+            top: 0;
+            padding: 9px 0;
+        }
     }
 
-    .search span {
-        margin: $auto;
+    .search__suggestion {
+        width: 670px;
+        padding: 12px 24px;
+        border-radius: 10px;
+        border: 1px solid $search-borderColor;        
+        background-color: $white;
+        box-sizing: border-box;        
+        position: absolute;
+        z-index: 10;
     }
+
+    .search__suggestion__similarwords {        
+        ul {
+            padding: 8px 0;
+        }
+
+        li > a {
+            display: block;
+            overflow: hidden;
+            height: 24px;
+            padding: 0 4px;
+            line-height: 26px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 14px;
+            letter-spacing: $header-letterSpacing;
+            color: #222;
+        }
+
+        li > a:hover {            
+            background-color:#f0f0f0;            
+        }
+    }
+
+    .search__suggestion__inner {        
+        font-size: 13px;        
+
+        p {
+            display: block;
+            padding: 8px 0;
+            font-size: 16px;
+            font-weight: 800;
+            color: #a6a6a6;
+            letter-spacing: $header-letterSpacing;
+        }
+
+        .inner__list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        ol > li {
+            overflow: hidden;
+            height: 21px;
+            padding-top: 6px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        li > span {
+            margin-right: 10px;
+            font-weight: 700;            
+        }
+    }
+
 }
+
+
 
 .header__menu {
     position: relative;
@@ -335,7 +435,7 @@ $menu-fontSize: 16px;
     border-top: 1px solid $menu-borderColor;
     box-shadow: 0 1px $menu-boxShadow;
 
-    .emphasis {
+    .emphasis {        
         position: absolute;
         right: -6px;
         top: -1px;

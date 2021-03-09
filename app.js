@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import indexRouter from "./routes/index.js";
 import apiRouter from "./routes/api.js";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = dirname(fileURLToPath(import.meta.url));  // __dirname = path.resolve() 도 가능
 
 dotenv.config();
 const app = express();

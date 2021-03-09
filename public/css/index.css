@@ -226,6 +226,14 @@ a {
   margin: 0 auto;
 }
 
+.visibility--hidden {
+  visibility: hidden;
+}
+
+.display--none {
+  display: none;
+}
+
 .header {
   width: 100%;
   background-color: #fff;
@@ -242,17 +250,21 @@ a {
   height: auto;
 }
 .header__logo-search .search {
-  width: 670px;
-  height: 54px;
   margin: 0 24px 0 30px;
-  padding: 16px 60px 14px 30px;
-  border-radius: 10px;
-  border: 1px solid #cecfd1;
-  background-color: #fff;
-  box-sizing: border-box;
+  padding: 0px 60px 0px 30px;
   position: relative;
 }
-.header__logo-search .search input {
+.header__logo-search .search__bar {
+  width: 670px;
+  height: 54px;
+  border-radius: 10px;
+  border: 1px solid #f95139;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 2px 22px;
+  position: relative;
+}
+.header__logo-search .search__bar input {
   color: #333;
   display: block;
   width: 100%;
@@ -263,15 +275,89 @@ a {
   line-height: 22px;
   letter-spacing: -1.15px;
 }
-.header__logo-search .search button {
+.header__logo-search .search__bar button {
   position: absolute;
   right: 0;
   top: 0;
   width: 52px;
   height: 52px;
 }
-.header__logo-search .search span {
+.header__logo-search .search__bar span {
   margin: 0 auto;
+}
+.header__logo-search .search__bar__rolling {
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  top: 0;
+  padding: 1px 2px;
+  font-size: 20px;
+  overflow: hidden;
+}
+.header__logo-search .search__bar__rolling ul {
+  height: inherit;
+  width: inherit;
+  color: #bebebe;
+  font-weight: 800;
+}
+.header__logo-search .search__bar__rolling ul > li {
+  position: absolute;
+  top: 0;
+  padding: 9px 0;
+}
+.header__logo-search .search__suggestion {
+  width: 670px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 1px solid #f95139;
+  background-color: #fff;
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 10;
+}
+.header__logo-search .search__suggestion__similarwords ul {
+  padding: 8px 0;
+}
+.header__logo-search .search__suggestion__similarwords li > a {
+  display: block;
+  overflow: hidden;
+  height: 24px;
+  padding: 0 4px;
+  line-height: 26px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  letter-spacing: -1.15px;
+  color: #222;
+}
+.header__logo-search .search__suggestion__similarwords li > a:hover {
+  background-color: #f0f0f0;
+}
+.header__logo-search .search__suggestion__inner {
+  font-size: 13px;
+}
+.header__logo-search .search__suggestion__inner p {
+  display: block;
+  padding: 8px 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: #a6a6a6;
+  letter-spacing: -1.15px;
+}
+.header__logo-search .search__suggestion__inner .inner__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.header__logo-search .search__suggestion__inner ol > li {
+  overflow: hidden;
+  height: 21px;
+  padding-top: 6px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.header__logo-search .search__suggestion__inner li > span {
+  margin-right: 10px;
+  font-weight: 700;
 }
 
 .header__menu {

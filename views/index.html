@@ -16,19 +16,73 @@
                         </a>
                     </div>
 
-                    <div class="search">
-                        <input
-                            type="text"
-                            id="search"
-                            name="search"
-                            size="55"
-                            autocomplete="off"
-                            placeholder="검색어를 입력하세요"
-                        />
-                        <button type="button">
-                            <span class="i-search"></span>
-                        </button>
+                    <div class="search">                        
+                        <div class="search__bar">
+                            <input                            
+                                type="text"
+                                id="search"
+                                name="search"
+                                size="55"
+                                autocomplete="off"                                                                
+                            />                        
+                            <button type="button">
+                                <span class="i-search"></span>
+                            </button>
+
+                            <div class="search__bar__rolling">
+                                <ul>
+                                    <li style="transform: translateY(0%);">1 탭볼</li>
+                                    <li style="transform: translateY(100%);">2 트러플오일</li>
+                                    <li style="transform: translateY(200%);">3 커피머신</li>
+                                    <li style="transform: translateY(300%);">4 맥북에어</li>
+                                    <li style="transform: translateY(400%);">5 망고주스</li>
+                                    <li style="transform: translateY(500%);">6 워킹화</li>
+                                    <li style="transform: translateY(600%);">7 lg청소기</li>
+                                    <li style="transform: translateY(700%);">8 마키베리</li>
+                                    <li style="transform: translateY(800%);">9 바디미스트</li>
+                                    <li style="transform: translateY(900%);">10 기저귀휴지통</li>                                
+                                </ul>
+                            </div>
+
+
+
+                        </div>                       
+
+                        <div class="search__suggestion visibility--hidden">                       
+                            <div class="search__suggestion__similarwords display--none">
+                                <ul>
+                                    <% for (let i=0; i < 3; i++)  { %>
+                                    <li>
+                                        <a href="#"><%= i %> TEST </a>
+                                    </li>
+                                    <% } %>                                
+                                </ul>
+                            </div>
+
+                            <div class="search__suggestion__inner display--none">
+                                <p>인기 쇼핑 키워드</p>
+                                <div class="inner__list">
+                                    <ol>
+                                        <% for(let i = 1; i <= 5; i++ ) { %> 
+                                        <li>
+                                            <span><%= i %></span> 테스트
+                                        </li>
+                                        <% } %> 
+                                    </ol>
+                                    <ol>
+                                        <% for(let i = 6; i <= 10; i++ ) { %> 
+                                        <li>
+                                            <span><%= i %></span> 테스트
+                                        </li>
+                                        <% } %> 
+                                    </ol>
+                                </div>
+                                
+                                
+                            </div>  
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="header__menu">
