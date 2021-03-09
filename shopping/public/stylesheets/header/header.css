@@ -22,7 +22,7 @@ header {
       margin: 0 24px 0 30px;
       width: 670px;
       height: 54px;
-      padding: 16px 60px 14px 30px;
+      padding: 16px 60px 16px 30px;
       border: 1px solid #cecfd1;
       border-radius: 10px;
       background-color: #fff;
@@ -98,7 +98,9 @@ header {
     background-position: 0 -30px; }
 
 .header__keywords {
-  top: 4px;
+  transition-duration: 1s;
+  transform: translateY(0px);
+  top: 0px;
   position: absolute;
   left: 155px; }
   .header__keywords li {
@@ -111,4 +113,4 @@ header {
     text-overflow: ellipsis;
     white-space: nowrap;
     text-align: left;
-    margin: 15px; }
+    margin: 16px; }
