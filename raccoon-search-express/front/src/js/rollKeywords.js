@@ -1,3 +1,6 @@
+import '@babel/polyfill';
+import { delay } from './util';
+
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
@@ -128,8 +131,9 @@ class RollingKeywords {
     this.suggestion.querySelector('.group_suggestion').style.display = 'none';
   }
 
-  toggleKeywordBox() {
+  async toggleKeywordBox() {
     const isValue = () => this.input.value.length > 0;
+    await delay(300);
     if (isValue()) {
       return this.hideSuggestKeyword();
     }
