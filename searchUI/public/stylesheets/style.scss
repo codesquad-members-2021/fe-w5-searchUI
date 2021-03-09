@@ -4,6 +4,7 @@ body {
 }
 
 header {
+  position: relative;
   display: flex;
   justify-content: center;
   min-width: 977px;
@@ -24,9 +25,18 @@ header {
     border-radius: 10px;
     background-color: #fff;
     overflow: hidden;
+    .header--search--input {
+      position: absolute;
+      width: 630px;
+      height: 54px;
+      &:hover {
+        cursor: default;
+      }
+    }
+
     .header--search--keyword {
       position: absolute;
-      top: 0px;
+      transition: all 0.5s;
       ol {
         display: flex;
         flex-direction: column;
@@ -45,6 +55,18 @@ header {
         color: #939393;
       }
     }
+  }
+  .header--popular-item {
+    visibility: hidden;
+    position: absolute;
+    top: 98px;
+    right: 220px;
+    border: 1px solid red;
+    background-color: white;
+    width: 670px;
+    height: 300px;
+    border-radius: 10px;
+    z-index: 1;
   }
 
   .header--search--button {

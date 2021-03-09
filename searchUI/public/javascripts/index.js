@@ -1,4 +1,5 @@
 import Carousel from './carousel.js';
+import SearchBar from './getPopularItems.js';
 import { _ } from './util.js';
 
 const getJsonData = () => {
@@ -43,54 +44,61 @@ const getJsonData = () => {
     })
     .then(() => {
       const carousel = new Carousel(jsonData.promotionJson);
+      const searchBar = new SearchBar();
     });
 };
 
 getJsonData();
 
-const fetchURL =
-  'https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json?_=1615214614503';
+// const fetchURL =
+//   'https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json?_=1615214614503';
 
-async function fetchPopularItemsJSON() {
-  const response = await fetch(fetchURL);
-  const popularItemdata = await response.json();
-  const popularItemdataList = popularItemdata.list;
-  return setItemsIntoSearchBar(popularItemdataList);
-}
+// async function fetchPopularItemsJSON() {
+//   const response = await fetch(fetchURL);
+//   const popularItemdata = await response.json();
+//   const popularItemdataList = popularItemdata.list;
+//   return popularItemdataList;
+// }
 
-function setItemsIntoSearchBar(json) {
-  const $popularItems = _.$('.header--search--keyword');
-  const ITEM_COUNT = 10;
-  const pupularItemHTML = json
-    .slice(0, ITEM_COUNT)
-    .map(
-      (v, i) =>
-        `<li>
-        <span>${i + 1}</span>
-        ${v.keyword}
-         </li>`
-    )
-    .join(' ');
-  $popularItems.innerHTML = `<ol> ${pupularItemHTML} </ol>`;
+// function makeItemListHTML(json) {
+//   const ITEM_COUNT = 10;
+//   const pupularItemHTML = json
+//     .slice(0, ITEM_COUNT)
+//     .map(
+//       (v, i) =>
+//         `<li>
+//         <span>${i + 1}</span>
+//         ${v.keyword}
+//          </li>`
+//     )
+//     .join(' ');
+//   return `<ol> ${pupularItemHTML} </ol>`;
+// }
 
-  $popularItems.style.justifyContent = 'flex-start';
-  $popularItems.style.top = `-42px`;
+// function setValueInItem(domClass, htmlTemplate) {
+//   // const $popularItems = _.$('.header--search--keyword');
+//   domClass.innerHTML = htmlTemplate;
 
-  // if ($popularItems.style.top === `-42px`) {
-  const $foo = _.$('.header--search--keyword > ol');
-  $foo.appendChild($foo.firstElementChild);
-  console.log($foo.firstElementChild);
-  // }
+//   domClass.style.justifyContent = 'flex-start';
+//   domClass.style.top = `-42px`;
 
-  $popularItems.style.transition = 'none';
-  $popularItems.style.transform = 'translate(0)';
-  setTimeout(() => {
-    $popularItems.style.transition = 'all 0.5s';
-  });
+//   $itemList.addEventListener('transitionend', () => {
+//     handleLastItem();
+//   });
+// }
 
-  $foo.addEventListener('transitionend', () => {
-    handleLastItem();
-  });
-}
+// function handleLastItem() {
+//   const $itemList = _.$('.header--search--keyword > ol');
+//   $itemList.appendChild($itemList.firstElementChild);
 
-fetchPopularItemsJSON();
+//   domClass.style.transition = 'none';
+//   domClass.style.top = '0';
+//   setTimeout(() => {
+//     domClass.style.transition = 'all 0.5s';
+//   });
+// }
+
+// fetchPopularItemsJSON();
+
+// const searchInput = _.$('.header--search--input');
+// searchInput.addEventListener('click', () => {});
