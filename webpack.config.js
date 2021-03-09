@@ -4,9 +4,7 @@ module.exports = {
   mode: 'development',
   devtool: 'source-map',
   entry: {
-    app: __dirname + '/src/js/client/app.js',
-    searchBar: __dirname + '/src/js/client/search-bar/searchBarView.js',
-    server: __dirname + '/src/js/server/server.js',
+    app: __dirname + '/src/js/app.js',
   },
   output: {
     path: __dirname + '/dist',
