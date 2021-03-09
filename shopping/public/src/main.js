@@ -1,11 +1,12 @@
 import { api } from "./utils/api.js";
 import { urls } from "./utils/urls.js";
 import { _ } from "./utils/selector.js";
-import { times } from "./utils/states.js";
+import { times, searchToggle } from "./utils/states.js";
 import { setHtmls, insertAdjacent, insertContents } from "./setters/setHtmls.js";
 import * as htmlMaker from "./utils/htmlMaker.js";
 import { setCarousel } from "./setters/setCarousel.js";
 // import RecommendedItem from "./search/recommItems.js";
+import { RecommItems } from "./search/recommItems.js";
 
 // event 상품
 const eventItemHtml = document.querySelector(".event__item");
@@ -68,6 +69,10 @@ const partners = api(urls.partners)(setHtmls, htmlMaker.partnerList, insertConte
 
 const searchingInput = _.$(".searchBar__input");
 const recommendedWordsToggle = _.$(".searchBar__toggle");
+searchToggle.searchingInput = searchingInput;
+searchToggle.recommWordsToggle = recommendedWordsToggle;
+const recommItems = new RecommItems(searchToggle);
+recommItems.registerEvent();
 // console.log(recommendedWordsToggle);
 // const recommendedItem = new RecommendedItem(searchingInput, recommendedWordsToggle);
 // recommendedItem.init();

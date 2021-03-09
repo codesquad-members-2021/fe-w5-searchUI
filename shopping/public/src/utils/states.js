@@ -40,7 +40,7 @@ const searchToggle = {
   recommWordsToggle: null,
   timer: null,
   recommendations: [],
-  popularShoppingKeyword: null,
+  topTenWords: null,
 };
 
 export { carouselState, longClickState, partnerState, times, searchToggle };
