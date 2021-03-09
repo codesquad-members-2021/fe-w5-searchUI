@@ -36,7 +36,7 @@ const rollingAnimation = { oneStep: 54, transition: 'all 1s' };
 const searchTabContainer = _.$('.search-tab-container');
 const searchTab = _.$('.search-tab');
 const searchInput = _.$('.box_search>input');
-const searchTabSelector = { container: searchTabContainer, searchTab, searchInput };
+const searchTabSelector = { searchTabContainer, searchTab, searchInput };
 
 //슬라이더
 getData(URL.SLIDE).then((res) => {

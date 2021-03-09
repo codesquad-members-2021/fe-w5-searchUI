@@ -4,7 +4,7 @@ class SearchTab {
   constructor({ data, selector }) {
     this.recommendData = data;
     this.searchTab = selector.searchTab;
-    this.container = selector.container;
+    this.searchTabContainer = selector.searchTabContainer;
     this.searchInput = selector.searchInput;
   }
   init() {
@@ -14,25 +14,29 @@ class SearchTab {
     this.searchInput.addEventListener('click', this.handleClick.bind(this));
     this.searchInput.addEventListener('input', this.handleInput.bind(this));
   }
-  handleClick({ target }) {
-    console.log(target);
+  handleClick({ target: { value } }) {
+    if (!value) this.renderSearchTab();
   }
   handleInput({ target: { value } }) {}
 
   getRecommendHTML() {
     let firstList = '';
-    let secondeList = '';
+    let secondList = '';
     this.recommendData.forEach((v, idx) => {
-      if (idx < this.recommendData.length / 2) firstList += makeRecommendItem(idx, v);
-      else secondeList += makeRecommendItem(idx, v);
+      if (idx < this.recommendData.length / 2) firstList += makeRecommendItem(idx + 1, v);
+      else secondList += makeRecommendItem(idx + 1, v);
     });
     const recommendHTML =
       ol({ value: firstList, classes: ['search-tab__list'] }) +
-      ol({ value: secondtList, classes: ['search-tab__list'] });
+      ol({ value: secondList, classes: ['search-tab__list'] });
     return recommendHTML;
   }
   renderSearchTab() {
+    console.log(this.searchTabContainer);
     this.searchTab.innerHTML = this.getRecommendHTML();
+    if (this.searchTabContainer.classList.contains('hidden')) {
+      this.searchTabContainer.classList.remove('hidden');
+    }
   }
 }
 
