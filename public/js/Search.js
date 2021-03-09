@@ -44,13 +44,8 @@ Search.prototype.animateKeywords = function (move, start, end) {
 Search.prototype.runKeyWordsRoll = function () {
   const startMove = -2.5;
   const endMove = -27.5;
-  //   const runRoll = this.animateKeywords(this.moveY, startMove, endMove);
   this.timer = setInterval(() => {
     this.animateKeywords(this.moveY, startMove, endMove);
     this.moveY += -2.5;
   }, 1000);
-  //   await delay(runRoll, 1000);
-
-  //   this.runKeyWordsRoll();
-  //   this.moveY += -2.5;
 };
