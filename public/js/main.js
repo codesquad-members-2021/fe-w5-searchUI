@@ -1,6 +1,7 @@
 import { dataManager } from './dataManager.js';
 import { LoadItem } from './LoadItem.js';
 import { Slider } from './Slider.js';
+import { Search } from './Search.js';
 
 const loadItems = (rawData) => {
   const loadItem = new LoadItem(rawData);
@@ -8,10 +9,16 @@ const loadItems = (rawData) => {
   loadItem.onEvents();
 };
 
-const excuteSlide = () => {
+const executeSlide = () => {
   const slider = new Slider();
   slider.onEvents();
   slider.slideAutomatically();
+};
+
+const executeSearch = () => {
+  const search = new Search();
+  search.onEvents();
+  search.runKeywordsRoll();
 };
 
 const main = () => {
@@ -21,7 +28,8 @@ const main = () => {
     'planningEvent.json'
   );
   loadItems(rawData);
-  excuteSlide();
+  executeSlide();
+  executeSearch();
 };
 
 main();
