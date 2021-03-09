@@ -45,11 +45,15 @@ class RollingKeywords {
     const rollKeywords = currentDom(e, '.wrap_rollkeywords');
     const searchBox = currentDom(e, '.box_search');
     const suggestion = currentDom(e, '.wrap_suggestion');
+    const input = currentDom(e, '#qTop');
 
     this.timer = setTimeout(() => {
-      rollKeywords.style.display = 'block';
+      if (input.value.length === 0) {
+        rollKeywords.style.display = 'block';
+      }
       searchBox.style.borderColor = '#cecfd1';
       suggestion.style.display = 'none';
+      input.blur();
     }, 300);
     return;
   }
