@@ -247,6 +247,27 @@ header {
       letter-spacing: -0.05em;
       color: #222;
     }
+
+    .group_suggestion {
+      .list_similarwords {
+        padding: 18px 0 20px;
+
+        li + li {
+          margin-top: 2px;
+        }
+
+        .link_keyword {
+          line-height: 28px;
+          display: block;
+          overflow: hidden;
+          height: 26px;
+          padding: 0 29px;
+          line-height: 26px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
   }
 
   nav {

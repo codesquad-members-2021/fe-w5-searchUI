@@ -71,7 +71,6 @@ class RollingKeywords {
 
   getSuggestionBoxData(start, last) {
     const ol = this.data.list.slice(start, last)
-    console.log(ol)
     const keywordList = ol.reduce((acc, cur) => {
       let list = `
       <li>
@@ -101,6 +100,27 @@ class RollingKeywords {
       rollingAnimation(ANIMATION_DURATION);
     }, ROLLING_INTERVAL);
   }
+
+// 1. 글자를 입력하기기 시작하면 suggestion이 사라진다.
+// 2. suggetion이 사라지면서 유사 검색어가 나타난다.
+//  2-1. 유사 검색어 data요청
+//  2-2. 돔 그리기 / data입력
+// 3. cursor를 위아래로 움직이면 css가 바뀐다.
+// 4. 1초 이상 아무 입력이 없으면 서버에서 데이터를 받아온다???
+// 추가미션. 최근 검색어 기능
+
+hideSuggestKeyword () {}
+
+fetchSimilarword () {}
+
+getSimilarword() {}
+
+drawSimilarword() {}
+
+moveCursor () {}
+
+requestExtraData() {}
+
 }
 
 export { RollingKeywords };
