@@ -15,16 +15,33 @@ const fetchAPI = new FetchAPI();
 const eventSlider = new EventSlider($mileageEventSlide);
 const mallEventSlider = new MallEventSlider($buttonGroup);
 const requestData = new RequestData(PAGE, ITEMS, CURRENT);
-const rollingKeywords = new RollingKeywords();
+
+function init() {
+  createRollingKeyword();
+}
+
+async function createRollingKeyword() {
+  const getRollingKeywordData = await fetchAPI.getRollingKeyword();
+  return new RollingKeywords(getRollingKeywordData);
+}
+
+const rollingKeyword = createRollingKeyword();
 
 fetchAPI.getMileageList();
 fetchAPI.getMallEventList();
-fetchAPI.getRollingKeyword();
+
 requestData.requestData();
 
 eventSlider.addEvent();
 mallEventSlider.addEvent();
-rollingKeywords.addEvent();
+
 requestData.addEvent();
+
+rollingKeyword.drawRollingKeywords();
+rollingKeyword.drawSuggestionBox();
+rollingKeyword.startRolling();
+rollingKeyword.addEvent();
+
+init();
 
 export { PAGE };

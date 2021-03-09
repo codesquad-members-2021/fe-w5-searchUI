@@ -13,18 +13,20 @@ class RollingKeywords {
     this.rankNumber = 1;
     this.input = $('.search-bar--keyword');
     this.suggestion = $('.wrap_suggestion');
-    this.timer;
+    this.mouseLeaveTimer;
+    this.rollingTimer;
+    console.log(this);
   }
 
   addEvent() {
-    this.searchBar.addEventListener('click', this.openSuggestionBox);
-    this.searchBar.addEventListener('mouseover', this.timerCleaner);
+    this.searchBar.addEventListener('click', this.openSuggestionBox.bind(this));
+    this.searchBar.addEventListener('mouseover', this.mouseLeaveTimerCleaner);
     this.searchBar.addEventListener('mouseleave', this.closeSuggestionBox);
     this.input.addEventListener('input', this.toggleKeywordBox.bind(this));
   }
 
-  timerCleaner() {
-    clearTimeout(this.timer);
+  mouseLeaveTimerCleaner() {
+    clearTimeout(this.mouseLeaveTimer);
   }
 
   openSuggestionBox(e) {
@@ -39,6 +41,8 @@ class RollingKeywords {
       searchBox.style.borderColor = '#f95139';
       suggestion.style.display = 'block';
       input.focus();
+      console.log(this.rollingTimer);
+      clearInterval(this.rollingTimer);
       return;
     }
   }
@@ -50,7 +54,7 @@ class RollingKeywords {
     const suggestion = currentDom(e, '.wrap_suggestion');
     const input = currentDom(e, '#qTop');
 
-    this.timer = setTimeout(() => {
+    this.mouseLeaveTimer = setTimeout(() => {
       if (input.value.length === 0) {
         rollKeywords.style.display = 'block';
       }
@@ -105,9 +109,8 @@ class RollingKeywords {
         this.lists.classList.replace('list_rollkeywords--rolling', 'list_rollkeywords');
       }, ms);
     // );
-    // addEventListner('transitionend', cb) from dd
-    // setInterval -> delay -> rolling
-    setInterval(() => {
+
+    this.rollingTimer = setInterval(() => {
       this.lists.classList.replace('list_rollkeywords', 'list_rollkeywords--rolling');
       rollingAnimation(ANIMATION_DURATION);
     }, ROLLING_INTERVAL);
