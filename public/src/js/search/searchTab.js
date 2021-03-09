@@ -32,7 +32,6 @@ class SearchTab {
     return recommendHTML;
   }
   renderSearchTab() {
-    console.log(this.searchTabContainer);
     this.searchTab.innerHTML = this.getRecommendHTML();
     if (this.searchTabContainer.classList.contains('hidden')) {
       this.searchTabContainer.classList.remove('hidden');
