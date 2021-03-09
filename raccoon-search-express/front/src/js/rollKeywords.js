@@ -17,7 +17,7 @@ class RollingKeywords {
     this.searchBar.addEventListener('click', this.openSuggestionBox);
     this.searchBar.addEventListener('mouseover', this.timerCleaner);
     this.searchBar.addEventListener('mouseleave', this.closeSuggestionBox);
-    this.input.addEventListener('input', this.hideSuggestKeyword.bind(this));
+    this.input.addEventListener('input', this.toggleKeywordBox.bind(this));
   }
 
   timerCleaner() {
@@ -121,6 +121,19 @@ class RollingKeywords {
   hideSuggestKeyword() {
     this.suggestion.querySelector('.inner_suggestion').style.display = 'none';
     this.suggestion.querySelector('.group_suggestion').style.display = 'block';
+  }
+
+  hideSimilarKeyword() {
+    this.suggestion.querySelector('.inner_suggestion').style.display = 'block';
+    this.suggestion.querySelector('.group_suggestion').style.display = 'none';
+  }
+
+  toggleKeywordBox() {
+    const isValue = () => this.input.value.length > 0;
+    if (isValue()) {
+      return this.hideSuggestKeyword();
+    }
+    return this.hideSimilarKeyword();
   }
 
   fetchSimilarword() {}
