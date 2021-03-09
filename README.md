@@ -6,8 +6,8 @@
 
 - 기존 "쇼핑하우" UI를 클론해온다. (👌)
 - 검색창 UI 개발
-  1. Rolling List UI
-     - carousel UI clone
+  1. Rolling List UI (👌)
+     - carousel UI clone (👌)
   2. Drop Down UI
      - input 클릭 시 DropDown UI
      - 검색창과 dropdown은 border:red

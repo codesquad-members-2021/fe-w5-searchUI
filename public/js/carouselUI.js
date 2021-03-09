@@ -1,6 +1,8 @@
+import { _ } from "./util"
+
 export default class CarouselUI {
     constructor() {
-        this.carousel = document.querySelector('.carouselUI');
+        this.carousel = _.$('.carouselUI');
         this.imgurl = "http://localhost:8080/public/data/imgurl.json";
     }
 
