@@ -1,18 +1,5 @@
 import Carousel from './carousel.js';
-
-//클래스로 바꿔보자!
-//getData, render, makeHtml로~~
-
-// class DataManager {
-//   constructor() {
-//     this.getJsonData();
-//   }
-
-//   getJsonData() {
-//   return  fetch(fileURL)
-//      .then((res) => res.json())
-//   }
-// }
+import { _ } from './util.js';
 
 const getJsonData = () => {
   const jsonData = {};
@@ -60,3 +47,50 @@ const getJsonData = () => {
 };
 
 getJsonData();
+
+const fetchURL =
+  'https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json?_=1615214614503';
+
+async function fetchPopularItemsJSON() {
+  const response = await fetch(fetchURL);
+  const popularItemdata = await response.json();
+  const popularItemdataList = popularItemdata.list;
+  return setItemsIntoSearchBar(popularItemdataList);
+}
+
+function setItemsIntoSearchBar(json) {
+  const $popularItems = _.$('.header--search--keyword');
+  const ITEM_COUNT = 10;
+  const pupularItemHTML = json
+    .slice(0, ITEM_COUNT)
+    .map(
+      (v, i) =>
+        `<li>
+        <span>${i + 1}</span>
+        ${v.keyword}
+         </li>`
+    )
+    .join(' ');
+  $popularItems.innerHTML = `<ol> ${pupularItemHTML} </ol>`;
+
+  $popularItems.style.justifyContent = 'flex-start';
+  $popularItems.style.top = `-42px`;
+
+  // if ($popularItems.style.top === `-42px`) {
+  const $foo = _.$('.header--search--keyword > ol');
+  $foo.appendChild($foo.firstElementChild);
+  console.log($foo.firstElementChild);
+  // }
+
+  $popularItems.style.transition = 'none';
+  $popularItems.style.transform = 'translate(0)';
+  setTimeout(() => {
+    $popularItems.style.transition = 'all 0.5s';
+  });
+
+  $foo.addEventListener('transitionend', () => {
+    handleLastItem();
+  });
+}
+
+fetchPopularItemsJSON();

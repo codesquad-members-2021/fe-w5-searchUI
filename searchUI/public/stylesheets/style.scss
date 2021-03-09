@@ -1,32 +1,56 @@
-// * {
-//   outline: 0.5px solid blue;
-// }
+body {
+  font-family: AppleSDGothicNeo-Regular, 'Malgun Gothic', '맑은 고딕', dotum,
+    '돋움', sans-serif;
+}
 
 header {
   display: flex;
   justify-content: center;
   min-width: 977px;
   padding-top: 43px;
+  background-color: #fff;
 
   .header--logo {
-    margin: 0 10px;
+    margin: 5px 30px;
     width: 119px;
-    height: auto;
+    height: 51px;
   }
 
   .header--search {
     position: relative;
-    width: 570px;
-    padding: 16px 60px 14px 30px;
+    width: 670px;
+    height: 54px;
     border: 1px solid #cecfd1;
     border-radius: 10px;
     background-color: #fff;
+    overflow: hidden;
+    .header--search--keyword {
+      position: absolute;
+      top: 0px;
+      ol {
+        display: flex;
+        flex-direction: column;
+        margin: 8px 5px 5px 0;
+      }
+      li {
+        span {
+          padding-right: 15px;
+          font-style: italic;
+        }
+        padding: 10px;
+        height: 22px;
+        line-height: 22px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #939393;
+      }
+    }
   }
 
   .header--search--button {
     position: absolute;
     right: 10px;
-    top: 10px;
+    top: 15px;
     width: 23px;
     height: 23px;
   }
@@ -35,7 +59,7 @@ header {
 nav {
   min-width: 977px;
   margin-top: 40px;
-  padding: 0 15px;
+  padding: 0 50px 0 80px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,6 +69,9 @@ nav {
   div {
     display: flex;
     align-items: center;
+    img {
+      margin-right: 7px;
+    }
   }
 
   .nav--regular {
@@ -63,13 +90,22 @@ nav {
     div {
       padding: 10px;
     }
+    .nav--browsing-history--downwardIcon {
+      width: 8px;
+      margin-left: 4px;
+    }
   }
 }
 
 main {
   width: 1274px;
+  margin: 20px 80px;
+  display: flex;
 
   .main--center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     .main--center__upper {
       display: flex;
 
@@ -105,12 +141,12 @@ main {
         .main--center__upper--prev {
           position: absolute;
           top: 37%;
-          left: 5%;
+          left: 8%;
         }
         .main--center__upper--next {
           position: absolute;
           top: 37%;
-          right: 5%;
+          right: 8%;
         }
 
         .main--center__upper--page {
@@ -139,12 +175,16 @@ main {
           img {
             width: 200px;
             height: 200px;
+            margin-bottom: 3px;
           }
           strong {
             font-size: 14px;
+            margin-bottom: 3px;
           }
           span {
             font-size: 12px;
+            margin-bottom: 3px;
+            color: gray;
           }
 
           .main--center__mdPick--icon {
