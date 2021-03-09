@@ -5,6 +5,8 @@ import MoreButtonView from './moreBtn/moreBtn.js';
 import HotDealSlider from './slider/hotDealSlider.js';
 import RecommendRolling from './search/rolling.js';
 import { URL } from './util/data.js';
+import SearchTab from './search/searchTab.js';
+import Toggle from './util/toggle.js';
 
 //슬라이드 DOM
 const slideContainer = _.$('.slide');
@@ -27,9 +29,22 @@ const hotDealSelector = { container: hotDealContainer, slideList: hotDealSlideLi
 const hotDealAnimation = { oneStep: 260.6, transition: 'all 0.3s' };
 
 //추천 리스트 rolling
+const rollingContainer = _.$('.placeholder-container');
 const recommendList = _.$('.placeholder-list');
 const recommendSelector = { recommendList };
 const rollingAnimation = { oneStep: 54, transition: 'all 1s' };
+
+//추천 리스트 search-tab
+const searchTabContainer = _.$('.search-tab-container');
+const searchTab = _.$('.search-tab');
+const searchInput = _.$('.box_search>input');
+const searchTabSelector = { searchTabContainer, searchTab, searchInput, rollingContainer };
+
+//토글
+const searchTotal = _.$('.header__search');
+const toggleCheckList = [searchTotal];
+const hiddenList = [searchTabContainer];
+const showList = [rollingContainer];
 
 //슬라이더
 getData(URL.SLIDE).then((res) => {
@@ -62,4 +77,14 @@ getData(URL.RECOMMEND).then((res) => {
     animation: rollingAnimation,
   });
   recommendRolling.init();
+
+  const searchTab = new SearchTab({
+    data: recommendData,
+    selector: searchTabSelector,
+  });
+  searchTab.init();
 });
+
+//토글
+const toggle = new Toggle({ toggleCheckList, showList, hiddenList });
+toggle.init();
