@@ -1,0 +1,29 @@
+{
+  "name": "fe-w5-searchui",
+  "version": "0.0.1",
+  "description": "쇼핑하우 클론 - SearchUI",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --experimental-json-modules app.js",
+    "build:sass": "sass --watch public/sass:public/css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/17-sss/fe-w5-searchUI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/17-sss/fe-w5-searchUI/issues"
+  },
+  "homepage": "https://github.com/17-sss/fe-w5-searchUI#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
+    "sass": "^1.32.8"
+  },
+  "type": "module"
+}
