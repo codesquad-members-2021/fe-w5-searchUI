@@ -1,4 +1,5 @@
 export const CLASS_LIST = {
+  HIDDEN: 'hidden',
   CURRENT_PAGE: 'current-page',
   PREV_BTN: 'btn-prev',
   NEXT_BTN: 'btn-next',
