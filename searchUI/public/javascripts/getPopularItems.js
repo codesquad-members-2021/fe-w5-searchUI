@@ -3,16 +3,18 @@ import { _ } from './util.js';
 export default class SearchBar {
   constructor() {
     this.$popularItems = _.$('.header--search--keyword');
-
-    _.addEvent(this.$popularItems, 'transitionend', () => {
-      this.handleLastItem();
-    });
-
+    this.$searchInput = _.$('.header--search--input');
     this.init();
   }
 }
 
 SearchBar.prototype.init = async function () {
+  _.addEvent(
+    this.$popularItems,
+    'transitionend',
+    this.handleLastItem.bind(this)
+  );
+  _.addEvent(this.$searchInput, 'click', this.handleSearchBar.bind(this));
   const $popularItems = _.$('.header--search--keyword');
   const json = await this.fetchPopularItemsJSON();
   const html = await this.makeItemListHTML(json);
@@ -57,10 +59,10 @@ SearchBar.prototype.handleLastItem = function () {
   const $itemList = _.$('.header--search--keyword > ol');
   $itemList.appendChild($itemList.firstElementChild);
 
-  this.$popularItems.style.transition = 'none';
-  this.$popularItems.style.transform = 'translate(0)';
+  this.$popularItems.style.setProperty('transition', 'none');
+  this.$popularItems.style.setProperty('transform', 'translate(0)');
   setTimeout(() => {
-    this.$popularItems.style.transition = 'all 0.5s';
+    this.$popularItems.style.setProperty('transition', 'all 0.5s');
   });
 };
 
@@ -69,4 +71,9 @@ SearchBar.prototype.automateItemMove = function () {
     this.scrollUp();
     this.automateItemMove();
   }, 3000);
+};
+
+SearchBar.prototype.handleSearchBar = function () {
+  const dropDownPopularItemList = _.$('.header--popular-item');
+  dropDownPopularItemList.style.setProperty('visibility', 'visible');
 };
