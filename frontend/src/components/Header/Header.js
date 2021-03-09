@@ -1,4 +1,5 @@
 import RollingKeywordsContainer from "./RollingKeywords/RollingKeywordsContainer.js"
+import SearchBarContainer from "./SearchBar/SearchBarContainer.js";
 
 import "./header.scss";
 
@@ -6,7 +7,9 @@ class Header {
   constructor({ $target }) {
     this.$target = $target; // 부모 돔
     this.$self = document.createElement("header"); // 자신 돔
+    
     this.rollingKeywords = null;
+    this.searchBar = null;
 
     this.init();
   }
@@ -16,7 +19,7 @@ class Header {
     
     let $target = this.$target.querySelector("div#rolling-keywords");
     this.rollingKeywords = new RollingKeywordsContainer({ $target });
-    
+    // this.searchBar = new RollingKeywordsContainer({ $target });
   }
 
   // 마운트
@@ -32,8 +35,9 @@ class Header {
             </div>
             <div class="search-bar">
               <div id="rolling-keywords" class="rolling-keywords-input">
-                <!-- <input type="text" /> <!-- 임시 , 향후 컴포넌트 형태로 변경 됨. -->
+                <!-- ul li -->
               </div>
+              <!-- <input type="text" /> -->
             </div>
           </div>
         </div>

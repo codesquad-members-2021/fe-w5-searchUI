@@ -1,6 +1,6 @@
 import RollingKeywordsPresentational from "./RollingKeywordsPresentational.js";
 import API from "../../../util/api.js"; // root를 alias하는 방법을 찾아보는 중입니다.
-import "./rollingKeywords.scss"
+import "./rollingKeywords.scss";
 
 class RollingKeywordsContainer {
   constructor({ $target }) {
@@ -30,7 +30,7 @@ class RollingKeywordsContainer {
       console.log("nothing to set");
     }
     
-  }  
+  }
 }
 
 export default RollingKeywordsContainer;
