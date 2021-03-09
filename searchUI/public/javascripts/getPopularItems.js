@@ -18,7 +18,7 @@ SearchBar.prototype.init = async function () {
   const $popularItems = _.$('.header--search--keyword');
   const json = await this.fetchPopularItemsJSON();
   const html = await this.makeItemListHTML(json);
-  this.setValueInItem($popularItems, html);
+  this.setValueOnDom($popularItems, html);
   this.automateItemMove();
 };
 
@@ -46,7 +46,7 @@ SearchBar.prototype.makeItemListHTML = function (json) {
   return `<ol> ${pupularItemHTML} </ol>`;
 };
 
-SearchBar.prototype.setValueInItem = function (domClass, htmlTemplate) {
+SearchBar.prototype.setValueOnDom = function (domClass, htmlTemplate) {
   return (domClass.innerHTML = htmlTemplate);
 };
 
