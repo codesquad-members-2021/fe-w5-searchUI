@@ -9,6 +9,8 @@ header
 .header__searchbar
     display: inline-block
     vertical-align: top
+    overflow-y: hidden
+    position: relative
 
     img
         width: 119px
@@ -98,10 +100,9 @@ header
         background-position: 0 -30px
 
 .header__keywords
+    top: 4px
     position: absolute
-    top: 47px
-    position: absolute
-    left: 328px
+    left: 155px
     li
         overflow: hidden
         height: 22px
@@ -112,4 +113,4 @@ header
         text-overflow: ellipsis
         white-space: nowrap
         text-align: left
-        margin: 15px 
+        margin: 15px

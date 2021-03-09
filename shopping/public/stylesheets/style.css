@@ -70,7 +70,9 @@ header {
 
 .header__searchbar {
   display: inline-block;
-  vertical-align: top; }
+  vertical-align: top;
+  overflow-y: hidden;
+  position: relative; }
   .header__searchbar img {
     width: 119px;
     height: auto; }
@@ -157,10 +159,9 @@ header {
     background-position: 0 -30px; }
 
 .header__keywords {
+  top: 4px;
   position: absolute;
-  top: 47px;
-  position: absolute;
-  left: 328px; }
+  left: 155px; }
   .header__keywords li {
     overflow: hidden;
     height: 22px;
