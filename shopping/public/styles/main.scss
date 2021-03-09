@@ -20,6 +20,18 @@ footer {
   display: none;
 }
 
+.visible {
+  visibility: visible;
+}
+
+.colorBlack {
+  color: #000;
+}
+
+.colorGray {
+  color: #ddd;
+}
+
 .transition {
   transition: 300ms;
 }

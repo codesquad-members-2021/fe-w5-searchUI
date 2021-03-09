@@ -5,6 +5,7 @@ import { times } from "./utils/states.js";
 import { setHtmls, insertAdjacent, insertContents } from "./setters/setHtmls.js";
 import * as htmlMaker from "./utils/htmlMaker.js";
 import { setCarousel } from "./setters/setCarousel.js";
+// import RecommendedItem from "./search/recommItems.js";
 
 // event 상품
 const eventItemHtml = document.querySelector(".event__item");
@@ -65,116 +66,117 @@ const partners = api(urls.partners)(setHtmls, htmlMaker.partnerList, insertConte
 // 2. 리팩토링
 // 3. 3주차 코드도 리팩토링
 
-// amazon-search test
-async function request(inputValue) {
-  const response = await fetch(urls.recommendedWords(inputValue));
-  const data = await response.json();
-  return data;
-}
-
-// request recommededWords related to inputValue
 const searchingInput = _.$(".searchBar__input");
 const recommendedWordsToggle = _.$(".searchBar__toggle");
-let timer;
-let recommendations = [];
-let currIndex = -1;
-let popularShoppingKeyword = null;
+// console.log(recommendedWordsToggle);
+// const recommendedItem = new RecommendedItem(searchingInput, recommendedWordsToggle);
+// recommendedItem.init();
 
-const words = fetch(urls.topTenWords).then((res) => res.json());
-words
-  .then(({ popularWords }) => {
-    recommendedWordsToggle.innerHTML = ``;
-    popularShoppingKeyword =
-      Object.entries(popularWords[0]).reduce((acc, item) => {
-        const [num, product] = item;
-        acc += `<span class="popularWords__rank" data-id=${num}>${num}</span>
-          <span class="popularWords__product" data-id=${num}>${product}</span>`;
-        return acc;
-      }, `<div class="popularWords">`) + `</div>`;
-    return popularShoppingKeyword;
-    // recommendedWordsToggle.innerHTML = popularShoppingKeyword;
-  })
-  .then((words) => (recommendedWordsToggle.innerHTML = words));
+// amazon-search test
+// async function request(inputValue) {
+//   const response = await fetch(urls.recommendedWords(inputValue));
+//   const data = await response.json();
+//   return data;
+// }
 
-// when user focus on the input
-searchingInput.addEventListener("focus", (e) => {
-  console.log("hello");
-  console.log(e.target.value);
-  recommendedWordsToggle.style.visibility = "visible";
-  // innnerText = top 10 popular words
-});
+// request recommededWords related to inputValue
 
-// when user type the value on the input
-searchingInput.addEventListener("input", (e) => {
-  const inputValue = e.target.value;
-  if (inputValue === ``) {
-    if (timer) clearTimeout(timer);
-    recommendedWordsToggle.innerHTML = popularShoppingKeyword;
-  }
-  currIndex = -1;
-  if (inputValue !== ``) {
-    if (timer) clearTimeout(timer);
-    timer = setTimeout(() => {
-      const data = request(inputValue);
-      data.then(({ suggestions }) => {
-        recommendations = suggestions.map((item) => item.value);
-        const set = new Set([...recommendations]); // 다시 값을 입력했는데 가습기가 두번 나옴
-        recommendations = [...set];
-        const tempRecommendations = recommendations.reduce((acc, item, i) => acc + `<span class="recommended__item" data-id="${i}">${item}</span>`, ``);
-        recommendedWordsToggle.innerHTML = tempRecommendations;
-        recommendedWordsToggle.style.visibility = "visible";
-      });
-    }, times.debounce);
-  }
-});
+// let timer;
+// let recommendations = [];
+// let currIndex = -1;
+// let popularShoppingKeyword = null;
 
-// register event of direction-key to select the related word of recommendations
+// const words = fetch(urls.topTenWords).then((res) => res.json());
+// words
+//   .then(({ popularWords }) => {
+//     recommendedWordsToggle.innerHTML = ``;
+//     popularShoppingKeyword =
+//       Object.entries(popularWords[0]).reduce((acc, item) => {
+//         const [num, product] = item;
+//         acc += `<span class="popularWords__rank" data-id=${num}>${num}</span>
+//           <span class="popularWords__product" data-id=${num}>${product}</span>`;
+//         return acc;
+//       }, `<div class="popularWords">`) + `</div>`;
+//     return popularShoppingKeyword;
+//   })
+//   .then((words) => (recommendedWordsToggle.innerHTML = words));
 
-let coloredElement = null;
-let currElement = null;
+// // when user focus on the input
+// searchingInput.addEventListener("focus", (e) => {
+//   console.log("hello");
+//   console.log(e.target.value);
+//   recommendedWordsToggle.style.visibility = "visible";
+//   // innnerText = top 10 popular words
+// });
 
-searchingInput.addEventListener("keydown", (e) => {
-  // if (e.target.value === ``) recommendedWordsToggle.innerHTML = popularShoppingKeyword;
-  const { key } = e;
-  if (recommendedWordsToggle.style.visibility === "hidden") {
-    recommendedWordsToggle.style.visibility = "visible";
-  }
-  if (key.includes("Arrow")) {
-    if (key === "ArrowUp") {
-      if (currIndex >= 0) {
-        currIndex--;
-        currElement = _.$All(".recommended__item")[currIndex];
-        if (coloredElement) coloredElement.style.color = "#000";
-        currElement.style.color = "#ddd";
-        coloredElement = currElement;
-      }
-      if (currIndex < 0) {
-        if (coloredElement) {
-          coloredElement.style.color = "#000";
-          coloredElement = null;
-          currElement = null;
-        }
-        recommendedWordsToggle.style.visibility = "hidden";
-        // recommendedWordsToggle.innerHTML = popularShoppingKeyword;
-      }
-    }
-    if (key === "ArrowDown") {
-      if (currIndex < recommendations.length) {
-        currIndex++;
-        currElement = _.$All(".recommended__item")[currIndex];
-        if (coloredElement) coloredElement.style.color = "#000";
-        currElement.style.color = "#ddd";
-        coloredElement = currElement;
-      }
-      if (currIndex >= recommendations.length) {
-        if (coloredElement) {
-          coloredElement.style.color = "#000";
-          coloredElement = null;
-          currElement = null;
-        }
-        recommendedWordsToggle.style.visibility = "hidden";
-        // recommendedWordsToggle.innerHTML = popularShoppingKeyword;
-      }
-    }
-  }
-});
+// // when user type the value on the input
+// searchingInput.addEventListener("input", (e) => {
+//   const inputValue = e.target.value;
+//   if (inputValue === ``) {
+//     if (timer) clearTimeout(timer);
+//     recommendedWordsToggle.innerHTML = popularShoppingKeyword;
+//   }
+//   currIndex = -1;
+//   if (inputValue !== ``) {
+//     if (timer) clearTimeout(timer);
+//     timer = setTimeout(() => {
+//       const data = request(urls.recommendations, inputValue);
+//       data.then(({ suggestions }) => {
+//         recommendations = suggestions.map((item) => item.value);
+//         const set = new Set([...recommendations]); // 다시 값을 입력했는데 가습기가 두번 나옴
+//         recommendations = [...set];
+//         const tempRecommendations = recommendations.reduce((acc, item, i) => acc + `<span class="recommended__item" data-id="${i}">${item}</span>`, ``);
+//         recommendedWordsToggle.innerHTML = tempRecommendations;
+//         recommendedWordsToggle.style.visibility = "visible";
+//       });
+//     }, times.debounce);
+//   }
+// });
+
+// // register event of direction-key to select the related word of recommendations
+
+// let coloredElement = null;
+// let currElement = null;
+
+// searchingInput.addEventListener("keydown", (e) => {
+//   const { key } = e;
+//   if (recommendedWordsToggle.style.visibility === "hidden") {
+//     recommendedWordsToggle.style.visibility = "visible";
+//   }
+//   if (key.includes("Arrow")) {
+//     if (key === "ArrowUp") {
+//       if (currIndex >= 0) {
+//         currIndex--;
+//         currElement = _.$All(".recommended__item")[currIndex];
+//         if (coloredElement) coloredElement.style.color = "#000";
+//         currElement.style.color = "#ddd";
+//         coloredElement = currElement;
+//       }
+//       if (currIndex < 0) {
+//         if (coloredElement) {
+//           coloredElement.style.color = "#000";
+//           coloredElement = null;
+//           currElement = null;
+//         }
+//         recommendedWordsToggle.style.visibility = "hidden";
+//       }
+//     }
+//     if (key === "ArrowDown") {
+//       if (currIndex < recommendations.length) {
+//         currIndex++;
+//         currElement = _.$All(".recommended__item")[currIndex];
+//         if (coloredElement) coloredElement.style.color = "#000";
+//         currElement.style.color = "#ddd";
+//         coloredElement = currElement;
+//       }
+//       if (currIndex >= recommendations.length) {
+//         if (coloredElement) {
+//           coloredElement.style.color = "#000";
+//           coloredElement = null;
+//           currElement = null;
+//         }
+//         recommendedWordsToggle.style.visibility = "hidden";
+//       }
+//     }
+//   }
+// });

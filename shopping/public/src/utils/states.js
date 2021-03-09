@@ -34,4 +34,13 @@ const times = {
   debounce: 300,
 };
 
-export { carouselState, longClickState, partnerState, times };
+const searchToggle = {
+  currIndex: -1,
+  searchingInput: null,
+  recommWordsToggle: null,
+  timer: null,
+  recommendations: [],
+  popularShoppingKeyword: null,
+};
+
+export { carouselState, longClickState, partnerState, times, searchToggle };
