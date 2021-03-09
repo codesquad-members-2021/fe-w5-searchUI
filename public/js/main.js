@@ -18,7 +18,7 @@ const executeSlide = () => {
 const executeSearch = () => {
   const search = new Search();
   search.onEvents();
-  search.runKeywordsRoll();
+  search.runKeyWordsRoll();
 };
 
 const main = () => {
