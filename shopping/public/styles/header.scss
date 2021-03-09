@@ -48,12 +48,18 @@
 }
 
 .searchBar__toggle {
+  visibility: hidden;
   position: absolute;
   z-index: 1;
   border: 1px solid red;
   background-color: white;
   height: 200px;
   width: 100%;
+}
+
+.recommended__item {
+  display: flex;
+  flex-direction: column;
 }
 
 .header__navbar {

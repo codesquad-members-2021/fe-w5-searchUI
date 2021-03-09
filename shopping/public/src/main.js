@@ -77,31 +77,68 @@ const searchingInput = _.$(".searchBar__input");
 const recommendedWordsToggle = _.$(".searchBar__toggle");
 let timer;
 let recommendations = [];
+let currIndex = -1;
+let popularShoppingKeyword = null;
+
+const words = fetch(urls.topTenWords).then((res) => res.json());
+words
+  .then(({ popularWords }) => {
+    recommendedWordsToggle.innerHTML = ``;
+    popularShoppingKeyword =
+      Object.entries(popularWords[0]).reduce((acc, item) => {
+        const [num, product] = item;
+        acc += `<span class="popularWords__rank" data-id=${num}>${num}</span>
+          <span class="popularWords__product" data-id=${num}>${product}</span>`;
+        return acc;
+      }, `<div class="popularWords">`) + `</div>`;
+    return popularShoppingKeyword;
+    // recommendedWordsToggle.innerHTML = popularShoppingKeyword;
+  })
+  .then((words) => (recommendedWordsToggle.innerHTML = words));
+
+// when user focus on the input
+searchingInput.addEventListener("focus", (e) => {
+  console.log("hello");
+  console.log(e.target.value);
+  recommendedWordsToggle.style.visibility = "visible";
+  // innnerText = top 10 popular words
+});
+
+// when user type the value on the input
 searchingInput.addEventListener("input", (e) => {
-  if (timer) clearTimeout(timer);
-  timer = setTimeout(() => {
-    const inputValue = e.target.value;
-    const data = request(inputValue);
-    data.then(({ suggestions }) => {
-      // let temp = ``;
-      recommendations = suggestions.map((item) => item.value);
-      const set = new Set([...recommendations]); // 다시 값을 입력했는데 가습기가 두번 나옴
-      recommendations = [...set];
-      const tempRecommendations = recommendations.reduce((acc, item, i) => acc + `<span class="recommended__item" data-id="${i}">${item}</span>`, ``);
-      // recommendations.forEach((item, i) => {
-      //   temp += `<span class="recommended__item" data-id="${i}">${item}</span>`;
-      //   // return item.value;
-      // });
-      recommendedWordsToggle.innerHTML = tempRecommendations;
-    });
-  }, times.debounce);
+  const inputValue = e.target.value;
+  if (inputValue === ``) {
+    if (timer) clearTimeout(timer);
+    recommendedWordsToggle.innerHTML = popularShoppingKeyword;
+  }
+  currIndex = -1;
+  if (inputValue !== ``) {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      const data = request(inputValue);
+      data.then(({ suggestions }) => {
+        recommendations = suggestions.map((item) => item.value);
+        const set = new Set([...recommendations]); // 다시 값을 입력했는데 가습기가 두번 나옴
+        recommendations = [...set];
+        const tempRecommendations = recommendations.reduce((acc, item, i) => acc + `<span class="recommended__item" data-id="${i}">${item}</span>`, ``);
+        recommendedWordsToggle.innerHTML = tempRecommendations;
+        recommendedWordsToggle.style.visibility = "visible";
+      });
+    }, times.debounce);
+  }
 });
 
 // register event of direction-key to select the related word of recommendations
-let currIndex = -1;
+
 let coloredElement = null;
 let currElement = null;
-searchingInput.addEventListener("keydown", ({ key }) => {
+
+searchingInput.addEventListener("keydown", (e) => {
+  // if (e.target.value === ``) recommendedWordsToggle.innerHTML = popularShoppingKeyword;
+  const { key } = e;
+  if (recommendedWordsToggle.style.visibility === "hidden") {
+    recommendedWordsToggle.style.visibility = "visible";
+  }
   if (key.includes("Arrow")) {
     if (key === "ArrowUp") {
       if (currIndex >= 0) {
@@ -117,6 +154,8 @@ searchingInput.addEventListener("keydown", ({ key }) => {
           coloredElement = null;
           currElement = null;
         }
+        recommendedWordsToggle.style.visibility = "hidden";
+        // recommendedWordsToggle.innerHTML = popularShoppingKeyword;
       }
     }
     if (key === "ArrowDown") {
@@ -133,6 +172,8 @@ searchingInput.addEventListener("keydown", ({ key }) => {
           coloredElement = null;
           currElement = null;
         }
+        recommendedWordsToggle.style.visibility = "hidden";
+        // recommendedWordsToggle.innerHTML = popularShoppingKeyword;
       }
     }
   }

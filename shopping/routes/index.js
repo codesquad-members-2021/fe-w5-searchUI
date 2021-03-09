@@ -56,6 +56,10 @@ router.get("/partners.json", function (req, res, next) {
   res.json(JSON.parse(fs.readFileSync("./data/partners.json")));
 });
 
+router.get("/popularShoppingKeyword.json", function (req, res, next) {
+  res.json(JSON.parse(fs.readFileSync("./data/popularShoppingKeyword.json")));
+});
+
 /* GET home page. */
 router.get("/", function (req, res, next) {
   // res.render("index", { title: "Adela" });
