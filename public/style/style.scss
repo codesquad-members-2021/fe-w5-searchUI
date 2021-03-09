@@ -25,24 +25,105 @@ body {
     }
 
     .nav-search-bar {
+        margin-left: 2rem;
         position: relative;
     }
 
     .search-bar {
-        margin-left: 2rem;
         padding: $search-bar-padding;
         width: 38rem;
         border: 1px solid $main-grey-color;
         border-radius: 1rem;
-        }
+        outline: 0;
+    }
 
-        .fa-search {
+    .search-bar:focus {
+        border: 1px solid $primary-color;
+    }
+
+    .fa-search {
             transform: translate(-2.5rem, 50%);
             font-size: 1.5rem;
             color: $primary-color;
             position: absolute;
+    }
+
+    .search-rollkeywords {
+        margin-top: 0.1rem;
+        top: 0.9rem;
+        position: absolute;
+        height: 2rem;
+        overflow: hidden;
+        text-align: left;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    .search-rollkeywords-move {
+        transform: translate3d(0, -2.5rem, 0);
+    }
+
+    .search-rollkeywords-duration-zero {
+        transition-duration: 0ms;
+    }
+    
+    .nav-search-rank {
+        transform: translate3d(0, 0 ,0);
+        transition: transform 0.5s ease-in;
+
+        span {
+            margin: 0 1rem;
+        }
+        
+        li {
+            margin-bottom: 1rem;
+            font-size: $search-bar-font-size;
+            color: $main-grey-color;
+ 
         }
     }
+
+    .search-suggestion {
+        display: none;
+        border: 1px solid $primary-color;
+        border-radius: 1rem;
+        position: absolute;
+        width: 100%;
+        background: $main-white-color;
+        z-index: 3;
+
+        h3 {
+            padding: $search-suggestion-padding;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: $main-grey-color;
+        }
+    }
+
+    .suggestion-visible {
+        display: block;
+    }
+
+    .suggestion-list-wrap {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .suggestion-list {
+        width: 50%;
+        float:left;    
+
+        li {
+            padding: 0.5rem $search-suggestion-padding;
+        }
+
+        span {
+            padding-right: 0.5rem;
+            font-weight: bold;
+        }
+    }
+    
+}
 
 .under-nav-wrapper {
      margin: 0 auto;
