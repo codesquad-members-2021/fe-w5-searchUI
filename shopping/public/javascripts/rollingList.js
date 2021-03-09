@@ -1,14 +1,18 @@
-const rolingList = function (List, ListParents) {
+const RolingList = function (List, ListParents) {
   this.List = List.map((v) => v.keyword);
   this.ListParents = ListParents;
 };
 
-rolingList.prototype.init = function () {
-  this.List.forEach((v) => this.inserlist(this.ListParents, v));
+RolingList.prototype.init = function () {
+  this.List.forEach((v, index) => {
+    
+    this.inserlist(this.ListParents, v, index);
+  });
 };
 
-rolingList.prototype.inserlist = function (Parents, keyword) {
-  Parents.innerHTML = `<li>${keyword}</li>`;
+RolingList.prototype.inserlist = function (Parents, keyword, index) {
+let currHTML = Parents.innerHTML;
+  Parents.innerHTML = currHTML + `<li>${index+1}. ${keyword}</li>`;
 };
 
-export default rolingList;
+export default RolingList;

@@ -13,16 +13,18 @@ header
     img
         width: 119px
         height: auto
-    input
+    div
         float: right
-        margin: 0 24px 0 30px
-        width: 670px
-        height: 54px
-        padding: 16px 60px 14px 30px
-        border: 1px solid #cecfd1
-        border-radius: 10px
-        background-color: #fff
-        box-sizing: border-box
+        input
+            float: right
+            margin: 0 24px 0 30px
+            width: 670px
+            height: 54px
+            padding: 16px 60px 14px 30px
+            border: 1px solid #cecfd1
+            border-radius: 10px
+            background-color: #fff
+            box-sizing: border-box
 
 .header__navbar
     box-sizing: border-box
@@ -59,7 +61,7 @@ header
 .header__navbar__login
     float: right
     position: relative
-    text-align: left;
+    text-align: left
     .ico_user
         left: 0
         background-position: -30px -30px
@@ -72,7 +74,7 @@ header
     width: 90px
     padding: 0 16px 0 34px
     position: relative
-    text-align: left;
+    text-align: left
 
     .ico_products
         left: 0
@@ -87,10 +89,27 @@ header
 
 .header__navbar__catagory
     position: relative
-    text-align: left;
+    text-align: left
     width: 82px
     height: 54px
     padding-left: 40px
     .ico_menu
         left: 4px
         background-position: 0 -30px
+
+.header__keywords
+    position: absolute
+    top: 47px
+    position: absolute
+    left: 328px
+    li
+        overflow: hidden
+        height: 22px
+        font-weight: 700
+        font-size: 20px
+        line-height: 22px
+        color: #939393
+        text-overflow: ellipsis
+        white-space: nowrap
+        text-align: left
+        margin: 15px 
