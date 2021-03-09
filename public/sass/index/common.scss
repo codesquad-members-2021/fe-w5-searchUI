@@ -1,0 +1,133 @@
+@import './variable.scss';
+
+body {
+    font-size: $fontSize;
+    font-family: $fontFamily;
+    color: $black;
+    background-color: $backgroundColor;
+    line-height: $lineHeight;
+}
+
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: $black;
+}
+
+@for $i from 1 through 9 {
+    .col-#{$i} {
+        width: $oneWidth * $i;
+    }
+}
+
+@for $i from 0 through 9 {
+    @if $i == 8 {
+        .transformX__-1 {
+            transform: translateX(-100%);
+        }
+    } @else if $i == 9 {
+        .transformX__-2 {
+            transform: translateX(-200%);
+        }
+    } @else {
+        .transformX__#{$i} {
+            transform: translateX(100% * $i);
+        }
+    }
+}
+
+@for $i from 0 through 9 {
+    .transformY__#{$i} {
+        transform: translateY(100% * $i);
+    }
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// 전체 Wrapper
+.all-wrapper {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.visibility--hidden {
+    visibility: hidden;
+}
+
+.display--none {
+    display: none;
+}
+
+.transition {
+    &--opacity {
+        transition: opacity 0.4s;
+    }
+
+    &--transform {
+        transition: transform 0.4s;
+    }
+}
+
+.max-WH {
+    &-auto {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
+// content__more__view의 ul의 li 태그용 Style (@extend 함)
+.view-li {
+    height: auto;
+    border-bottom: 0 none;
+    text-align: left;
+    line-height: 14px;
+    letter-spacing: -1px;
+
+    a {
+        padding: 21px 27px;
+        display: block;
+    }
+
+    a > img {
+        @extend .max-WH-auto;
+
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+
+    a > div {
+        span {
+            display: block;
+        }
+    }
+
+    a > div .txt-bold {
+        margin: 10px 0 1px;
+        line-height: 22px;
+
+        font-size: 14px;
+        font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    a > div .txt-info {
+        color: $gray_2;
+        font-size: $fontSize;
+    }
+}

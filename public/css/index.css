@@ -1,126 +1,4 @@
 @charset "UTF-8";
-.col-1 {
-  width: 10%;
-}
-
-.col-2, .content__hot__carousel ul li {
-  width: 20%;
-}
-
-.col-3 {
-  width: 30%;
-}
-
-.col-4, .content__main__one {
-  width: 40%;
-}
-
-.col-5 {
-  width: 50%;
-}
-
-.col-6, .content__main__carousel {
-  width: 60%;
-}
-
-.col-7 {
-  width: 70%;
-}
-
-.col-8 {
-  width: 80%;
-}
-
-.col-9 {
-  width: 90%;
-}
-
-.transformX__0 {
-  transform: translateX(0%);
-}
-
-.transformX__1 {
-  transform: translateX(100%);
-}
-
-.transformX__2 {
-  transform: translateX(200%);
-}
-
-.transformX__3 {
-  transform: translateX(300%);
-}
-
-.transformX__4 {
-  transform: translateX(400%);
-}
-
-.transformX__5 {
-  transform: translateX(500%);
-}
-
-.transformX__6 {
-  transform: translateX(600%);
-}
-
-.transformX__7 {
-  transform: translateX(700%);
-}
-
-.transformX__-1 {
-  transform: translateX(-100%);
-}
-
-.transformX__-2 {
-  transform: translateX(-200%);
-}
-
-.transition--opacity {
-  transition: opacity 0.4s;
-}
-.transition--transform {
-  transition: transform 0.4s;
-}
-
-.max-WH-auto, .content__main__carousel .slide, .content__main__one a, .view-li a > img, .content__hot__carousel ul li a > img, .content__more__view ul li a > img {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.view-li, .content__hot__carousel ul li, .content__more__view ul li {
-  height: auto;
-  border-bottom: 0 none;
-  text-align: left;
-  line-height: 14px;
-  letter-spacing: -1px;
-}
-.view-li a, .content__hot__carousel ul li a, .content__more__view ul li a {
-  padding: 21px 27px;
-  display: block;
-}
-.view-li a > img:hover, .content__hot__carousel ul li a > img:hover, .content__more__view ul li a > img:hover {
-  opacity: 0.5;
-}
-.view-li a > div span, .content__hot__carousel ul li a > div span, .content__more__view ul li a > div span {
-  display: block;
-}
-.view-li a > div .txt-bold, .content__hot__carousel ul li a > div .txt-bold, .content__more__view ul li a > div .txt-bold {
-  margin: 10px 0 1px;
-  line-height: 22px;
-  font-size: 14px;
-  font-weight: bold;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.view-li a > div .txt-bold:hover, .content__hot__carousel ul li a > div .txt-bold:hover, .content__more__view ul li a > div .txt-bold:hover {
-  text-decoration: underline;
-}
-.view-li a > div .txt-info, .content__hot__carousel ul li a > div .txt-info, .content__more__view ul li a > div .txt-info {
-  color: #888;
-  font-size: 12px;
-}
-
 .icon, .i-recent, .i-user, .i-category, .i-search {
   background: url("/img/ico_gnb_shw.png") no-repeat;
   background-size: 130px 90px;
@@ -215,6 +93,122 @@ a {
   color: #333;
 }
 
+.col-1 {
+  width: 10%;
+}
+
+.col-2, .content__hot__carousel ul li {
+  width: 20%;
+}
+
+.col-3 {
+  width: 30%;
+}
+
+.col-4, .content__main__one {
+  width: 40%;
+}
+
+.col-5 {
+  width: 50%;
+}
+
+.col-6, .content__main__carousel {
+  width: 60%;
+}
+
+.col-7 {
+  width: 70%;
+}
+
+.col-8 {
+  width: 80%;
+}
+
+.col-9 {
+  width: 90%;
+}
+
+.transformX__0 {
+  transform: translateX(0%);
+}
+
+.transformX__1 {
+  transform: translateX(100%);
+}
+
+.transformX__2 {
+  transform: translateX(200%);
+}
+
+.transformX__3 {
+  transform: translateX(300%);
+}
+
+.transformX__4 {
+  transform: translateX(400%);
+}
+
+.transformX__5 {
+  transform: translateX(500%);
+}
+
+.transformX__6 {
+  transform: translateX(600%);
+}
+
+.transformX__7 {
+  transform: translateX(700%);
+}
+
+.transformX__-1 {
+  transform: translateX(-100%);
+}
+
+.transformX__-2 {
+  transform: translateX(-200%);
+}
+
+.transformY__0 {
+  transform: translateY(0%);
+}
+
+.transformY__1 {
+  transform: translateY(100%);
+}
+
+.transformY__2 {
+  transform: translateY(200%);
+}
+
+.transformY__3 {
+  transform: translateY(300%);
+}
+
+.transformY__4 {
+  transform: translateY(400%);
+}
+
+.transformY__5 {
+  transform: translateY(500%);
+}
+
+.transformY__6 {
+  transform: translateY(600%);
+}
+
+.transformY__7 {
+  transform: translateY(700%);
+}
+
+.transformY__8 {
+  transform: translateY(800%);
+}
+
+.transformY__9 {
+  transform: translateY(900%);
+}
+
 .flex-center, .content__main__carousel .paging__inner, .content__main__one a, .header__menu__wrapper ul.list-usergroup li a, .header__menu__wrapper ul, .header__menu__wrapper .category button, .header__logo-search {
   display: flex;
   justify-content: center;
@@ -232,6 +226,52 @@ a {
 
 .display--none {
   display: none;
+}
+
+.transition--opacity {
+  transition: opacity 0.4s;
+}
+.transition--transform {
+  transition: transform 0.4s;
+}
+
+.max-WH-auto, .content__main__carousel .slide, .content__main__one a, .view-li a > img, .content__hot__carousel ul li a > img, .content__more__view ul li a > img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.view-li, .content__hot__carousel ul li, .content__more__view ul li {
+  height: auto;
+  border-bottom: 0 none;
+  text-align: left;
+  line-height: 14px;
+  letter-spacing: -1px;
+}
+.view-li a, .content__hot__carousel ul li a, .content__more__view ul li a {
+  padding: 21px 27px;
+  display: block;
+}
+.view-li a > img:hover, .content__hot__carousel ul li a > img:hover, .content__more__view ul li a > img:hover {
+  opacity: 0.5;
+}
+.view-li a > div span, .content__hot__carousel ul li a > div span, .content__more__view ul li a > div span {
+  display: block;
+}
+.view-li a > div .txt-bold, .content__hot__carousel ul li a > div .txt-bold, .content__more__view ul li a > div .txt-bold {
+  margin: 10px 0 1px;
+  line-height: 22px;
+  font-size: 14px;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.view-li a > div .txt-bold:hover, .content__hot__carousel ul li a > div .txt-bold:hover, .content__more__view ul li a > div .txt-bold:hover {
+  text-decoration: underline;
+}
+.view-li a > div .txt-info, .content__hot__carousel ul li a > div .txt-info, .content__more__view ul li a > div .txt-info {
+  color: #888;
+  font-size: 12px;
 }
 
 .header {
@@ -300,10 +340,12 @@ a {
   color: #bebebe;
   font-weight: 800;
 }
-.header__logo-search .search__bar__rolling ul > li {
+.header__logo-search .search__bar__rolling li.rolling-item {
   position: absolute;
   top: 0;
   padding: 9px 0;
+  transition-property: transform;
+  transition-duration: 0.5s;
 }
 .header__logo-search .search__suggestion {
   width: 670px;

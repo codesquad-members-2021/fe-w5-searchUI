@@ -18,8 +18,7 @@ SearchController.prototype.setSearchBarClickEvent = function (searchBarWrapper) 
     _.addEvent(searchBarWrapper, 'click', (e) => this.searchBarClickEventHandler(e));
 };
 
-SearchController.prototype.searchBarClickEventHandler = function ({target}) {
-    // console.log(_.closestSelector(target, '.search__bar'))   // 안씀
+SearchController.prototype.searchBarClickEventHandler = function ({target}) {    
     if (target.tagName === "INPUT") {
         _.classToggleForce(this.searchSuggestWrapper, 'visibility--hidden', false);
         _.classToggleForce(this.searchSuggestInnerWrapper, 'display--none', false);
@@ -41,5 +40,24 @@ SearchController.prototype.searchBarKeyUpEventHandler = function ({target}) {
         _.classToggleForce(this.searchSuggestSimilarWrapper, 'display--none', true);
     }
 };
+
+// 검색창 롤링 설정
+SearchController.prototype.setSearchBarRollingAnimation = function (searchBarWrapper) {     
+    _.addEvent(searchBarWrapper, 'keyup', (e) => this.searchBarKeyUpEventHandler(e));    
+};
+
+SearchController.prototype.searchBarKeyUpEventHandler = function ({target}) {
+    if (target.value) {
+        _.classToggleForce(this.searchSuggestInnerWrapper, 'display--none', true);        
+        _.classToggleForce(this.searchSuggestSimilarWrapper, 'display--none', false);
+    } else {
+        _.classToggleForce(this.searchSuggestInnerWrapper, 'display--none', false);        
+        _.classToggleForce(this.searchSuggestSimilarWrapper, 'display--none', true);
+    }
+};
+
+
+
+
 
 export default SearchController;

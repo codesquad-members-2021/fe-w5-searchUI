@@ -31,7 +31,6 @@ const options = {
 };
 
 new IndexController(dataManager, indexWrappers, controlItems, options).init();
-
 new SearchController(_.$('.search')).init();
 
 // indexController에 넣던지.. 분리하기 -----------------------------------------------
