@@ -12,6 +12,15 @@ $color-transparent-black: #222222d7;
 $color-transparent: #22222200;
 
 // common
+
+.on {
+  display: block;
+}
+
+.off {
+  display: none;
+}
+
 body {
   background-color: $color-background-beige;
   font-family: "Nanum Gothic", sans-serif;
@@ -60,11 +69,40 @@ p {
 .search {
   position: relative;
   .search_box {
+    width: 650px;
+    height: 70px;
     border-radius: 10px;
     border: 1px solid $color-css-grey;
+    box-sizing: border-box;
     padding: 1vh;
+    overflow-y: hidden;
+
+    .rolling_keyword {
+      z-index: 9999;
+      width: fit-content;
+      position: relative;
+      top: -6px;
+      font-size: 20px;
+      font-weight: 700;
+
+      div {
+        margin-top: 30px;
+        margin-left: 40px;
+        ul {
+          span {
+            color: $color-text-grey;
+          }
+
+          span:nth-child(1) {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
     .search_input {
-      width: 800px;
+      position: absolute;
+      top: 8px;
+      width: 600px;
       height: 50px;
       border: none;
       padding-left: 4vh;
@@ -81,6 +119,9 @@ p {
       width: 25px;
       height: 25px;
       cursor: pointer;
+      position: absolute;
+      top: 25px;
+      right: 10px;
     }
 
     &.show {
@@ -103,13 +144,15 @@ p {
       position: absolute;
       z-index: 9999;
       padding: 30px;
-      div:nth-child(1) {
+
+      & > div:first-child {
         color: $color-text-grey;
         font-weight: 700;
         grid-column: 1/3;
         padding-top: 0;
         padding-bottom: 10px;
       }
+
       div {
         padding: 10px 0;
         div {
@@ -126,20 +169,28 @@ p {
       }
     }
   }
-  .rolling_keyword {
-    position: absolute;
-    top: -6px;
-    font-size: 20px;
-    font-weight: 700;
-    transition: transform 1s;
 
-    div {
-      margin-top: 30px;
-      margin-left: 40px;
-      a {
-        color: $color-text-grey;
-        span:nth-child(1) {
-          margin-right: 10px;
+  .related_term_tpl {
+    display: none;
+    &.show {
+      display: block;
+      width: -webkit-fill-available;
+      height: fit-content;
+      border: 1px solid $color-emphasis;
+      border-radius: 10px;
+      background-color: $color-background-white;
+      position: absolute;
+      z-index: 9999;
+      div {
+        div {
+          width: -webkit-fill-available;
+
+          box-sizing: border-box;
+          padding: 5px;
+          &:hover {
+            cursor: pointer;
+            background-color: $color-css-grey;
+          }
         }
       }
     }
