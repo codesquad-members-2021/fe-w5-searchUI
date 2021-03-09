@@ -116,6 +116,7 @@ class RollingKeywords {
 
   hideSuggestKeyword() {
     this.suggestion.querySelector('.inner_suggestion').style.display = 'none';
+    this.suggestion.querySelector('.group_suggestion').style.display = 'block';
   }
 
   fetchSimilarword() {}
