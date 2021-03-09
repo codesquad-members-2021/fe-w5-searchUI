@@ -69,6 +69,7 @@ export default class FetchAPI {
       .then((data) => {
         const rollingKeyword = new RollingKeywords(data);
         rollingKeyword.drawRollingKeywords();
+        rollingKeyword.drawSuggestionBox();
         rollingKeyword.startRolling();
         return data;
       })

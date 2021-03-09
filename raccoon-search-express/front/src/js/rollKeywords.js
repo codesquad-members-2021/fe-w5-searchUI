@@ -6,6 +6,8 @@ class RollingKeywords {
     this.data = data;
     this.lists = $('.list_rollkeywords');
     this.searchBar = $('.search-bar');
+    this.keyword = $$('.list_keyword');
+    this.rankNumber = 1;
     this.timer;
   }
 
@@ -58,6 +60,26 @@ class RollingKeywords {
       acc += list;
       numRank++;
       return acc;
+    }, ``);
+    return keywordList;
+  }
+
+  drawSuggestionBox() {
+    this.keyword[0].insertAdjacentHTML('afterbegin', this.getSuggestionBoxData(0, 5))
+    this.keyword[1].insertAdjacentHTML('beforeend', this.getSuggestionBoxData(5, 10))
+  }
+
+  getSuggestionBoxData(start, last) {
+    const ol = this.data.list.slice(start, last)
+    console.log(ol)
+    const keywordList = ol.reduce((acc, cur) => {
+      let list = `
+      <li>
+        <a href=${acc.imgurl} class="link_keyword _GC_" data-gg="{o1:1}"> <span class="num_rank">${this.rankNumber}</span>${cur.keyword} </a>
+      </li>`
+      acc += list;
+      this.rankNumber++;
+      return acc
     }, ``);
     return keywordList;
   }
