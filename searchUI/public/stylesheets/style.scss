@@ -29,6 +29,15 @@ header {
       position: absolute;
       width: 630px;
       height: 54px;
+      padding-left: 40px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      &:focus {
+        background: none;
+        border: none;
+        outline: none;
+      }
       &:hover {
         cursor: default;
       }
@@ -67,6 +76,9 @@ header {
     height: 300px;
     border-radius: 10px;
     z-index: 1;
+    p {
+      padding-left: 40px;
+    }
   }
 
   .header--search--button {

@@ -2,6 +2,7 @@ import { _ } from './util.js';
 
 export default class SearchBar {
   constructor() {
+    this.$dropDownPopularItemList = _.$('.header--popular-item');
     this.$popularItems = _.$('.header--search--keyword');
     this.$searchInput = _.$('.header--search--input');
     this.init();
@@ -9,17 +10,18 @@ export default class SearchBar {
 }
 
 SearchBar.prototype.init = async function () {
-  _.addEvent(
-    this.$popularItems,
-    'transitionend',
-    this.handleLastItem.bind(this)
-  );
-  _.addEvent(this.$searchInput, 'click', this.handleSearchBar.bind(this));
   const $popularItems = _.$('.header--search--keyword');
   const json = await this.fetchPopularItemsJSON();
   const html = await this.makeItemListHTML(json);
   this.setValueOnDom($popularItems, html);
   this.automateItemMove();
+
+  _.addEvent(
+    this.$popularItems,
+    'transitionend',
+    this.handleLastItem.bind(this)
+  );
+  _.addEvent(this.$searchInput, 'click', this.handleSearchBar.bind(this, html));
 };
 
 SearchBar.prototype.fetchPopularItemsJSON = async function () {
@@ -73,7 +75,22 @@ SearchBar.prototype.automateItemMove = function () {
   }, 3000);
 };
 
-SearchBar.prototype.handleSearchBar = function () {
-  const dropDownPopularItemList = _.$('.header--popular-item');
-  dropDownPopularItemList.style.setProperty('visibility', 'visible');
+SearchBar.prototype.romoveDomTarget = function (target) {
+  target.style.setProperty('visibility', 'hidden');
+};
+
+SearchBar.prototype.handleSearchBar = function (html) {
+  const $dropDownPopularItemList = _.$('.header--popular-item');
+  const dropDownHtml = `<p>인기쇼핑키워드</p> ${html}`;
+
+  this.romoveDomTarget(this.$popularItems);
+  $dropDownPopularItemList.style.setProperty('visibility', 'visible');
+
+  this.setValueOnDom($dropDownPopularItemList, dropDownHtml);
+
+  _.addEvent(
+    this.$searchInput,
+    'keyup',
+    this.romoveDomTarget.bind(this, this.$dropDownPopularItemList)
+  );
 };

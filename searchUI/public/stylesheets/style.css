@@ -29,6 +29,15 @@ header .header--search .header--search--input {
   position: absolute;
   width: 630px;
   height: 54px;
+  padding-left: 40px;
+  background: none;
+  border: none;
+  font-size: 20px;
+}
+header .header--search .header--search--input:focus {
+  background: none;
+  border: none;
+  outline: none;
 }
 header .header--search .header--search--input:hover {
   cursor: default;
@@ -65,6 +74,9 @@ header .header--popular-item {
   height: 300px;
   border-radius: 10px;
   z-index: 1;
+}
+header .header--popular-item p {
+  padding-left: 40px;
 }
 header .header--search--button {
   position: absolute;
