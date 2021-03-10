@@ -3,19 +3,19 @@ import { _ } from './const';
 export default class EventSlider {
   constructor(target) {
     this.target = target;
-    this.prev = _.$('.slide--button--prev');
-    this.next = _.$('.slide--button--next');
-    this.page = _.$('#mileageSlidePage');
-    this.slide = _.$('#topMileageSlide');
+    this.prev = _.$(_.className.eventSlider.slideButtonPrev);
+    this.next = _.$(_.className.eventSlider.slideButtonNext);
+    this.page = _.$(_.id.eventSlider.mileageSlidePage);
+    this.slide = _.$(_.id.eventSlider.topMileageSlide);
   }
 
   addEvent() {
-    this.target.addEventListener('mouseover', this.overEventSlider.bind(this));
-    this.target.addEventListener('mouseout', this.outEventSlider.bind(this));
-    this.target.addEventListener('click', this.clickEventSlider.bind(this));
+    this.target.addEventListener(_.event.MOUSE_OVER, this.overEventSlider.bind(this));
+    this.target.addEventListener(_.event.MOUSE_OUT, this.outEventSlider.bind(this));
+    this.target.addEventListener(_.event.CLICK, this.clickEventSlider.bind(this));
   }
   overEventSlider(e) {
-    if (e.target.classList.contains('adela') || e.target.getAttribute('data-index')) {
+    if (e.target.classList.contains(_.className.eventSlider.pagingIndex) || e.target.getAttribute(_.className.eventSlider.dataIndex)) {
       this.pageHover(e);
     }
     this.prev.querySelector('.ico--prev').classList.replace('ico--prev', 'ico--prev__slide--hover');

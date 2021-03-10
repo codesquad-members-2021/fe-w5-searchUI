@@ -6,6 +6,27 @@ const _ = {
     ITEMS: 5,
     CURRENT: 0,
   },
+  className: {
+    eventSlider: {
+      slideButtonPrev: '.slide--button--prev',
+      slideButtonNext: '.slide--button--next',
+      pagingIndex: 'paging--index',
+      dataIndex: 'data-index',
+      icoPrev: '.ico--prev',
+      icoNext: '.ico--next',
+    },
+  },
+  id: {
+    eventSlider: {
+      mileageSlidePage: '#mileageSlidePage',
+      topMileageSlide: '#topMileageSlide',
+    },
+  },
+  event: {
+    MOUSE_OVER: 'mouseover',
+    MOUSE_OUT: 'mouseout',
+    CLICK: 'click',
+  },
 };
 
 export { _ };
