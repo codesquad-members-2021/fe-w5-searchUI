@@ -48,7 +48,12 @@ const renderRelatedTerm = (resArray) => {
    showTarget(relatedTermBox);
    hideTarget(hotKeywordBox)
 
-   //여기작업중
+   relatedTermBox.addEventListener("mouseleave", ()=>setTimeout(()=>{
+      if(searchWindow.value==='') showRolling()
+      hideTarget(relatedTermBox)
+      showTarget(hotKeywordBox);
+   }, 200));
+   
 }
 const rollupKeyword =(tempBox)=>{
  

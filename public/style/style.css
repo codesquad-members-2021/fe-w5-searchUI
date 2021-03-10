@@ -76,7 +76,8 @@ p {
       z-index: 9999;
       width: fit-content;
       position: relative;
-      top: -6px;
+      top: -10px;
+      left: -15px;
       font-size: 20px;
       font-weight: 700; }
       .search .search_box .rolling_keyword div {
@@ -142,6 +143,7 @@ p {
     .search .related_term_tpl.show {
       display: block;
       width: -webkit-fill-available;
+      padding: 15px 0;
       height: fit-content;
       border: 1px solid #f9624c;
       border-radius: 10px;
@@ -151,7 +153,8 @@ p {
       .search .related_term_tpl.show div div {
         width: -webkit-fill-available;
         box-sizing: border-box;
-        padding: 5px; }
+        padding: 5px 30px;
+        font-size: 14px; }
         .search .related_term_tpl.show div div:hover {
           cursor: pointer;
           background-color: #bbbbbb; }
