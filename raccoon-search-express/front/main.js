@@ -1,8 +1,11 @@
 import FetchAPI from './src/js/fetchAPI';
 import EventSlider from './src/js/eventSlider';
 import MallEventSlider from './src/js/mallEventSlider';
-import RequestData from './src/js/requestData';
+import RequestHotDealData from './src/js/requestHotDealData';
 import { RollingKeywords } from './src/js/rollKeywords';
+import MallEventSection from './src/js/mallEventSection';
+import HotDealSection from './src/js/hotDealSection';
+import MileageEventCarousel from './src/js/mileageEventCarousel';
 
 const PAGE = 2;
 const ITEMS = 5;
@@ -14,10 +17,13 @@ const $buttonGroup = document.querySelectorAll('.button-group');
 const fetchAPI = new FetchAPI();
 const eventSlider = new EventSlider($mileageEventSlide);
 const mallEventSlider = new MallEventSlider($buttonGroup);
-const requestData = new RequestData(PAGE, ITEMS, CURRENT);
+const requestHotDealData = new RequestHotDealData(PAGE, ITEMS, CURRENT);
 
 function init() {
-  createRollingKeyword();
+  initRollingKeywords();
+  initMilieageCarousel();
+  initMallEventList();
+  initHotDealList();
 }
 
 async function createRollingKeyword() {
@@ -25,23 +31,59 @@ async function createRollingKeyword() {
   return new RollingKeywords(getRollingKeywordData);
 }
 
-const rollingKeyword = createRollingKeyword();
+async function initRollingKeywords() {
+  const rollingKeywords = await createRollingKeyword();
+  rollingKeywords.drawRollingKeywords();
+  rollingKeywords.drawSuggestionBox();
+  rollingKeywords.startRolling();
+  rollingKeywords.addEvent();
+}
 
-fetchAPI.getMileageList();
-fetchAPI.getMallEventList();
+async function createMileageCarousel() {
+  const getMileageCarouselData = await fetchAPI.getMileageList();
+  return new MileageEventCarousel(getMileageCarouselData);
+}
 
-requestData.requestData();
+async function initMilieageCarousel() {
+  const milieageCarousel = await createMileageCarousel();
+  milieageCarousel.setMileageEventContents();
+}
+
+async function createMallEventList() {
+  const getMallEventListData = await fetchAPI.getMallEventList();
+  return new MallEventSection(getMallEventListData);
+}
+
+async function initMallEventList() {
+  const EVENT_BOX = 3;
+  const mallEventList = await createMallEventList();
+  for (let i = 0; i < EVENT_BOX; i++) {
+    mallEventList.getMallEventPanel();
+  }
+}
+
+async function createHotDealList() {
+  const getHodDealListData = await requestHotDealData.requestData();
+  requestHotDealData.addEvent();
+  return new HotDealSection(getHodDealListData);
+}
+
+async function initHotDealList() {
+  const hotDealSection = await createHotDealList();
+
+  if (requestHotDealData.page === PAGE + 1) {
+    hotDealSection.draw();
+    hotDealSection.updateMoreListNumber(requestHotDealData.current, hotDealSection.data.dataLength);
+    return;
+  }
+  hotDealSection.drawExtraList();
+  hotDealSection.updateMoreListNumber(requestHotDealData.current, hotDealSection.data.dataLength);
+  return;
+}
 
 eventSlider.addEvent();
 mallEventSlider.addEvent();
 
-requestData.addEvent();
-
-rollingKeyword.drawRollingKeywords();
-rollingKeyword.drawSuggestionBox();
-rollingKeyword.startRolling();
-rollingKeyword.addEvent();
-
 init();
 
-export { PAGE };
+export { initHotDealList };

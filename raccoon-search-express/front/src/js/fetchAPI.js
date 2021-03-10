@@ -1,9 +1,3 @@
-import HotDealSection from './hotDealSection';
-import MileageEventCarousel from './mileageEventCarousel';
-import MallEventSection from './mallEventSection';
-import { RollingKeywords } from './rollKeywords';
-import { PAGE } from '../../main';
-
 export default class FetchAPI {
   constructor() {
     this.url = {
@@ -19,57 +13,14 @@ export default class FetchAPI {
     };
   }
 
-  getMileageList = () =>
-    fetch(this.url.mileageList)
-      .then((response) => response.json())
-      .then((data) => {
-        const mileageEventCarousel = new MileageEventCarousel(data);
-        mileageEventCarousel.setMileageEventContents();
-        return data;
-      })
-      .then((status) => console.log(this.req.sucess, status.code))
-      .catch((error) => console.log(this.req.failed, error));
-
-  getMallEventList = () =>
-    fetch(this.url.mallEventList)
-      .then((response) => response.json())
-      .then((data) => {
-        const mallEventSection = new MallEventSection(data.mallEventList);
-        mallEventSection.getMallEventPanel();
-        mallEventSection.getMallEventPanel();
-        mallEventSection.getMallEventPanel();
-        return data;
-      })
-      .then((status) => console.log(this.req.sucess, status.code))
-      .catch((error) => console.log(this.req.failed, error));
+  getMileageList = () => fetch(this.url.mileageList).then((response) => response.json());
+  getMallEventList = () => fetch(this.url.mallEventList).then((response) => response.json());
 
   getHotDealList = (start, count) => {
     const param = { start: start, count: count };
     const queryParam = new URLSearchParams(param);
-    fetch(`${this.url.hotDealList}/?${queryParam.toString()}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const hotDealSection = new HotDealSection(data.list);
-        if (this.page === PAGE + 1) {
-          hotDealSection.draw();
-          hotDealSection.updateMoreListNumber(count, data.dataLength);
-          return data;
-        }
-        hotDealSection.drawExtraList();
-        hotDealSection.updateMoreListNumber(count, data.dataLength);
-        return data;
-      })
-      .then((status) => console.log(this.req.sucess, status.code))
-      .catch((error) => console.log(this.req.failed, error));
+    return fetch(`${this.url.hotDealList}/?${queryParam.toString()}`).then((response) => response.json());
   };
 
-  getRollingKeyword = () => {
-    fetch(this.url.rollingKeyword)
-      .then((response) => response.json())
-      .then((data) => {
-        return data;
-      })
-      .then((status) => console.log(this.req.sucess, status.code))
-      .catch((error) => console.log(this.req.failed, error));
-  };
+  getRollingKeyword = () => fetch(this.url.rollingKeyword).then((response) => response.json());
 }

@@ -29,7 +29,7 @@ export default class HotDealSection {
   }
 
   getHotDealItems() {
-    let items = this.data.reduce((lists, list) => {
+    let items = this.data.list.reduce((lists, list) => {
       let percent = '%';
       if (list.discount === undefined) {
         list.discount = '';

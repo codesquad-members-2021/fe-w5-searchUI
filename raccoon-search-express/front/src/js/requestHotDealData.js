@@ -1,6 +1,7 @@
 import FetchAPI from './fetchAPI';
+import { initHotDealList } from '../../main';
 
-export default class RequestData extends FetchAPI {
+export default class RequestHotDealData extends FetchAPI {
   constructor(page, items, current) {
     super();
     this.page = page;
@@ -10,13 +11,14 @@ export default class RequestData extends FetchAPI {
   }
 
   addEvent() {
-    this.target.addEventListener('click', this.requestData.bind(this));
+    this.target.addEventListener('click', initHotDealList);
   }
 
   requestData() {
     const requestItems = this.page * this.items;
-    this.getHotDealList(this.current, requestItems);
+    const data = this.getHotDealList(this.current, requestItems);
     this.current = requestItems;
     this.page++;
+    return data;
   }
 }

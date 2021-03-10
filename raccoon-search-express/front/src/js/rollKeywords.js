@@ -15,7 +15,6 @@ class RollingKeywords {
     this.suggestion = $('.wrap_suggestion');
     this.mouseLeaveTimer;
     this.rollingTimer;
-    console.log(this);
   }
 
   addEvent() {

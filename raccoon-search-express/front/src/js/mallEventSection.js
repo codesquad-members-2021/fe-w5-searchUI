@@ -7,9 +7,10 @@ export default class MallEventSection {
 
   getMallEventPanel() {
     const ITEM_BOX = 5;
+    const itemData = this.data.mallEventList;
     let listItems = ``;
     for (let i = 0; i < ITEM_BOX; i++) {
-      listItems += this.getMallEventItem(this.data[this.count]);
+      listItems += this.getMallEventItem(itemData[this.count]);
       this.count++;
     }
     let panel = this.slide.insertAdjacentHTML(
