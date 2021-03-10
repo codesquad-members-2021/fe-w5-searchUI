@@ -39,6 +39,9 @@ header {
     color: red;
   }
 }
+.box_search:focus-within {
+  border: 1px solid red;
+}
 
 .placeholder-container {
   position: absolute;
@@ -95,6 +98,6 @@ header {
   }
 }
 
-.border-red {
-  border: 1px solid red;
-}
+// .border-red {
+//   border: 1px solid red;
+// }

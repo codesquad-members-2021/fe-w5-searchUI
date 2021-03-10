@@ -41,11 +41,7 @@ const searchInput = _.$('.box_search>input');
 const searchTabSelector = { searchTabContainer, searchTab, searchInput, rollingContainer };
 
 //토글
-const searchBox = _.$('.box_search');
-const searchBoxStyleObj = { target: searchBox, styleList: ['border-red'] };
-const toggleList = [
-  { check: searchInput, show: rollingContainer, hidden: searchTabContainer, styleObj: searchBoxStyleObj },
-];
+const toggleList = [{ check: searchInput, show: rollingContainer, hidden: searchTabContainer }];
 
 //슬라이더
 async function init() {
