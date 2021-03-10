@@ -14,7 +14,6 @@ export class ViewMoreManager {
 
    makeTpl() {
       const filteredArr = this.title.filter((_,i)=>i<this.range)
-      console.log(filteredArr)
       filteredArr.forEach((v, i)=>{
          const viewMoreLi = document.createElement('li');
          viewMoreLi.className = "panel_list";
@@ -38,9 +37,4 @@ export class ViewMoreManager {
       this.range = (this.value === 'view_more_basic') ? 5: this.img.length;
       this.makeTpl();
    }
-
-
-
-
-
 }

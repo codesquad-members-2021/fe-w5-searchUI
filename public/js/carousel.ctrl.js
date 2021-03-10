@@ -23,7 +23,6 @@ export class CarouselCtrl {
    }
 
    play() {
-      console.log(this.size);
       this.picNumber=1;
       this.area.style.transform = `translate(${-this.size*this.picNumber}px)`;
       const prevNextBtn = [this.prev, this.next];

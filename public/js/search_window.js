@@ -7,39 +7,26 @@ const searchArea = _.$('.search');
 const hotKeywordBox=_.$('.hot_keyword_tpl');
 
 
-const getData = (url) => {
-   fetch(url)
-   .then((response) => {
-      return response.json();
-   }).then((json) => {
-      return json.list;
-   }).then((arr)=>{
-      return arr.map(el=>el.keyword)
-   }).then((arr)=>{
-      renderKeywordBox(arr)
-      renderRollingKeyword(arr)
-   })
+const getData = async (url, indexName, indexName2) => {
+   const response = await fetch(url).then(res=>res.json());
+   const parsingData = await response[indexName];
+   return parsingData.map(el=>el[indexName2]).slice(0,10);
 }
 
-const getRelatedTerm = (url) =>{
-   fetch(url)
-   .then((response) => {
-      return response.json();
-   }).then((json) => {
-      return json.suggestions;
-   }).then(resArray =>{
-      return resArray.map(el=>el.value);
-   }).then((resArray)=>renderRelatedTerm(resArray))
+const getRelatedTerm = (url, indexName, indexName2) =>{
+   const relatedTermArr = getData(url, indexName, indexName2)
+   renderRelatedTerm(relatedTermArr);
 }
 
 const renderRelatedTerm = (resArray) => {
+   console.log(resArray)
    const relatedTermBox = _.$('.related_term_tpl');
    const firstNode = relatedTermBox.firstChild;
    if(firstNode) relatedTermBox.removeChild(firstNode); 
    
-   const relatedTerm10 = resArray.slice(0,10);
+
    const tempBox = _.create('div');
-   relatedTerm10.forEach(el=> {
+   resArray.forEach(el=> {
       const divEl = _.create('div');
       divEl.innerText=el;
       tempBox.appendChild( divEl)
@@ -97,11 +84,11 @@ const renderKeywordBox = (arr)=>{
    tempTitle.innerText='인기 쇼핑 키워드';
    hotKeywordBox.insertAdjacentElement('afterBegin', tempTitle);
    
-   const originArr = arr.slice(0,arr.length-2)
-   const halfArr =originArr.filter((v,i)=>i<originArr.length/2)
+
+   const halfArr =arr.filter((v,i)=>i<arr.length/2)
  
-   makeTpl(originArr, halfArr, 1, hotKeywordBox,'beforeEnd');
-   makeTpl(originArr, halfArr, 6,  hotKeywordBox, 'beforeEnd');
+   makeTpl(arr, halfArr, 1, hotKeywordBox,'beforeEnd');
+   makeTpl(arr, halfArr, 6,  hotKeywordBox, 'beforeEnd');
 }
 
 
@@ -129,7 +116,8 @@ const realtimeSearch = () => {
       if (timer)  clearTimeout(timer);
       timer = setTimeout(function() {
          const searchingWord = searchWindow.value;
-         getRelatedTerm(`https://completion.amazon.com/api/2017/suggestions?session-id=143-2446705-2343767&customer-id=&request-id=S6PGC8D1B31CR1Z4MJQB&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=229&prefix=${searchingWord}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615298235851', searchingWord`);
+         const relatedLink = `https://completion.amazon.com/api/2017/suggestions?session-id=143-2446705-2343767&customer-id=&request-id=S6PGC8D1B31CR1Z4MJQB&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=229&prefix=${searchingWord}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615298235851', searchingWord`;
+         getRelatedTerm(relatedLink, 'suggestions', 'value');
       }, 1000);
    })
 }
@@ -154,7 +142,13 @@ const searchWindowClick = () => {
 }
 
 export const searchInit = ()=>{
-   getData('https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json?_=1615192416887');
+
+   const url = 'https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json?_=1615192416887';
+   const parsingDataArr = getData(url, 'list', 'keyword');
+   console.log(parsingDataArr)
+   parsingDataArr.then(res=>  renderRollingKeyword(res));
+   parsingDataArr.then(res=> renderKeywordBox(res));
+  
    searchWindowClick();
    realtimeSearch();
 }
