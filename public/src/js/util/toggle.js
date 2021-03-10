@@ -27,7 +27,7 @@ class Toggle {
       }
     }
   }
-  hidden(target, ...styles) {
+  hidden(target) {
     target.classList.add(CLASS_LIST.HIDDEN);
   }
   show(target) {
