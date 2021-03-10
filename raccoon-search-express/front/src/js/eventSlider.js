@@ -1,10 +1,12 @@
+import { _ } from './const';
+
 export default class EventSlider {
   constructor(target) {
     this.target = target;
-    this.prev = document.querySelector('.slide--button--prev');
-    this.next = document.querySelector('.slide--button--next');
-    this.page = document.querySelector('#mileageSlidePage');
-    this.slide = document.querySelector('#topMileageSlide');
+    this.prev = _.$('.slide--button--prev');
+    this.next = _.$('.slide--button--next');
+    this.page = _.$('#mileageSlidePage');
+    this.slide = _.$('#topMileageSlide');
   }
 
   addEvent() {

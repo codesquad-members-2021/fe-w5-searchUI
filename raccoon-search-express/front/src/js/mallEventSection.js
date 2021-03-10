@@ -1,7 +1,9 @@
+import { _ } from './const';
+
 export default class MallEventSection {
   constructor(data) {
     this.data = data;
-    this.slide = document.querySelector('#mallEventSlide');
+    this.slide = _.$('#mallEventSlide');
     this.count = 0;
   }
 

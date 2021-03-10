@@ -1,18 +1,16 @@
 import '@babel/polyfill';
 import { delay } from './util';
-
-const $ = document.querySelector.bind(document);
-const $$ = document.querySelectorAll.bind(document);
+import { _ } from './const';
 
 class RollingKeywords {
   constructor(data) {
     this.data = data;
-    this.lists = $('.list_rollkeywords');
-    this.searchBar = $('.search-bar');
-    this.keyword = $$('.list_keyword');
+    this.lists = _.$('.list_rollkeywords');
+    this.searchBar = _.$('.search-bar');
+    this.keyword = _.$$('.list_keyword');
     this.rankNumber = 1;
-    this.input = $('.search-bar--keyword');
-    this.suggestion = $('.wrap_suggestion');
+    this.input = _.$('.search-bar--keyword');
+    this.suggestion = _.$('.wrap_suggestion');
     this.mouseLeaveTimer;
     this.rollingTimer;
   }

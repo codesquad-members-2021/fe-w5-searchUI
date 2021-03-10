@@ -1,5 +1,6 @@
 import FetchAPI from './fetchAPI';
 import { initHotDealList } from '../../main';
+import { _ } from './const';
 
 export default class RequestHotDealData extends FetchAPI {
   constructor(page, items, current) {
@@ -7,7 +8,7 @@ export default class RequestHotDealData extends FetchAPI {
     this.page = page;
     this.items = items;
     this.current = current;
-    this.target = document.querySelector('.more-item__button');
+    this.target = _.$('.more-item__button');
   }
 
   addEvent() {

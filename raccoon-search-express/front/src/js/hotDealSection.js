@@ -1,9 +1,11 @@
+import { _ } from './const';
+
 export default class HotDealSection {
   constructor(data) {
     this.data = data;
     this.title = `품절주의! 역대급 핫딜`;
-    this.wrapper = document.querySelector('#hot-deal__wrapper');
-    this.target = document.querySelector('.more-item__button');
+    this.wrapper = _.$('#hot-deal__wrapper');
+    this.target = _.$('.more-item__button');
   }
 
   draw() {
@@ -67,7 +69,7 @@ export default class HotDealSection {
   }
 
   drawExtraList() {
-    const $hotDealList = document.querySelector('#hot-deal-list');
+    const $hotDealList = _.$('#hot-deal-list');
     $hotDealList.insertAdjacentHTML('beforeend', `${this.getHotDealItems()}`);
   }
 
