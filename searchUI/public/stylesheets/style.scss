@@ -76,7 +76,7 @@ header {
     height: 300px;
     border-radius: 10px;
     z-index: 1;
-    p {
+    p 
       padding: 15px 0 0 40px;
       font-weight: 700;
       color: #939393;
@@ -95,6 +95,7 @@ header {
           font-weight: 700;
         }
       }
+
     }
   }
 

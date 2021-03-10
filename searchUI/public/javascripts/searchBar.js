@@ -13,6 +13,7 @@ SearchBar.prototype.init = async function () {
   const $popularItems = _.$('.header--search--keyword');
   const json = await this.fetchPopularItemsJSON();
   const html = this.makeItemListHTML(json);
+
   this.setValueOnDom($popularItems, html);
   this.automateItemMove();
 
