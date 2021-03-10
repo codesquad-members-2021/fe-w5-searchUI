@@ -14,3 +14,8 @@ export const hotDealParser = (data) =>
     .slice(0, 10);
 
 export const recommendParser = (data) => data.map((v) => v.keyword).slice(0, 10);
+
+//아래에
+export const bundleArg = ({ data, selector, animation }) => {
+  return { data, selector, animation };
+};

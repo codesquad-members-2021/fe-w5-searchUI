@@ -2,8 +2,8 @@ import Slide from './slider.js';
 import { makeItemList } from '../util/htmlTemplate.js';
 
 class HotDealSlider extends Slide {
-  constructor(data, selectors, animation) {
-    super({ data, selectors, animation, makeHtmlFn: makeItemList });
+  constructor({ data, selector, animation }) {
+    super({ data, selector, animation, makeHtmlFn: makeItemList });
     this.timer;
   }
   init() {

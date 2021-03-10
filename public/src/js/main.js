@@ -1,5 +1,5 @@
 import { getData, _ } from './util/util.js';
-import { moreParser, slideParser, hotDealParser, recommendParser } from './util/parser.js';
+import { moreParser, slideParser, hotDealParser, recommendParser, bundleArg } from './util/parser.js';
 import BannerSlider from './slider/bannerSlider.js';
 import MoreButtonView from './moreBtn/moreBtn.js';
 import HotDealSlider from './slider/hotDealSlider.js';
@@ -30,8 +30,8 @@ const hotDealAnimation = { oneStep: 260.6, transition: 'all 0.3s' };
 
 //추천 리스트 rolling
 const rollingContainer = _.$('.placeholder-container');
-const recommendList = _.$('.placeholder-list');
-const recommendSelector = { recommendList };
+const rollingList = _.$('.placeholder-list');
+const rollingSelector = { rollingList };
 const rollingAnimation = { oneStep: 54, transition: 'all 1s' };
 
 //추천 리스트 search-tab
@@ -47,44 +47,47 @@ const hiddenList = [searchTabContainer];
 const showList = [rollingContainer];
 
 //슬라이더
-getData(URL.SLIDE).then((res) => {
-  const { mileageList: slideData, mallEventList: hotDealData } = res;
+async function init() {
+  const slideOriginData = await getData(URL.SLIDE);
+  const { mileageList: slideData, mallEventList: hotDealData } = slideOriginData;
 
   const parsedBannerdata = slideParser(slideData);
-  const bannerSlider = new BannerSlider(parsedBannerdata, BannerSelector, BannerAnimation);
+  const bannerArg = bundleArg({ data: parsedBannerdata, selector: BannerSelector, animation: BannerAnimation });
+  const bannerSlider = new BannerSlider(bannerArg);
   bannerSlider.init();
 
   const parsedHotDealData = hotDealParser(hotDealData);
-  const hotDealSlider = new HotDealSlider(parsedHotDealData, hotDealSelector, hotDealAnimation);
+  const hotDealArg = bundleArg({ data: parsedHotDealData, selector: hotDealSelector, animation: hotDealAnimation });
+  const hotDealSlider = new HotDealSlider(hotDealArg);
   hotDealSlider.init();
-});
 
-// 더보기
-getData(URL.MORE).then((res) => {
-  const { contents: moreData } = res;
+  // 더보기
+  const moreOriginData = await getData(URL.MORE);
+  const { contents: moreData } = moreOriginData;
   const parsedMoreData = moreParser(moreData);
-  const moreButtonView = new MoreButtonView(parsedMoreData, moreSelectors);
+  const moreBtnArg = bundleArg({ data: parsedMoreData, selector: moreSelectors });
+  const moreButtonView = new MoreButtonView(moreBtnArg);
   moreButtonView.init();
-});
 
-//추천 search
-getData(URL.RECOMMEND).then((res) => {
-  const { list: recommendList } = res;
+  //추천 search
+  const recommendOriginData = await getData(URL.RECOMMEND);
+  const { list: recommendList } = recommendOriginData;
   const recommendData = recommendParser(recommendList);
-  const recommendRolling = new RecommendRolling({
+  const rollingArg = bundleArg({
     data: recommendData,
-    selector: recommendSelector,
+    selector: rollingSelector,
     animation: rollingAnimation,
   });
+  const recommendRolling = new RecommendRolling(rollingArg);
   recommendRolling.init();
 
-  const searchTab = new SearchTab({
-    data: recommendData,
-    selector: searchTabSelector,
-  });
+  const searchTabArg = bundleArg({ data: recommendData, selector: searchTabSelector });
+  const searchTab = new SearchTab(searchTabArg);
   searchTab.init();
-});
+}
 
 //토글
 const toggle = new Toggle({ toggleCheckList, showList, hiddenList });
 toggle.init();
+
+init();

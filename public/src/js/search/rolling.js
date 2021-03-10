@@ -3,8 +3,8 @@ import { li } from '../util/htmlTemplate';
 
 class RecommendRolling {
   constructor({ data, selector, animation }) {
-    this.recommendData = data;
-    this.recommendList = selector.recommendList;
+    this.rollingData = data;
+    this.rollingList = selector.rollingList;
     this.step = 0;
     this.oneStep = animation.oneStep;
     this.transition = animation.transition;
@@ -27,23 +27,23 @@ class RecommendRolling {
     this.step++;
     this.setRollingAnimation({ moveY: this.oneStep * this.step * -1, transition: 'all 1s' });
   }
-  getRecommendHTML() {
+  getrollingHTML() {
     const { PLACEHOLDER_ITEM } = CLASS_LIST;
-    let recommendHTML = this.recommendData.reduce(
+    let rollingHTML = this.rollingData.reduce(
       (acc, cur, idx) => acc + li({ value: `${idx + 1}. ${cur}`, classes: [PLACEHOLDER_ITEM] }),
       ''
     );
-    recommendHTML += li({ value: `1. ${this.recommendData[0]}`, classes: [PLACEHOLDER_ITEM] });
-    return recommendHTML;
+    rollingHTML += li({ value: `1. ${this.rollingData[0]}`, classes: [PLACEHOLDER_ITEM] });
+    return rollingHTML;
   }
   render() {
     this.setRollingAnimation({ moveY: 0, transition: 'none' });
-    const recommendHTML = this.getRecommendHTML();
-    this.recommendList.innerHTML = recommendHTML;
+    const rollingHTML = this.getrollingHTML();
+    this.rollingList.innerHTML = rollingHTML;
   }
   setRollingAnimation({ moveY = 0, transition = '' }) {
-    this.recommendList.style.transition = transition;
-    this.recommendList.style.transform = `translateY(${moveY}px`;
+    this.rollingList.style.transition = transition;
+    this.rollingList.style.transform = `translateY(${moveY}px`;
   }
 }
 

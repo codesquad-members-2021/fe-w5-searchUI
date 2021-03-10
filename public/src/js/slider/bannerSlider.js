@@ -4,11 +4,11 @@ import { _ } from '../util/util.js';
 import { CLASS_LIST } from '../util/data.js';
 
 class BannerSlider extends Slide {
-  constructor(data, selectors, animation) {
-    super({ data, selectors, animation, makeHtmlFn: makeSlideItem });
+  constructor({ data, selector, animation }) {
+    super({ data, selector, animation, makeHtmlFn: makeSlideItem });
     this.currentData = this.data[Math.floor(this.data.length / 2)]; //data 가운데 값이 default
     this.originData = [...this.data];
-    this.pagingBtn = selectors.pagingBtn;
+    this.pagingBtn = selector.pagingBtn;
     this.pagingBtns = _.$All('.btn-paging', this.pagingBtn);
   }
   init() {
