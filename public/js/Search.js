@@ -1,4 +1,5 @@
-import { _ } from './util.js';
+import { _, insertTemplate } from './util.js';
+import { similarWordsTemplate } from './HTMLTemplate.js';
 
 export function Search() {
   this.searchForm = _.$('.nav-search-bar');
@@ -9,11 +10,18 @@ export function Search() {
   this.moveY = -2.5;
   this.timer;
   this.debouncer;
+  this.CURRENT_CACHE = {};
 }
 
 Search.prototype.init = function () {
+  this.load();
   this.onEvents();
   this.runKeyWordsRoll();
+};
+
+Search.prototype.load = function () {
+  const wrap = similarWordsTemplate();
+  insertTemplate(this.searchForm, 'beforeend', wrap);
 };
 
 Search.prototype.onEvents = function () {
@@ -24,14 +32,14 @@ Search.prototype.onEvents = function () {
 
 Search.prototype.focusHandler = function ({ target }) {
   if (this.isNotTarget(target)) return;
-  _.addClass(this.suggestion, 'suggestion-visible');
+  target.value ? this.hideSuggestion() : this.showSuggestion();
   this.stopRolling();
   this.hideRollKeyword();
 };
 
 Search.prototype.focusoutHandler = function ({ target }) {
   if (this.isNotTarget(target)) return;
-  _.rmClass(this.suggestion, 'suggestion-visible');
+  this.hideSuggestion();
   this.runKeyWordsRoll();
   if (!this.searchInput.value) {
     this.showRollKeyword();
@@ -39,6 +47,7 @@ Search.prototype.focusoutHandler = function ({ target }) {
 };
 
 Search.prototype.inputHandler = function ({ target }) {
+  target.value ? this.hideSuggestion() : this.hideSimilarWords();
   const ms = 1000;
   const text = target.value;
   this.debounce(() => this.fetchKeywords(text), ms);
@@ -91,9 +100,46 @@ Search.prototype.showRollKeyword = function () {
   _.rmClass(this.rollKeyword, 'search-rollkeyword-hidden');
 };
 
+Search.prototype.hideSuggestion = function () {
+  _.rmClass(this.suggestion, 'visible');
+};
+
+Search.prototype.showSuggestion = function () {
+  _.addClass(this.suggestion, 'visible');
+};
+
+Search.prototype.hideSimilarWords = function () {
+  const similarWords = _.$('.search-similar-words-wrap');
+  _.rmClass(similarWords, 'visible');
+};
+
+Search.prototype.showSimilarWords = function () {
+  const similarWords = _.$('.search-similar-words-wrap');
+  _.addClass(similarWords, 'visible');
+};
+
 Search.prototype.fetchKeywords = async function (text) {
-  const test = await fetch(
+  if (!text) return this.hideSimilarWords;
+  const keywordData = await fetch(
     `https://completion.amazon.com/api/2017/suggestions?session-id=141-6040242-7044009&customer-id=&request-id=7ZD2PSMEE2JF3CVEXGZF&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=81&prefix=${text}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615307516261`
-  ).then((res) => res.json());
-  console.log(test);
+  )
+    .then((res) => res.json())
+    .then((data) => data.suggestions);
+  this.renderSimilarWords(keywordData);
+};
+
+Search.prototype.renderSimilarWords = function (suggestions) {
+  const wordsContainer = _.$('.similar-word-lists');
+  wordsContainer.innerHTML = ``;
+  const listOfSimilarWords = suggestions
+    .map((suggestion) => suggestion.value)
+    .reduce((prev, words) => {
+      return (
+        prev +
+        `<li class="similar-words">${words}</li>
+      `
+      );
+    }, '');
+  insertTemplate(wordsContainer, 'beforeend', listOfSimilarWords);
+  this.showSimilarWords();
 };
