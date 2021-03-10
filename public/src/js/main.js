@@ -42,9 +42,7 @@ const searchTabSelector = { searchTabContainer, searchTab, searchInput, rollingC
 
 //토글
 const searchTotal = _.$('.header__search');
-const toggleCheckList = [searchTotal];
-const hiddenList = [searchTabContainer];
-const showList = [rollingContainer];
+const toggleList = [{ check: searchTotal, toggleTarget: searchTabContainer }];
 
 //슬라이더
 async function init() {
@@ -87,7 +85,7 @@ async function init() {
 }
 
 //토글
-const toggle = new Toggle({ toggleCheckList, showList, hiddenList });
+const toggle = new Toggle(toggleList);
 toggle.init();
 
 init();
