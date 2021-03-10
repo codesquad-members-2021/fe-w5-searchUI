@@ -1,19 +1,19 @@
 import { _ } from "./util"
 
 export default class CarouselUI {
-    constructor() {
-        this.carousel = _.$('.carouselUI');
+    constructor(el) {
+        this.el = el;
         this.imgurl = "http://localhost:8080/public/data/imgurl.json";
     }
 
-    makeImageDOM(imgurl) {
-        this.carousel.insertAdjacentHTML("beforeend",
+    makeImageDom(imgurl) {
+        this.el.insertAdjacentHTML("beforeend",
             `<div class="carouselUI--img">
                 <img src="${imgurl}" />
             </div>`);
     };
 
-    insertDOM() {
+    insertDom() {
         fetch(this.imgurl)
             .then((res) => res.json())
             .then((data) => {
@@ -21,11 +21,11 @@ export default class CarouselUI {
                 const rightpannel2Img = data.contents[0].rightpannel2.imgurl;
                 const rightpannel3Img = data.contents[0].rightpannel3.imgurl;
 
-                this.makeImageDOM(rightpannel3Img);
-                this.makeImageDOM(rightpannel1Img);
-                this.makeImageDOM(rightpannel2Img);
-                this.makeImageDOM(rightpannel3Img);
-                this.makeImageDOM(rightpannel1Img);
+                this.makeImageDom(rightpannel3Img);
+                this.makeImageDom(rightpannel1Img);
+                this.makeImageDom(rightpannel2Img);
+                this.makeImageDom(rightpannel3Img);
+                this.makeImageDom(rightpannel1Img);
             })
     }
 }

@@ -22,6 +22,12 @@ $pannel-border: 1px solid gainsboro;
   justify-content: center;
   position: relative;
   width: 763px;
+
+  button {
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 .carouselUI {

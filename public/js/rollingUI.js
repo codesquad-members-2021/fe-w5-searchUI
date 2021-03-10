@@ -1,5 +1,3 @@
-import 'regenerator-runtime/runtime';
-
 export default class RollingUI {
     constructor(el) {
         this.el = el;
