@@ -31,4 +31,4 @@ const main = () => {
   executeSearch();
 };
 
-main();
+window.addEventListener('DOMContentLoaded', main);
