@@ -10,7 +10,7 @@ RolingList.prototype.init = function () {
   this.List.forEach((v, index) => {
     this.inserlist(this.ListParents, v, index);
   });
-  this.ListParents.style.transitionDuration = `1s`;
+  this.inserlist(this.ListParents, this.List[0], 0);
   this.ListParents.style.transform = `translateY(${this.height}px)`;
   this.setinterval(1500, this.length);
 };
@@ -28,24 +28,22 @@ RolingList.prototype.silde = function (height) {
   this.ListParents.style.transform = `translateY(${height + currHeight}px)`;
 };
 RolingList.prototype.setintervalFinish = async function () {
-    this.ListParents.style.transition = `none`;
-    this.ListParents.style.transform = `translateY(0px)`;
-    await _.delay(1500);
-    debugger;
-    this.ListParents.style.transitionDuration = `1s`;
-    this.ListParents.style.transform = `translateY(${this.height}px)`;
-    this.setinterval(1500, this.length);
-  };
+  this.ListParents.style.transition = `none`;
+  this.ListParents.style.transform = `translateY(0px)`;
+  await _.delay(500);
+  this.ListParents.removeAttribute("style");
+  this.ListParents.style.transform = `translateY(${this.height}px)`;
+  this.setinterval(1500, this.length);
+};
 
 RolingList.prototype.setinterval = async function (Time, length) {
-  for (let i = 0; i < length - 2; i++) {
+  for (let i = 0; i < length; i++) {
     await _.delay(Time);
     this.silde(this.height);
-    if (i === length - 3) {
+    if (i === length - 1) {
       this.setintervalFinish();
     }
   }
-
 };
 
 export default RolingList;
