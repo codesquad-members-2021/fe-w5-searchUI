@@ -13,4 +13,8 @@ const delay = (data, time) => {
   });
 };
 
-export { _, delay };
+const insertTemplate = (target, where, template) => {
+  return target.insertAdjacentHTML(where, template);
+};
+
+export { _, delay, insertTemplate };
