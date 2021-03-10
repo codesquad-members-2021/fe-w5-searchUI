@@ -21,8 +21,10 @@ SearchController.prototype.setSearchBarClickEvent = function (searchBarWrapper) 
     _.addEvent(searchBarWrapper, 'click', (e) => this.searchBarClickEventHandler(e));
 };
 
-SearchController.prototype.searchBarClickEventHandler = function ({target}) {    
-    if (target.tagName !== "INPUT") return;
+SearchController.prototype.searchBarClickEventHandler = function ({target}) {
+    const closestTarget = _.closestSelector(target, '.search__bar');
+
+    if (closestTarget !== this.searchBarWrapper) return;
     _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', false);
     _.forceToggleClass(this.searchSuggestInnerWrapper, 'display--none', false);
     _.forceToggleClass(this.searchSuggestSimilarWrapper, 'display--none', true);    
