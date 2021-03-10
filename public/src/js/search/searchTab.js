@@ -1,5 +1,6 @@
 import { CLASS_LIST } from '../util/data';
 import { makeRecommendItem, ol } from '../util/htmlTemplate';
+import { createDom } from '../util/util';
 
 class SearchTab {
   constructor({ data, selector }) {
@@ -18,7 +19,6 @@ class SearchTab {
   }
   handleClick({ target: { value } }) {
     if (value) return;
-
     this.renderSearchTab();
   }
   handleInput({ target: { value } }) {}
@@ -31,16 +31,12 @@ class SearchTab {
       else secondList += makeRecommendItem(idx + 1, v);
     });
     const recommendHTML =
-      ol({ value: firstList, classes: ['search-tab__list'] }) +
-      ol({ value: secondList, classes: ['search-tab__list'] });
+      createDom('ol')({ value: firstList, classes: ['search-tab__list'] }) +
+      createDom('ol')({ value: secondList, classes: ['search-tab__list'] });
     return recommendHTML;
   }
   renderSearchTab() {
-    const { HIDDEN } = CLASS_LIST;
     this.searchTab.innerHTML = this.getRecommendHTML();
-    if (this.searchTabContainer.classList.contains(HIDDEN)) {
-      this.searchTabContainer.classList.remove(HIDDEN);
-    }
   }
 }
 

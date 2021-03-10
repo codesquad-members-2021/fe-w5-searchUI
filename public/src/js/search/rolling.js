@@ -14,7 +14,7 @@ class RecommendRolling {
     this.autoRolling();
   }
   autoRolling() {
-    if (this.step === 11) {
+    if (this.step > this.rollingData.length) {
       this.render();
       this.step = 0;
     }
@@ -25,7 +25,7 @@ class RecommendRolling {
   }
   rolling() {
     this.step++;
-    this.setRollingAnimation({ moveY: this.oneStep * this.step * -1, transition: 'all 1s' });
+    this.setRollingAnimation({ moveY: this.oneStep * this.step * -1, transition: this.transition });
   }
   getrollingHTML() {
     const { PLACEHOLDER_ITEM } = CLASS_LIST;
