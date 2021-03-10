@@ -1,8 +1,5 @@
 import Carousel from './carousel.js';
-<<<<<<< HEAD
 import SearchBar from './searchBar.js';
-=======
->>>>>>> 6a38b52... Add function which srolls up popular item list on search bar
 import { _ } from './util.js';
 
 const getJsonData = () => {
