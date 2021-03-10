@@ -1,12 +1,12 @@
 @charset "UTF-8";
-@import "./index/variable.scss";
+@import './index/variable.scss';
 @import './index/icon.scss';
 @import './index/common.scss';
 
 // header =============================================================================
 .header {
     width: 100%;
-    background-color: $white; 
+    background-color: $white;
 }
 
 .header__logo-search {
@@ -18,9 +18,9 @@
     padding-top: 43px;
     background-color: $white;
 
-    .logo img {         
+    .logo img {
         width: 119px;
-        height: auto;        
+        height: auto;
     }
 
     .search {
@@ -44,7 +44,7 @@
         input {
             color: $black;
             display: block;
-            width: 100%;
+            width: 95%;
             height: 100%;
             border: 0;
             font-weight: $header-fontWeight;
@@ -62,38 +62,40 @@
             height: 52px;
         }
 
-        span {
+        button > span {
             margin: $auto;
         }
     }
 
     // 미션 5 ------------------------------------------------------ START
     .search__bar__rolling {
-        width: 100%;
-        height: 80%;
+        height: 100%;
         position: absolute;
         top: 0;
-        padding: 3px 2px;
         font-size: 20px;
         overflow: hidden;
 
         ul {
             height: inherit;
-            width: inherit;
             color: #bebebe;
             font-weight: 800;
-            
+
             position: relative;
             transition-property: top;
+
+            // user-select: none;
+            // pointer-events: none
         }
         li {
-            padding: 9px 0;
+            display: flex;
+            align-items: center;
+            height: 100%;
         }
     }
 
     .search__suggestion {
         width: 670px;
-        padding: 12px 24px;
+        padding: 18px 24px;
         border-radius: 10px;
         border: 1px solid $search-borderColor;
         background-color: $white;
@@ -130,7 +132,7 @@
 
         p {
             display: block;
-            padding: 8px 0;
+            padding: 6px 0 8px;
             font-size: 16px;
             font-weight: 800;
             color: #a6a6a6;
@@ -140,9 +142,12 @@
         .inner__list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+
+            grid-auto-flow: column;
         }
 
-        ol > li {
+        .inner__list > li {
             overflow: hidden;
             height: 21px;
             padding-top: 6px;
@@ -309,10 +314,10 @@
         width: 485px;
         margin: $auto;
         height: inherit;
-        overflow: hidden;                
+        overflow: hidden;
 
         .item {
-            position: absolute;                    
+            position: absolute;
         }
     }
 
@@ -324,7 +329,6 @@
         left: 0;
         width: 100%;
     }
-
 
     .paging__inner {
         margin: $auto;
@@ -386,10 +390,9 @@
     background-color: #e9e9e9;
 }
 
-
 .content__hot {
     margin: 40px auto;
-    
+
     &__info {
         margin-bottom: 10px;
         font-size: 20px;
@@ -397,7 +400,6 @@
         letter-spacing: -1.55px;
     }
 }
-
 
 .content__hot__carousel {
     background-color: $white;
@@ -408,18 +410,18 @@
 
     ul {
         display: flex;
-        flex-wrap: nowrap;                
+        flex-wrap: nowrap;
         position: relative;
         left: -1px;
         height: 316px;
-                                  
+
         li {
             @extend .col-2;
             @extend .view-li;
-            
+
             position: absolute;
             flex: 0 0 auto;
-            border-right: 1px solid $lightGray;                    
+            border-right: 1px solid $lightGray;
         }
     }
 
@@ -427,19 +429,19 @@
         top: 50%;
         margin-top: -20px;
         position: absolute;
-    
+
         width: 41px;
         height: 41px;
-    
+
         background-position: 0 -40px;
         background-color: black;
         opacity: 0.5;
-    
+
         &--prev {
             @extend .carousel__special;
             left: 1px;
         }
-    
+
         &--next {
             @extend .carousel__special;
             right: 1px;

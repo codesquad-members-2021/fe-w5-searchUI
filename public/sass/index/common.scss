@@ -48,8 +48,8 @@ a {
 }
 
 @for $i from -10 through 1 {
-    .top48__#{$i} {
-        top: (48px * $i);
+    .top52__#{$i} {
+        top: (52px * $i);
     }
 }
 

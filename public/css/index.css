@@ -209,52 +209,52 @@ a {
   transform: translateY(900%);
 }
 
-.top48__-10 {
-  top: -480px;
+.top52__-10 {
+  top: -520px;
 }
 
-.top48__-9 {
-  top: -432px;
+.top52__-9 {
+  top: -468px;
 }
 
-.top48__-8 {
-  top: -384px;
+.top52__-8 {
+  top: -416px;
 }
 
-.top48__-7 {
-  top: -336px;
+.top52__-7 {
+  top: -364px;
 }
 
-.top48__-6 {
-  top: -288px;
+.top52__-6 {
+  top: -312px;
 }
 
-.top48__-5 {
-  top: -240px;
+.top52__-5 {
+  top: -260px;
 }
 
-.top48__-4 {
-  top: -192px;
+.top52__-4 {
+  top: -208px;
 }
 
-.top48__-3 {
-  top: -144px;
+.top52__-3 {
+  top: -156px;
 }
 
-.top48__-2 {
-  top: -96px;
+.top52__-2 {
+  top: -104px;
 }
 
-.top48__-1 {
-  top: -48px;
+.top52__-1 {
+  top: -52px;
 }
 
-.top48__0 {
+.top52__0 {
   top: 0px;
 }
 
-.top48__1 {
-  top: 48px;
+.top52__1 {
+  top: 52px;
 }
 
 .flex-center, .content__main__carousel .paging__inner, .content__main__one a, .header__menu__wrapper ul.list-usergroup li a, .header__menu__wrapper ul, .header__menu__wrapper .category button, .header__logo-search {
@@ -363,7 +363,7 @@ a {
 .header__logo-search .search__bar input {
   color: #333;
   display: block;
-  width: 100%;
+  width: 95%;
   height: 100%;
   border: 0;
   font-weight: 700;
@@ -378,32 +378,31 @@ a {
   width: 52px;
   height: 52px;
 }
-.header__logo-search .search__bar span {
+.header__logo-search .search__bar button > span {
   margin: 0 auto;
 }
 .header__logo-search .search__bar__rolling {
-  width: 100%;
-  height: 80%;
+  height: 100%;
   position: absolute;
   top: 0;
-  padding: 3px 2px;
   font-size: 20px;
   overflow: hidden;
 }
 .header__logo-search .search__bar__rolling ul {
   height: inherit;
-  width: inherit;
   color: #bebebe;
   font-weight: 800;
   position: relative;
   transition-property: top;
 }
 .header__logo-search .search__bar__rolling li {
-  padding: 9px 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 .header__logo-search .search__suggestion {
   width: 670px;
-  padding: 12px 24px;
+  padding: 18px 24px;
   border-radius: 10px;
   border: 1px solid #f95139;
   background-color: #fff;
@@ -434,7 +433,7 @@ a {
 }
 .header__logo-search .search__suggestion__inner p {
   display: block;
-  padding: 8px 0;
+  padding: 6px 0 8px;
   font-size: 16px;
   font-weight: 800;
   color: #a6a6a6;
@@ -443,8 +442,10 @@ a {
 .header__logo-search .search__suggestion__inner .inner__list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-auto-flow: column;
 }
-.header__logo-search .search__suggestion__inner ol > li {
+.header__logo-search .search__suggestion__inner .inner__list > li {
   overflow: hidden;
   height: 21px;
   padding-top: 6px;
