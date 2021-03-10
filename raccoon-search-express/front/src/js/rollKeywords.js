@@ -2,7 +2,7 @@ import '@babel/polyfill';
 import { delay } from './util';
 import { _ } from './const';
 
-class RollingKeywords {
+export default class RollingKeywords {
   constructor(data) {
     this.data = data;
     this.lists = _.$('.list_rollkeywords');
@@ -149,5 +149,3 @@ class RollingKeywords {
 
   requestExtraData() {}
 }
-
-export { RollingKeywords };

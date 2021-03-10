@@ -2,10 +2,11 @@ import FetchAPI from './fetchAPI';
 import EventSlider from './eventSlider';
 import MallEventSlider from './mallEventSlider';
 import RequestHotDealData from './requestHotDealData';
-import { RollingKeywords } from './rollKeywords';
+import RollingKeywords from './rollKeywords';
 import MallEventSection from './mallEventSection';
 import HotDealSection from './hotDealSection';
 import MileageEventCarousel from './mileageEventCarousel';
+import Similarword from './similarword';
 import { _ } from './const';
 
 export default class RaccoonShopping {
