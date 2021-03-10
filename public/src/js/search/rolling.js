@@ -1,5 +1,6 @@
 import { CLASS_LIST } from '../util/data';
 import { li } from '../util/htmlTemplate';
+import { delay } from '../util/util.js';
 
 function RecommendRolling({ data, selector, animation }) {
   this.rollingData = data;
@@ -15,15 +16,19 @@ RecommendRolling.prototype = {
     this.render();
     this.autoRolling();
   },
-  autoRolling() {
+  async autoRolling() {
     if (this.step > this.rollingData.length) {
       this.render();
       this.step = 0;
-    }
-    setTimeout(() => {
+      await delay('', 0);
       this.rolling();
       this.autoRolling();
-    }, 3000);
+    } else {
+      setTimeout(() => {
+        this.rolling();
+        this.autoRolling();
+      }, 3000);
+    }
   },
   rolling() {
     this.step++;

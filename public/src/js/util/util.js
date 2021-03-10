@@ -10,3 +10,5 @@ export const _ = {
 export const getData = (url) => fetch(url).then((res) => res.json());
 
 export const createDom = (tag) => ({ value, classes }) => `<${tag} class='${classes.join(' ')}'>${value}</${tag}>`;
+
+export const delay = (value, ms) => new Promise((resolve) => setTimeout(() => resolve(value), ms));
