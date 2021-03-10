@@ -19,6 +19,7 @@ SuggestionList.prototype = {
     }.</span> ${keyword}</li>`;
   },
 
+
   constructor: SuggestionList,
 };
 

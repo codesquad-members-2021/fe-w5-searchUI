@@ -60,6 +60,9 @@
     color: #888;
     font-size: 12px; }
 
+.none {
+  visibility: hidden; }
+
 header {
   width: 100%;
   padding-top: 43px;
@@ -81,13 +84,19 @@ header {
     .header__searchbar div input {
       float: right;
       margin: 0 24px 0 30px;
+      position: relative;
+      z-index: 3;
       width: 670px;
       height: 54px;
       padding: 16px 60px 16px 30px;
       border: 1px solid #cecfd1;
       border-radius: 10px;
-      background-color: #fff;
+      background-color: transparent;
       box-sizing: border-box; }
+      .header__searchbar div input:focus {
+        outline: none;
+        border: 1px solid #f95139;
+        border-radius: 10px; }
 
 .header__navbar {
   box-sizing: border-box;
@@ -163,7 +172,8 @@ header {
   transform: translateY(0px);
   top: 0px;
   position: absolute;
-  left: 155px; }
+  left: 155px;
+  z-index: 2; }
   .header__keywords li {
     overflow: hidden;
     height: 22px;
@@ -180,7 +190,7 @@ header {
   position: absolute;
   padding: 25px 29px 23px;
   overflow: hidden;
-  left: 327px;
+  left: 364px;
   top: 109px;
   z-index: 10;
   width: 670px;
