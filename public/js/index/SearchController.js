@@ -45,19 +45,28 @@ SearchController.prototype.searchBarKeyUpEventHandler = function ({target}) {
 
 // 검색창 롤링 실행
 SearchController.prototype.runRollingSearchBar = function (searchBarRollingWrapper, ms = 2000) {
-    setTimeout(() => {
+    setTimeout(async () => {
         const rollingListWrapper = _.$('.rolling-list', searchBarRollingWrapper);
-        const rollingTopInfoClassName = rollingListWrapper.className
-            .split(' ')
-            .find((className) => className.indexOf('top') > -1);    // css의 top을 변경함으로써 롤링되게 하기 위함.
-        
-        const startPos = 0;
+        const rollingTopInfoClassName =    // css의 top을 변경함으로써 롤링되게 하기 위함.
+            rollingListWrapper.className.split(' ').find((className) => className.indexOf('top') > -1);
+
         const endPos = -9;
         const currentPos = Number(rollingTopInfoClassName.replace('top48__', ''));        
-        const changePos = (currentPos-1) < endPos ? startPos : (currentPos-1);
-        
-        const changeClassName = `top48__${changePos}`;
-        _.replaceClass(rollingListWrapper, rollingTopInfoClassName, changeClassName);
+
+        // (리팩토링 예정)
+        if ((currentPos-1) < endPos) {
+            _.replaceClass(rollingListWrapper, 'transition__duration__500', 'transition__duration__0');
+            _.replaceClass(rollingListWrapper, rollingTopInfoClassName, 'top48__1');
+            await delay(20);
+            _.replaceClass(rollingListWrapper, 'transition__duration__0', 'transition__duration__500');
+            _.replaceClass(rollingListWrapper, 'top48__1', 'top48__0');
+
+        } else {
+            _.replaceClass(rollingListWrapper, 'transition__duration__0', 'transition__duration__500');
+            _.replaceClass(rollingListWrapper, rollingTopInfoClassName, `top48__${ (currentPos-1)}`);
+        }
+        // =-------------
+                    
         this.runRollingSearchBar(searchBarRollingWrapper);
     }, ms);    
 };

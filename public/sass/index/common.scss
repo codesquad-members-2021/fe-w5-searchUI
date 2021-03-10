@@ -47,7 +47,7 @@ a {
     }
 }
 
-@for $i from -10 through 0 {
+@for $i from -10 through 1 {
     .top48__#{$i} {
         top: (48px * $i);
     }
@@ -82,6 +82,15 @@ a {
         transition: transform 0.4s;
     }
 }
+
+.transition__duration__0 {
+    transition-duration: 0s; 
+}
+
+.transition__duration__500 {
+    transition-duration: 0.5s; 
+}
+
 
 .max-WH {
     &-auto {

@@ -70,22 +70,21 @@
     // 미션 5 ------------------------------------------------------ START
     .search__bar__rolling {
         width: inherit;
-        height: inherit;
+        height: 80%;
         position: absolute;
         top: 0;
-        padding: 1px 2px;
+        padding: 3px 2px;
         font-size: 20px;
         overflow: hidden;
 
         ul {
-            height: inherit;
+            height: inherit ;
             width: inherit;
             color: #bebebe;
             font-weight: 800;
             
-            position: relative;            
+            position: relative;
             transition-property: top;
-            transition-duration: 0.5s;
         }
         li {
             padding: 9px 0;
