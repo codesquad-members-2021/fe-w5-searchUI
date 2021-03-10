@@ -30,3 +30,20 @@ const _ = {
 };
 
 export { _ };
+
+// const CLASS_NAME = {
+//   HIDDEN: {  prefix: '.', value: 'hidden' },
+// }
+// const setClassName = function(prefix, value) {
+//   this.prefix = prefix;
+//   this.value = value;
+//   this.full = prefix + value;
+// }
+
+// const LIST = [['.', 'hidden'], ['#', 'target']];
+
+// const CLASS_NAME = {};
+// LIST.forEach(v => {
+//   CLASS_NAME[v[1].toLocaleUpperCase()] = new setClassName(v[0], v[1]);
+// });
+// console.log(CLASS_NAME);
