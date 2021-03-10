@@ -5,7 +5,6 @@ import _, {fetchData} from '../util.js';
 class MainController {
     constructor(indexWrappers, controlItems, carouselOptions) {
         const {
-            allWrapper,
             mainBestWrapper,
             mainCarouselWrapper,
             moreWrapper,
@@ -26,8 +25,6 @@ class MainController {
             hotCarouselTransitionDuration,
         } = carouselOptions;
 
-        
-        this.allWrapper = allWrapper;
         this.mainBestWrapper = mainBestWrapper;
         this.mainCarouselWrapper = mainCarouselWrapper;
         this.moreWrapper = moreWrapper;
@@ -67,10 +64,6 @@ class MainController {
         );
 
         this.createMoreViewItemsExecute(this.moreViewBtn, this.moreViewFrame);
-
-        // 미션5 START
-        this.setAllWrapMouseoverEvent(this.allWrapper);
-        // -------- END
     }
 
     setMainCarouselInterval(direction, mainSlideItems, timeout) {
@@ -95,30 +88,43 @@ class MainController {
     }
 
     // 더보기 데이터가 들어갈 틀 생성 (실행)
-    createMoreViewItemsExecute(moreBtn, moreViewFrame) {
-        const urlPath = `/api/moreData/${moreBtn.value}`;
-
+    async createMoreViewItemsExecute(moreBtn, moreViewFrame) {
         // 더보기 데이터 (버튼), 일부만 가져옴
-        fetchData(urlPath) 
-            .then((moreData) => this.createMoreViewItems(moreData, moreViewFrame))            
-            .then(() => this.updateMoreBtnInnerText(moreBtn))
-            .catch((error) => console.error(error.message));     
+        const url = `http://localhost:3001/api/moreData/${moreBtn.value}`;
+        try {            
+            const data = await fetchData(url);
+            this.createMoreViewItems(data, moreViewFrame);
+            this.updateMoreBtnInnerText(moreBtn);
+        } catch (error) {
+            console.error(error);
+        }
+        // fetchData(urlPath) 
+        //     .then((moreData) => this.createMoreViewItems(moreData, moreViewFrame))            
+        //     .then(() => this.updateMoreBtnInnerText(moreBtn))
+        //     .catch((error) => console.error(error.message));     
     }
 
     // 더보기 버튼의 InnexText 갱신
-    updateMoreBtnInnerText(moreBtn) {
-        const urlPath = '/api/moreData';
-
+    async updateMoreBtnInnerText(moreBtn) {
         // 더보기 데이터 전부 가져옴
-        fetchData(urlPath)        
-            .then(
-                (moreAlldata) =>
-                    (moreBtn.innerText = `더보기(${moreBtn.value * 5}/${
-                        moreAlldata.length
-                    }건)`),
-            )
-            .then(() => moreBtn.value++)
-            .catch((err) => console.error(err));
+        const url = 'http://localhost:3001/api/moreData';
+        try {
+            const data = await fetchData(url);
+            moreBtn.innerText = `더보기(${moreBtn.value * 5}/${data.length}건)`;
+            moreBtn.value++
+        } catch (error) {
+            console.error(error);
+        }
+        
+        // fetchData(urlPath)        
+        //     .then(
+        //         (moreAlldata) =>
+        //             (moreBtn.innerText = `더보기(${moreBtn.value * 5}/${
+        //                 moreAlldata.length
+        //             }건)`),
+        //     )
+        //     .then(() => moreBtn.value++)
+        //     .catch((err) => console.error(err));
     }
 
     createMoreViewItems(moreData, moreViewFrame) {
@@ -163,30 +169,46 @@ class MainController {
 
     // [2] 상단 캐러셀 (content__main__carousel)
     // 첫 로딩 시 상단 왼쪽 (BestItem)에 들어갈 정보 서버에서 불러옴
-    insertDataBestItem(mainBestItemImg) {
-        const urlPath = '/api/bestData';
-
+    async insertDataBestItem(mainBestItemImg) {
         // 상단 Best 상품 (왼쪽) 데이터
-        fetchData(urlPath)
-            .then((data) => {
-                _.setAttr(mainBestItemImg, 'src', data.imgurl);
-            })
-            .catch((err) => console.error(err.message));
+        const url = 'http://localhost:3001/api/bestData';
+        try {
+           const data = await fetchData(url);
+            _.setAttr(mainBestItemImg, 'src', data.imgurl);
+        } catch (error) {
+            console.error(error);
+        }
+        
+        // fetchData(urlPath)
+        //     .then((data) => {
+        //         _.setAttr(mainBestItemImg, 'src', data.imgurl);
+        //     })
+        //     .catch((err) => console.error(err.message));
     }
 
     // 첫 로딩 시 상단 오른쪽 캐러셀에 들어갈 정보 서버에서 불러옴
-    insertDataMainCarousel(mainSlideItems) {
-        const urlPath = '/api/mainCarouselData';
-        
+    async insertDataMainCarousel(mainSlideItems) {
         // 상단 캐러셀 상품 (오른쪽) 데이터
-        fetchData(urlPath)            
-            .then((data) => {
-                mainSlideItems.forEach((item, i) => {
-                    const itemImgTag = _.$('img', item);
-                    _.setAttr(itemImgTag, 'src', data[i].imgurl);
-                });
-            })
-            .catch((err) => console.error(err.message));
+        const url = 'http://localhost:3001/api/mainCarouselData';
+        try {
+            const data = await fetchData(url);
+            mainSlideItems.forEach((item, i) => {
+                const itemImgTag = _.$('img', item);
+                _.setAttr(itemImgTag, 'src', data[i].imgurl);
+            });
+        } catch (error) {
+            console.error(error);
+        }
+        
+        
+        // fetchData(urlPath)            
+        //     .then((data) => {
+        //         mainSlideItems.forEach((item, i) => {
+        //             const itemImgTag = _.$('img', item);
+        //             _.setAttr(itemImgTag, 'src', data[i].imgurl);
+        //         });
+        //     })
+        //     .catch((err) => console.error(err.message));
     }
 
     // 상단 캐러셀 이벤트 등록 (이전, 다음)
@@ -283,22 +305,35 @@ class MainController {
     
     // [3] 하단 캐러셀 (content__hot__carousel)
     // 첫 로딩 시 하단 캐러셀에 들어갈 정보 서버에서 불러옴
-    insertDataHotCarousel(hotCarouselItemList) {        
-        const urlPath = '/api/hotCarouselData';
-
+    async insertDataHotCarousel(hotCarouselItemList) {        
         // 하단 캐러셀 데이터 가져와서 이미 만들어진 DOM에 속성변경 & 텍스트 추가
-        fetchData(urlPath)
-            .then((planningData) => {
-                hotCarouselItemList.forEach((item, i) => {
-                    const img = _.$('a > img', item);
-                    const spanBold = _.$('.txt-bold', item);
-                    const spanInfo = _.$('.txt-info', item);
-                    _.setAttr(img, 'src', planningData[i].imgurl);                    
-                    _.appendChild(spanBold, _.createTextNode(planningData[i].text));
-                    _.appendChild(spanInfo, _.createTextNode(planningData[i].text2));                    
-                })
-            })
-            .catch((error) => console.error(error.message));          
+        const url = 'http://localhost:3001/api/hotCarouselData';
+        try {
+            const planningData = await fetchData(url);
+            hotCarouselItemList.forEach((item, i) => {
+                const img = _.$('a > img', item);
+                const spanBold = _.$('.txt-bold', item);
+                const spanInfo = _.$('.txt-info', item);
+                _.setAttr(img, 'src', planningData[i].imgurl);                    
+                _.appendChild(spanBold, _.createTextNode(planningData[i].text));
+                _.appendChild(spanInfo, _.createTextNode(planningData[i].text2));                    
+            });
+        } catch (error) {
+            console.error(error);
+        }
+
+        // fetchData(urlPath)
+        //     .then((planningData) => {
+        //         hotCarouselItemList.forEach((item, i) => {
+        //             const img = _.$('a > img', item);
+        //             const spanBold = _.$('.txt-bold', item);
+        //             const spanInfo = _.$('.txt-info', item);
+        //             _.setAttr(img, 'src', planningData[i].imgurl);                    
+        //             _.appendChild(spanBold, _.createTextNode(planningData[i].text));
+        //             _.appendChild(spanInfo, _.createTextNode(planningData[i].text2));                    
+        //         })
+        //     })
+        //     .catch((error) => console.error(error.message));          
     }
 
     // 하단 캐러셀 이벤트 등록 (mousedown / mouseup) (이전, 다음 (1개씩 or 2개씩))
@@ -374,20 +409,6 @@ class MainController {
             _.replaceClass(item, item.className, `transformX__${transformValue}`)
         });
     }
-    
-
-// 미션5 ---------------------------------- START  
-    // 자동완성 창, 인기 검색어 창에서 마우스가 벗어났을 시 toggle
-    setAllWrapMouseoverEvent(allWrapper) {
-        _.addEvent(allWrapper, 'mouseover', (e) => this._allWrapMouseoverEventHandler(e));        
-    }
-    _allWrapMouseoverEventHandler({target}) {
-        const closestTarget = _.closestSelector(target, '.search');        
-        if (!closestTarget)
-            _.forceToggleClass(_.$('.search .search__suggestion'), 'visibility--hidden', true);
-    }
-// 미션5 ---------------------------------- END --
-
 }
 
 export default MainController;
