@@ -1,101 +1,132 @@
-import { searchToggle } from "../utils/states.js";
 import { _ } from "../utils/selector.js";
 import request from "../utils/request.js";
 import { urls } from "../utils/urls.js";
 import { times } from "../utils/states.js";
+import Roller from "./roller.js";
 
-// request recommededWords related to inputValue
-// const searchingInput = _.$(".searchBar__input");
-// const recommendedWordsToggle = _.$(".searchBar__toggle");
-// let timer;
-// let recommendations = [];
-// let currIndex = -1;
+// 지금은 일단 하나에 다 합쳐봄
+// 상속으로 나누든가.. 하자.. 너무 더럽
+// 연결고리
+// - focusin 이벤트 -> roller's display: none
+// - focusout -> roller's display: block
 
-export const RecommItems = function (searchState) {
+// 1. 공통적인 부분 찾기 - 공통 컴포넌트
+// 2. 작은 단위로 나누기 - 그렇다면 공통으로 사용하는 프로퍼티들은 어떻게 할까
+
+export default function RecommItems(searchState, rollings) {
   const { currIndex, searchingInput, recommWordsToggle, timer, recommendations, topTenWords } = searchState;
+  const { rollingKeywordHtml, rollingContainer } = rollings;
   this.currIndex = currIndex; // 연관검색어 - 현재 방향키가 있는 검색어의 인덱스
   this.currElement = null; // 연관검색어 - 현재 방향키가 있는 검색어
   this.coloredElement = null; // 연관검색어 - 검색어 색깔
   this.searchingInput = searchingInput;
   this.recommWordsToggle = recommWordsToggle;
-  this.timer = timer;
+  this.timeOutTimer = timer;
   this.recommendations = recommendations;
-  this.topTenWords = topTenWords;
-  this.isDone = false;
+  this.topTenWords = topTenWords; // 인기검색어
+  this.isOutOfToggle = false;
+  this.rollingKeywordHtml = rollingKeywordHtml;
+  this.rollingContainer = rollingContainer;
+  this.itemCount = 0; // roller
+  this.currItem = null; // roller
+  this.rollingTopTenWords = null;
+}
+
+// 이런식으로 담을까 고민중
+// 이게 좀 더 깔끔하게 보일 것 같기도
+RecommItems.prototype = {
+  getTopten,
 };
 
-RecommItems.prototype.initToggle = async function () {
+// RecommItems.prototype.getTopten =
+async function getTopten() {
   const topTenWordsJson = await request(urls.topTenWords);
   const { popularWords } = topTenWordsJson;
-  this.topTenWords =
-    Object.entries(popularWords[0]).reduce((acc, item) => {
-      const [num, product] = item;
-      acc += `<span class="popularWords__rank" data-id=${num}>${num}</span>
-      <span class="popularWords__product" data-id=${num}>${product}</span>`;
-      return acc;
-    }, `<div class="popularWords">`) + `</div>`;
+  return popularWords;
+}
+
+RecommItems.prototype.initToggle = async function (className) {
+  const popularWords = await this.getTopten();
+  const popularWordsArr = Object.entries(popularWords[0]);
+  this.topTenWords = this.createTemplate(popularWordsArr, className);
   this.recommWordsToggle.innerHTML = this.topTenWords;
 };
 
-RecommItems.prototype.registerEvent = async function () {
-  await this.initToggle();
-  this.searchingInput.addEventListener("focus", this.focusEvent.bind(this));
-  this.searchingInput.addEventListener("input", this.inputEvent.bind(this));
-  this.searchingInput.addEventListener("keydown", (e) => this.keydownEvent(e));
+RecommItems.prototype.createTemplate = function (array, className) {
+  return array.reduce((acc, item) => {
+    const [num, product] = item;
+    acc += `<div class="${className}"><span class="${className}__rank" data-id=${num}>${num}</span>
+      <span class="popularWords__product" data-id=${num}>${product}</span></div>`;
+    return acc;
+  }, ``);
 };
 
-RecommItems.prototype.keydownEvent = function ({ key }) {
-  // let isDone = false;
-  if (!key.includes("Arrow") || this.isDone) return;
-  //  if(isDone) return
-  console.log(this.isDone);
-  if (!this.recommWordsToggle.classList.contains("visible")) this.recommWordsToggle.classList.add("visible");
+RecommItems.prototype.initRoller = async function (className) {
+  const popularWords = await this.getTopten();
+  const popularWordsArr = Object.entries(popularWords[0]);
+  this.rollingTopTenWords = this.createTemplate(popularWordsArr, className) + this.createTemplate(popularWordsArr.slice(0, 2), className);
+  this.rollingContainer.innerHTML = this.rollingTopTenWords;
+  this.itemCount = popularWordsArr.length;
+  this.rollInterval();
+};
 
-  // const colorOn = () => {
-  //   this.currElement = _.$All(".recommended__item")[this.currIndex];
-  //   if (this.coloredElement) {
-  //     this.coloredElement.classList.remove("colorGray");
-  //     this.coloredElement.classList.add("colorBlack");
-  //   }
-  //   // = "#000";
-  //   this.currElement.classList.add("colorGray");
-  //   // = "#ddd";
-  //   this.coloredElement = this.currElement;
-  // };
-  // const colorOff = () => {
-  //   if (!this.coloredElement) return;
-  //   // if (this.coloredElement) {
-  //   this.coloredElement.classList.remove("colorGray");
-  //   this.coloredElement.classList.add("colorBlack");
-  //   this.coloredElement = null;
-  //   this.currElement = null;
-  //   // }
-  // };
-  if (key === "ArrowUp") {
-    // if (isDone) return;
-    if (this.currIndex > 0) {
-      this.currIndex--;
-      this.colorOn();
-    } else if (this.currIndex - 1 < 0) {
-      console.log(`currIndex: ${this.currIndex}`);
-      this.recommWordsToggle.classList.remove("visible");
-      this.colorOff();
-      this.isDone = true;
-      // = "hidden";
+RecommItems.prototype.rollInterval = function () {
+  const intervalTimer = setInterval(() => {
+    if (this.currItem >= 0 && this.currItem <= this.itemCount) {
+      this.rollingContainer.style.transition = `${times.transition}ms`;
+      this.rollingContainer.style.transform = `translateY(-${++this.currItem * times.transform}px)`;
+      if (this.currItem > this.itemCount) {
+        this.currItem = 0;
+        this.rollingContainer.style.transition = `${times.init}ms`;
+        this.rollingContainer.style.transform = `translateY(-${this.currItem * times.transform}px)`;
+      }
     }
+  }, times.rolling);
+};
+
+RecommItems.prototype.registerEvent = async function () {
+  await this.initToggle("popularWords__rank");
+  await this.initRoller("rolling__items");
+  this.searchingInput.addEventListener("focusin", this.focusinEvent.bind(this));
+  this.searchingInput.addEventListener("focusout", this.focusoutEvent.bind(this));
+  this.searchingInput.addEventListener("input", this.inputEvent.bind(this));
+  this.searchingInput.addEventListener("keydown", this.keydownEvent.bind(this));
+};
+
+RecommItems.prototype.keydownEvent = function (e) {
+  const { key } = e;
+  if (!key.includes("Arrow") || this.isOutOfToggle) return;
+  if (!this.recommWordsToggle.classList.contains("visible")) this.recommWordsToggle.classList.add("visible");
+  if (key === "ArrowUp") {
+    e.preventDefault();
+    this.moveUp();
   }
   if (key === "ArrowDown") {
-    // if (isDone) return;
-    if (this.currIndex + 1 < this.recommendations.length) {
-      this.currIndex++;
-      this.colorOn();
-    } else if (this.currIndex === this.recommendations.length - 1) {
-      this.recommWordsToggle.classList.remove("visible");
-      this.colorOff();
-      this.currIndex--;
-      this.isDone = true;
-      // = "hidden";
-    }
+    e.preventDefault();
+    this.moveDown();
+  }
+};
+
+RecommItems.prototype.moveUp = function () {
+  if (this.currIndex > 0) {
+    this.currIndex--;
+    this.colorOn();
+  } else if (this.currIndex - 1 < 0) {
+    this.toggle();
+    this.colorOff();
+    this.isOutOfToggle = true;
+  }
+};
+
+RecommItems.prototype.moveDown = function () {
+  if (this.currIndex + 1 < this.recommendations.length) {
+    this.currIndex++;
+    this.colorOn();
+  } else if (this.currIndex === this.recommendations.length - 1) {
+    this.toggle();
+    this.colorOff();
+    this.currIndex--;
+    this.isOutOfToggle = true;
   }
 };
 
@@ -105,36 +136,34 @@ RecommItems.prototype.colorOn = function () {
     this.coloredElement.classList.remove("colorGray");
     this.coloredElement.classList.add("colorBlack");
   }
-  console.log(this.currIndex);
-  // = "#000";
   this.currElement.classList.add("colorGray");
-  // = "#ddd";
   this.coloredElement = this.currElement;
-  // this.currElement = _.$All(".recommended__item")[this.currIndex];
-  // if (this.coloredElement) this.coloredElement.classList.add("colorBlack");
-  // this.currElement.classList.add("colorGray");
-  // return this.currElement;
-  // this.coloredElement = this.currElement;
-  // debugger;
 };
 
 RecommItems.prototype.colorOff = function () {
   if (!this.coloredElement) return;
-  // if (this.coloredElement) {
   this.coloredElement.classList.remove("colorGray");
   this.coloredElement.classList.add("colorBlack");
   this.coloredElement = null;
   this.currElement = null;
-  // if (!this.coloredElement) return;
-  // this.coloredElement.classList.add("colorBlack");
 };
 
-RecommItems.prototype.focusEvent = function (e) {
+RecommItems.prototype.focusinEvent = function (e) {
+  this.rollingKeywordHtml.classList.add("none");
   this.recommWordsToggle.classList.add("visible");
 };
 
+RecommItems.prototype.focusoutEvent = function (e) {
+  this.rollingKeywordHtml.classList.remove("none");
+  this.recommWordsToggle.classList.remove("visible");
+};
+
+RecommItems.prototype.toggle = function () {
+  this.recommWordsToggle.classList.toggle("visible");
+};
+
 RecommItems.prototype.resetTimer = function () {
-  if (this.timer) clearTimeout(this.timer);
+  if (this.timeOutTimer) clearTimeout(this.timeOutTimer);
 };
 
 RecommItems.prototype.loadRelatedWords = async function (inputValue) {
@@ -142,10 +171,7 @@ RecommItems.prototype.loadRelatedWords = async function (inputValue) {
   const { suggestions } = data;
   const tempSuggestions = suggestions.map((item) => item.value);
   const set = [...new Set(tempSuggestions)]; // 중복값 제거
-  // this.recommendations = [...set];
-  // console.log(set);
   const tempRecommendations = set.reduce((acc, item, i) => acc + `<span class="recommended__item" data-id="${i}">${item}</span>`, ``);
-  // return [tempRecommendations, set];
   this.recommWordsToggle.innerHTML = tempRecommendations;
   this.recommendations = set;
   this.recommWordsToggle.classList.add("visible");
@@ -153,32 +179,19 @@ RecommItems.prototype.loadRelatedWords = async function (inputValue) {
 
 RecommItems.prototype.resetToggleStatus = function () {
   this.currIndex = -1;
-  this.isDone = false;
+  this.isOutOfToggle = false;
 };
 
 RecommItems.prototype.inputEvent = function (e) {
-  // this.currIndex = -1;
+  // 글자 하이라이트 하는거 추가하기
   this.resetToggleStatus();
   const inputValue = e.target.value;
-  console.log("input", inputValue);
-  console.log(this);
-  // this.resetTimer.bind(this)();
-  if (this.timer) clearTimeout(this.timer);
-  if (inputValue === ``) this.recommWordsToggle.innerHTML = this.topTenWords;
+  this.resetTimer();
+
+  if (inputValue === ``) {
+    this.recommWordsToggle.innerHTML = this.topTenWords;
+  }
   if (inputValue !== ``) {
-    // console.log(1);
-    this.timer = setTimeout(
-      // function () {
-      // const [tempRecommendations, set] =
-      this.loadRelatedWords(inputValue),
-      //this.loadRelatedWords is not a function or its return value is not iterable
-      // error is occurred
-      // this.recommendations = set;
-      // this.recommWordsToggle.innerHTML = tempRecommendations;
-      // this.recommWordsToggle.classList.add("visible");
-      // }
-      times.debounce
-    );
-    // debugger;
+    this.timeOutTimer = setTimeout((_) => this.loadRelatedWords(inputValue), times.debounce);
   }
 };

@@ -2,7 +2,6 @@
 
 .header__head {
   width: 100%;
-  //   background-color: violet;
   padding: 3em 0;
   display: flex;
   justify-content: center;
@@ -13,7 +12,6 @@
   }
 
   .head__logo {
-    // border: 1px solid green;
     margin-right: 1.7em;
   }
 
@@ -25,9 +23,9 @@
   .searchBar__search {
     width: 100%;
     display: flex;
+    position: relative;
     border-radius: 10px;
     border: 1px solid map-get($color-palette, searchBar-color);
-    // background-color: green;
     align-items: center;
 
     .searchBar__input {
@@ -35,7 +33,6 @@
     }
 
     .searchBar__button {
-      //   background-color: coral;
       text-align: center;
       width: 45px;
       height: 45px;
@@ -43,6 +40,29 @@
 
     input {
       padding: 0 1em;
+    }
+  }
+
+  .rolling__keyword {
+    width: 50%;
+    position: absolute;
+    border: 1px solid white;
+    overflow: hidden;
+    height: 20px;
+    z-index: -1;
+  }
+
+  .rolling__container {
+    border: 1px solid white;
+    position: absolute;
+    width: 50%;
+    left: 1em;
+
+    div {
+      border: 1px solid white;
+      height: 20px;
+      align-items: center;
+      font-size: 14px;
     }
   }
 }
@@ -53,7 +73,7 @@
   z-index: 1;
   border: 1px solid red;
   background-color: white;
-  height: 200px;
+  height: fit-content;
   width: 100%;
 }
 
@@ -81,7 +101,6 @@
   }
 
   .navbar__list-user {
-    // background-color: olive;
     margin-left: auto;
   }
 }
