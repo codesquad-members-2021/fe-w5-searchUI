@@ -2,13 +2,13 @@ import { CLASS_LIST } from '../util/data.js';
 import { makeItemList, makeMoreBtn, ul } from '../util/htmlTemplate.js';
 
 class MoreButtonView {
-  constructor(data, { container, moreBtn }) {
+  constructor({ data, selector }) {
     this.data = data;
     this.currentData = 5; //this.data의 몇번째 데이터까지 렌더링돼있나 확인
     this.maxView = 5;
     this.totalData = data.length;
-    this.container = container;
-    this.moreBtn = moreBtn;
+    this.container = selector.container;
+    this.moreBtn = selector.moreBtn;
   }
   init() {
     this.splitData();

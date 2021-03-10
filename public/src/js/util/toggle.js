@@ -1,36 +1,35 @@
+import { CLASS_LIST } from './data';
+
 class Toggle {
-  constructor({ toggleCheckList, showList, hiddenList }) {
-    this.toggleCheckList = toggleCheckList;
-    this.showList = showList;
-    this.hiddenList = hiddenList;
+  constructor(toggleList) {
+    this.toggleList = toggleList;
   }
   init() {
-    this.onEvent();
+    this.addEvent();
   }
-  onEvent() {
+  addEvent() {
     document.addEventListener('click', this.handleClick.bind(this));
   }
   handleClick({ target }) {
-    if (this.isInclude(target)) {
-      this.hidden();
-      this.show();
+    this.toggle(target);
+  }
+  toggle(target) {
+    for (const toggle of this.toggleList) {
+      const { check, show, hidden } = toggle;
+      if (check.contains(target)) {
+        this.show(hidden);
+        this.hidden(show);
+      } else {
+        this.show(show);
+        this.hidden(hidden);
+      }
     }
   }
-  isInclude(target) {
-    for (const toggleTarget of this.toggleCheckList) {
-      if (!toggleTarget.contains(target)) return true;
-    }
-    return false;
+  hidden(target) {
+    target.classList.add(CLASS_LIST.HIDDEN);
   }
-  hidden() {
-    this.hiddenList.forEach((v) => {
-      v.classList.add('hidden');
-    });
-  }
-  show() {
-    this.showList.forEach((v) => {
-      if (v.classList.contains('hidden')) v.classList.remove('hidden');
-    });
+  show(target) {
+    target.classList.remove(CLASS_LIST.HIDDEN);
   }
 }
 

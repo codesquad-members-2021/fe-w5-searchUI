@@ -1,11 +1,11 @@
 import { CLASS_LIST } from '../util/data';
 
 class Slider {
-  constructor({ data, selectors, animation, makeHtmlFn }) {
+  constructor({ data, selector, animation, makeHtmlFn }) {
     this.data = data;
-    this.container = selectors.container;
-    this.slideList = selectors.slideList;
-    this.slideBtn = selectors.slideBtn;
+    this.container = selector.container;
+    this.slideList = selector.slideList;
+    this.slideBtn = selector.slideBtn;
     this.oneStep = animation.oneStep;
     this.transition = animation.transition;
     this.makeHtmlFn = makeHtmlFn; //각 상황에 맞는 html template만들어주는 함수

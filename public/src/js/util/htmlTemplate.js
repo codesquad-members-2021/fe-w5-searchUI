@@ -25,7 +25,7 @@ export const makeMoreBtn = ({ now, total, fold = false }) => `
 <span><i class="fas fa-angle-${fold ? 'up' : 'down'}"></i></span>
 `;
 
-export const makeRecommendItem = (idx, value) => `<li><strong>${idx}</strong>    ${value}</li>`;
+export const makeRecommendItem = (idx, value) => `<li><span><strong>${idx}</strong></span><span>${value}</span></li>`;
 
 export const li = createDom('li');
 
