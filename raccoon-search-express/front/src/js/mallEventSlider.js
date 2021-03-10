@@ -1,7 +1,9 @@
+import { _ } from './const';
+
 export default class MallEventSlider {
   constructor(target) {
     this.target = target;
-    this.slide = document.querySelector('#mallEventSlide');
+    this.slide = _.$('#mallEventSlide');
     this.longClickTimer = -1;
     this.prevTimer = -1;
     this.nextTimer = -1;
@@ -42,14 +44,7 @@ export default class MallEventSlider {
     }
   }
 
-  /* 
-  1. 버튼을 누른다
-  2. 타이머가 동작한다.
-  3-1. 버튼을 때었다 (2초 이전)
-    - 타이머를 클리어한다.
-  3-2. 버튼을 때었다 (2초 이후)
-    - 2개 넘어가기 액션을 한다.
-  */
+  // 따닥~ 하고 클릭하면 같은 사진이 계속 생성되는 버그가 있다.
   longClickSlide(e) {
     this.mallEventSlider(e);
     this.longClickTimer = setTimeout(() => {
