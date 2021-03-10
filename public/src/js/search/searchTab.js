@@ -1,3 +1,4 @@
+import { CLASS_LIST } from '../util/data';
 import { makeRecommendItem, ol } from '../util/htmlTemplate';
 
 class SearchTab {
@@ -16,10 +17,9 @@ class SearchTab {
     this.searchInput.addEventListener('input', this.handleInput.bind(this));
   }
   handleClick({ target: { value } }) {
-    if (!value) {
-      this.renderSearchTab();
-      this.hiddenRolling();
-    }
+    if (value) return;
+
+    this.renderSearchTab();
   }
   handleInput({ target: { value } }) {}
 
@@ -36,13 +36,11 @@ class SearchTab {
     return recommendHTML;
   }
   renderSearchTab() {
+    const { HIDDEN } = CLASS_LIST;
     this.searchTab.innerHTML = this.getRecommendHTML();
-    if (this.searchTabContainer.classList.contains('hidden')) {
-      this.searchTabContainer.classList.remove('hidden');
+    if (this.searchTabContainer.classList.contains(HIDDEN)) {
+      this.searchTabContainer.classList.remove(HIDDEN);
     }
-  }
-  hiddenRolling() {
-    this.rollingContainer.classList.add('hidden');
   }
 }
 

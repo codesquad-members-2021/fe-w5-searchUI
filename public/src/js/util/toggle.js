@@ -15,19 +15,21 @@ class Toggle {
   }
   toggle(target) {
     for (const toggle of this.toggleList) {
-      const { check, toggleTarget } = toggle;
+      const { check, show, hidden } = toggle;
       if (check.contains(target)) {
-        this.show(toggleTarget);
+        this.show(hidden);
+        this.hidden(show);
       } else {
-        this.hidden(toggleTarget);
+        this.show(show);
+        this.hidden(hidden);
       }
     }
   }
-  hidden(toggleTarget) {
-    toggleTarget.classList.add(CLASS_LIST.HIDDEN);
+  hidden(target) {
+    target.classList.add(CLASS_LIST.HIDDEN);
   }
-  show(toggleTarget) {
-    toggleTarget.classList.remove(CLASS_LIST.HIDDEN);
+  show(target) {
+    target.classList.remove(CLASS_LIST.HIDDEN);
   }
 }
 
