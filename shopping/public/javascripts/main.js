@@ -21,7 +21,8 @@ slider.init();
 inputevent.init();
 
 window["responseJsonpData"] = function (data) {
-  console.log(data.items);
+  
+  inputevent.inputValue(data.items.map((value) => value.substr(0, value.length-2)));
 };
 
 fetch("http://localhost:3000/moreItem.json")
