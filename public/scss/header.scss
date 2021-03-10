@@ -8,7 +8,8 @@
 .nav-bar__theme-menu,
 .nav-bar__user-menu,
 .login-container,
-.recent-products-container {
+.recent-products-container,
+.header__top__search-bar {
   display: flex;
 }
 
@@ -56,4 +57,26 @@
     display: flex;
     align-items: center;
   }
+}
+
+.header__top__search-bar {
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px 0px 30px;
+
+  .search-bar__input {
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 24px;
+  }
+
+  .search-bar__button__icon {
+    font-size: 22px;
+    color: $point-color;
+  }
+}
+
+.header__top__search-bar:focus-within {
+  border: 1px solid $point-color;
 }
