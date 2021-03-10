@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <title>Express</title>
+    <link rel="stylesheet" type="text/css" href="reset.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+  </head>
+
+  <body>
+    <header>
+      <img class="header--logo" src="./images/logo.png" alt="" />
+      <div class="header--search">
+        <div class="header--search--keyword"></div>
+        <input type='text' class="header--search--input"></input>
+        <img class="header--search--button" src="./images/search.png" alt="" />
+      </div>
+      <div class="header--popular-item"></div>
+    </header>
+
+    <nav>
+      <div class="nav--category">
+        <img
+          class="nav--category--icon style__icon__size"
+          src="./images/menu.png"
+          alt=""
+        />
+        <span class="nav--category--text">카테고리</span>
+      </div>
+      <div class="nav--regular">
+        <ul>
+          <li><a href="#">핫딜</a></li>
+          <li><a href="#">베스트100</a></li>
+          <li><a href="#">할인특가</a></li>
+          <li><a href="#">기획전</a></li>
+        </ul>
+      </div>
+      <div class="nav--tag"></div>
+      <div class="nav__right">
+        <div class="nav--login">
+          <img
+            class="nav--login--icon style__icon__size"
+            src="./images/login.png"
+            alt=""
+          />
+          <span class="nav--login--text">로그인</span>
+        </div>
+        <div class="nav--browsing-history">
+          <img
+            class="nav--browsing-history--icon style__icon__size"
+            src="./images/history.png"
+            alt=""
+          />
+          <span class="nav--browsing-history--text">최근본 상품</span>
+          <img
+            src="./images/arrow-downward.png"
+            alt=""
+            class="nav--browsing-history--downwardIcon"
+          />
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="main--center">
+        <div class="main--center__upper">
+          <div class="main--center__upper--bestselling">
+            <img src="./images/bestselling.png" alt="" />
+          </div>
+          <div class="main--center__upper--promo">
+            <div>
+              <img
+                src="./images/prev.png"
+                alt=""
+                class="main--center__upper--prev"
+              />
+              <div class="main--center__upper--img"></div>
+              <img
+                src="./images/next.png"
+                alt=""
+                class="main--center__upper--next"
+              />
+            </div>
+            <div class="main--center__upper--page">
+              <img src="./images/page.png" alt="" class="" />
+              <img src="./images/page.png" alt="" class="" />
+              <img src="./images/page.png" alt="" class="" />
+            </div>
+          </div>
+        </div>
+        <div class="main--center__mdPick"></div>
+      </div>
+      <div class="main--see-more"></div>
+      <div class="main--trending-now"></div>
+    </main>
+    <script type="module" src="./javascripts/index.js"></script>
+  </body>
+</html>
