@@ -20,6 +20,7 @@ App.prototype.getTemplate = function () {
     `;
 };
 App.prototype.mount = function () {
+  console.log(_.$("#header"));
   new Header(_.$("#header"), {});
 };
 App.prototype.setEvents = function () {};
