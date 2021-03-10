@@ -25,6 +25,7 @@ header {
     border-radius: 10px;
     background-color: #fff;
     overflow: hidden;
+<<<<<<< HEAD
     .header--search--input {
       position: absolute;
       width: 630px;
@@ -46,6 +47,11 @@ header {
     .header--search--keyword {
       position: absolute;
       transition: all 0.5s;
+=======
+    .header--search--keyword {
+      position: absolute;
+      top: 0px;
+>>>>>>> 6a38b52... Add function which srolls up popular item list on search bar
       ol {
         display: flex;
         flex-direction: column;
@@ -64,6 +70,7 @@ header {
         color: #939393;
       }
     }
+<<<<<<< HEAD
   }
   .header--popular-item {
     visibility: hidden;
@@ -96,6 +103,8 @@ header {
         }
       }
     }
+=======
+>>>>>>> 6a38b52... Add function which srolls up popular item list on search bar
   }
 
   .header--search--button {
