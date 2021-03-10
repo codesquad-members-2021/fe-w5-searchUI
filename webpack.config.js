@@ -4,7 +4,7 @@ module.exports = {
   mode: 'development',
   devtool: 'source-map',
   entry: {
-    app: __dirname + '/src/js/app.js',
+    app: ['@babel/polyfill', __dirname + '/src/js/app.js'],
   },
   output: {
     path: __dirname + '/dist',
@@ -12,6 +12,7 @@ module.exports = {
   },
   module: {
     rules: [
+      { test: /\.js$/, exclude: /node_modules/, use: ['babel-loader'] },
       {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
