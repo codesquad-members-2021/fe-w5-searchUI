@@ -12,7 +12,7 @@ export default class SearchBar {
 SearchBar.prototype.init = async function () {
   const $popularItems = _.$('.header--search--keyword');
   const json = await this.fetchPopularItemsJSON();
-  const html = await this.makeItemListHTML(json);
+  const html = this.makeItemListHTML(json);
   this.setValueOnDom($popularItems, html);
   this.automateItemMove();
 
@@ -35,21 +35,25 @@ SearchBar.prototype.fetchPopularItemsJSON = async function () {
 
 SearchBar.prototype.makeItemListHTML = function (json) {
   const ITEM_COUNT = 10;
-  const pupularItemHTML = json
-    .slice(0, ITEM_COUNT)
-    .map(
-      (v, i) =>
-        `<li>
+  const pupularItemInnerHTML = (v, i) => {
+    return `<li>
         <span>${i + 1}</span>
         ${v.keyword}
-         </li>`
-    )
+         </li>`;
+  };
+  return `<ol> ${this.template(json, ITEM_COUNT, pupularItemInnerHTML)} </ol>`;
+};
+
+SearchBar.prototype.template = function (json, maxCount, innerHTML) {
+  const html = json
+    .slice(0, maxCount)
+    .map((v, i) => innerHTML(v, i))
     .join(' ');
-  return `<ol> ${pupularItemHTML} </ol>`;
+  return html;
 };
 
 SearchBar.prototype.setValueOnDom = function (domClass, htmlTemplate) {
-  return (domClass.innerHTML = htmlTemplate);
+  domClass.innerHTML = htmlTemplate;
 };
 
 SearchBar.prototype.scrollUp = function () {

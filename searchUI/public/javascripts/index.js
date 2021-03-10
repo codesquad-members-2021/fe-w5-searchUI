@@ -1,5 +1,5 @@
 import Carousel from './carousel.js';
-import SearchBar from './getPopularItems.js';
+import SearchBar from './searchBar.js';
 import { _ } from './util.js';
 
 const getJsonData = () => {

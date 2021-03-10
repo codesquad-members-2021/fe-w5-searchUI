@@ -77,7 +77,24 @@ header {
     border-radius: 10px;
     z-index: 1;
     p {
-      padding-left: 40px;
+      padding: 15px 0 0 40px;
+      font-weight: 700;
+      color: #939393;
+    }
+    ol {
+      width: 670px;
+      height: 200px;
+      display: flex;
+      flex-flow: column wrap;
+      li {
+        padding: 10px 0;
+        font-size: 15px;
+        span {
+          padding-right: 10px;
+          font-style: italic;
+          font-weight: 700;
+        }
+      }
     }
   }
 

@@ -76,7 +76,24 @@ header .header--popular-item {
   z-index: 1;
 }
 header .header--popular-item p {
-  padding-left: 40px;
+  padding: 15px 0 0 40px;
+  font-weight: 700;
+  color: #939393;
+}
+header .header--popular-item ol {
+  width: 670px;
+  height: 200px;
+  display: flex;
+  flex-flow: column wrap;
+}
+header .header--popular-item ol li {
+  padding: 10px 0;
+  font-size: 15px;
+}
+header .header--popular-item ol li span {
+  padding-right: 10px;
+  font-style: italic;
+  font-weight: 700;
 }
 header .header--search--button {
   position: absolute;
