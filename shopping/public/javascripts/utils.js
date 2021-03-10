@@ -13,6 +13,7 @@ const _ = {
 
   on: (target, type, listener, useCapture = false) =>
     target.addEventListener(type, listener, useCapture),
+    
   delay: (time) => new Promise((resolve) => setTimeout(() => resolve(), time)),
 };
 

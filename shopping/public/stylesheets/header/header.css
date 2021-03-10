@@ -114,3 +114,39 @@ header {
     white-space: nowrap;
     text-align: left;
     margin: 16px; }
+
+.header__suggestion {
+  position: absolute;
+  padding: 25px 29px 23px;
+  overflow: hidden;
+  left: 327px;
+  top: 109px;
+  z-index: 10;
+  width: 670px;
+  border: 1px solid #f95139;
+  border-radius: 10px;
+  background-color: #fff;
+  box-sizing: border-box;
+  text-align: left; }
+  .header__suggestion strong {
+    display: block;
+    padding-bottom: 5px;
+    font-size: 16px;
+    color: #a6a6a6;
+    letter-spacing: -.04em; }
+  .header__suggestion ol {
+    display: grid;
+    grid-template-columns: 1fr 1fr; }
+    .header__suggestion ol li {
+      font-size: 14px;
+      letter-spacing: -.05em;
+      color: #222;
+      height: 21px;
+      padding: 12px 15px 0 0;
+      text-overflow: ellipsis;
+      white-space: nowrap; }
+
+.num {
+  margin-right: 10px;
+  font-weight: 700;
+  font-family: robotoitalic,Apple SD Gothic Neo,Malgun Gothic,맑은 고딕,Dotum,돋움,sans-serif; }

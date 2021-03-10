@@ -1,12 +1,14 @@
 import Slider from "./slider.js";
 import Morebtn from "./more.js";
 import RollingList from "./rollingList.js";
+import SuggestionList from "./SuggestionList.js";
 import _ from "./utils.js";
 const main = _.$(".main_section");
 const banner = _.$(".banner__right", main);
 const $moreBtn = _.$(".more_contents", main);
 const $moreContainer = _.$(".shoppinglists", main);
 const $keyword = _.$(".header__keywords");
+const $suggestionItems = _.$(".suggestion__items");
 const slider = new Slider(banner);
 
 fetch("http://localhost:3000/moreItem.json");
@@ -24,7 +26,9 @@ fetch(
   .then((data) => new Promise((res) => res(data.json()))) //
   .then((d) => {
     const _rollinglist = new RollingList(d.list, $keyword);
+    const _suggestionlist = new SuggestionList(d.list, $suggestionItems);
     _rollinglist.init();
+    _suggestionlist.init();
   });
 
 slider.init();

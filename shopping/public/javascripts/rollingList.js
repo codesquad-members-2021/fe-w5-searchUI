@@ -16,8 +16,7 @@ RolingList.prototype.init = function () {
 };
 
 RolingList.prototype.inserlist = function (Parents, keyword, index) {
-  let currHTML = Parents.innerHTML;
-  Parents.innerHTML = currHTML + `<li>${index + 1}. ${keyword}</li>`;
+  Parents.innerHTML += `<li>${index + 1}. ${keyword}</li>`;
 };
 
 RolingList.prototype.silde = function (height) {
