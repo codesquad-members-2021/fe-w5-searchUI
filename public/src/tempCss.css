@@ -1,0 +1,240 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.hidden {
+  position: absolute;
+  left: -9999px;
+}
+#header {
+  width: 100%;
+}
+.wrap_header {
+  width: 40%;
+  height: 3.5rem;
+  margin: 3rem auto;
+
+  display: flex;
+  align-items: center;
+}
+.logo {
+  width: 7rem;
+}
+.logo img {
+  width: 100%;
+}
+.wrap_header .searchBar {
+  position: relative;
+  flex: 1;
+  margin-left: 2rem;
+  height: 90%;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid red;
+  border-radius: 0.5rem;
+
+  background: slateblue;
+}
+.searchBar .form_search {
+  width: 100%;
+  height: 100%;
+}
+.form_search fieldset {
+  height: 100%;
+}
+.form_search .box_search {
+  display: flex;
+  height: 100%;
+  padding-left: 2rem;
+  box-sizing: border-box;
+}
+
+#input_search {
+  flex: 1;
+  padding: 1rem;
+  font-size: 1.4rem;
+  border: none;
+}
+#btn_search {
+  width: 3rem;
+}
+
+.searchBar .wrap_rollingKeywords {
+  position: absolute;
+  left: 2rem;
+  top: 0;
+  font-size: 1.4rem;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.wrap_rollingKeywords .rollingKeywords {
+  overflow: hidden;
+  height: 1.4rem;
+}
+
+.wrap_suggestion {
+  background: teal;
+  padding: 1.5rem 0;
+  border-radius: 0.5rem;
+  border: 1px solid red;
+}
+
+.wrap_suggestion .suggestion_hot {
+  padding: 0 2rem;
+}
+.wrap_suggestion .suggestion_hot > div {
+  font-weight: bold;
+  color: rgb(90, 90, 90);
+  margin-bottom: 1.5rem;
+}
+.wrap_suggestion .suggestion_hot > ol {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.2rem;
+}
+.wrap_suggestion .suggestion_hot > ol > li {
+  width: 50%;
+  background: tan;
+  margin-bottom: 1rem;
+}
+.wrap_suggestion .suggestion_hot > ol > li > span {
+  font-weight: bold;
+  margin-right: 1rem;
+}
+.wrap_suggestion .suggestion_auto > ol {
+}
+.wrap_suggestion .suggestion_auto > ol > li {
+  padding: 0.2rem 2rem;
+}
+.wrap_suggestion .suggestion_auto > ol > li:hover {
+  background: rgb(167, 167, 167);
+}
