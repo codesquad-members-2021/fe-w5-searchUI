@@ -47,6 +47,12 @@ a {
     }
 }
 
+@for $i from -10 through 0 {
+    .top48__#{$i} {
+        top: (48px * $i);
+    }
+}
+
 .flex-center {
     display: flex;
     justify-content: center;

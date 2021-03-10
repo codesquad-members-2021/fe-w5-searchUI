@@ -30,17 +30,16 @@
                             </button>
 
                             <div class="search__bar__rolling">
-                                <ul>
+                                <ul class="top48__0 rolling-list">
                                     <%
                                     const arrValues = [
                                         '탭볼', '트러플오일', '커피머신', '맥북에어', '망고주스', 
                                         '워킹화', 'lg청소기', '마키베리', '바디미스트', '기저귀휴지통'
                                     ];
                                     
-                                    for(let i = 0; i < arrValues.length; i++) { 
-                                        const className = `transformY__${i}`;    
+                                    for(let i = 0; i < arrValues.length; i++) {                                          
                                     %>                                        
-                                    <li class="<%=className%> rolling-item" id= <%= i %> >
+                                    <li>
                                         <span><%=(i + 1)%> <%= arrValues[i] %></span>
                                     </li>
                                     <% } %>                                                        

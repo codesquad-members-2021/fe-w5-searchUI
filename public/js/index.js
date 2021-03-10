@@ -1,12 +1,9 @@
 import _ from './util.js';
-import IndexController from './index/IndexController.js';
-import DataManager from './index/DataManager.js';
+import MainController from './index/MainController.js';
 import SearchController from "./index/SearchController.js";
 
-const serverInfo = {serverURL: 'http://localhost:3001'};
-const dataManager = new DataManager(serverInfo);
-
 const indexWrappers = {
+    allWrapper: _.$('.all-wrapper'),
     mainBestWrapper: _.$('.content__main__one'),
     mainCarouselWrapper: _.$('.content__main__carousel'),
     moreWrapper: _.$('.content__more'),
@@ -23,21 +20,12 @@ const controlItems = {
     hotSlideItems: _.$All('ul > li', hotCarouselWrapper),
 };
 
-const options = {
+const carouselOptions = {
     mainCarouselAnimateInterval: 5000,
     mainCarouselAnimateDirection: 'next',
     mainCarouselTransitionDuration: '0.4s',
     hotCarouselTransitionDuration: '0.4s',
 };
 
-new IndexController(dataManager, indexWrappers, controlItems, options).init();
+new MainController(indexWrappers, controlItems, carouselOptions).init();
 new SearchController(_.$('.search')).init();
-
-// indexController에 넣던지.. 분리하기 -----------------------------------------------
-_.addEvent(_.$('.all-wrapper'), 'mouseover', ({target}) => {
-    const closestTarget = _.closestSelector(target, '.search');
-
-    if (!closestTarget)
-        _.classToggleForce(_.$('.search .search__suggestion'), 'visibility--hidden', true);
-});
-// ---------------------------------------------------------------------------------

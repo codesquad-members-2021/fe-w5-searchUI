@@ -82,13 +82,13 @@
             width: inherit;
             color: #bebebe;
             font-weight: 800;
-        }
-        li.rolling-item {
-            position: absolute;
-            top: 0;
-            padding: 9px 0;
-            transition-property: transform;
+            
+            position: relative;            
+            transition-property: top;
             transition-duration: 0.5s;
+        }
+        li {
+            padding: 9px 0;
         }
     }
 
