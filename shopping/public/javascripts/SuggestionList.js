@@ -8,17 +8,25 @@ const SuggestionList = function (List, ListParents) {
 
 SuggestionList.prototype = {
   init() {
-    this.List.forEach((v, index) => {
-      this.inserlist(this.ListParents, v, index);
-    });
+    this.insertHTML(this.ListParents);
   },
 
-  inserlist(Parents, keyword, index) {
-    Parents.innerHTML += `<li><span class="num">${
-      index + 1
-    }.</span> ${keyword}</li>`;
+  insertHTML(Parents) {
+    Parents.innerHTML = this.makeTitleHTML();
   },
 
+  makeListHTML(keyword,index){
+    return `<li><span class="num">${
+      index +1
+    }.</span> ${keyword}</li>`
+  },
+
+  makeTitleHTML() {
+    let listHTML = this.List.map((keyword,index) => this.makeListHTML(keyword,index))
+    .reduce((acc,curr)=> acc += curr);
+    return `<strong class="tit__suggestion">인기 쇼핑 키워드</strong>
+    <ol class="suggestion__items">` + listHTML +`</ol>`
+  },
 
   constructor: SuggestionList,
 };
