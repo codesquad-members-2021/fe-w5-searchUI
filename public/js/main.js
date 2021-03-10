@@ -17,8 +17,7 @@ const executeSlide = () => {
 
 const executeSearch = () => {
   const search = new Search();
-  search.onEvents();
-  search.runKeyWordsRoll();
+  search.init();
 };
 
 const main = () => {
@@ -32,4 +31,4 @@ const main = () => {
   executeSearch();
 };
 
-main();
+window.addEventListener('DOMContentLoaded', main);

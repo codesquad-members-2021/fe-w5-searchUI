@@ -57,6 +57,12 @@ body {
         text-align: left;
         user-select: none;
         pointer-events: none;
+        will-change: opacity;
+        opacity: 1;
+    }
+
+    .search-rollkeyword-hidden {
+        opacity: 0;
     }
 
     .search-rollkeywords-move {
@@ -85,6 +91,7 @@ body {
 
     .search-suggestion {
         display: none;
+        padding: 0.8rem 0;
         border: 1px solid $primary-color;
         border-radius: 1rem;
         position: absolute;
@@ -93,18 +100,19 @@ body {
         z-index: 3;
 
         h3 {
-            padding: $search-suggestion-padding;
-            font-size: 1.2rem;
+            padding: $search-suggestion-padding 2rem;
+            font-size: 0.8rem;
             font-weight: bold;
             color: $main-grey-color;
         }
     }
 
-    .suggestion-visible {
+    .visible {
         display: block;
     }
 
     .suggestion-list-wrap {
+        padding: 0 1rem;
         display: flex;
         justify-content: space-around;
     }
@@ -122,9 +130,21 @@ body {
             font-weight: bold;
         }
     }
-    
-}
 
+    .search-similar-words-wrap {
+        @extend .search-suggestion;
+        margin: 0;
+        padding: 0;
+
+        ol {
+            padding: 1rem;
+        }
+
+        li {
+            padding: 0.5rem 0;
+        }
+    }
+}
 .under-nav-wrapper {
      margin: 0 auto;
      width: $full-contents-width;

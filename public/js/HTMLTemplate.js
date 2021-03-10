@@ -31,4 +31,15 @@ function themeCategoryTemplate({ imgurl, dataseq, text, text2 }) {
   </li>`;
 }
 
-export { eventProductTemplate, slideTemplate, themeCategoryTemplate };
+function similarWordsTemplate() {
+  return `<div class="search-similar-words-wrap">
+           <ol class="similar-word-lists"></ol>
+          </div>`;
+}
+
+export {
+  eventProductTemplate,
+  slideTemplate,
+  themeCategoryTemplate,
+  similarWordsTemplate,
+};
