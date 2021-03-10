@@ -70,7 +70,7 @@ async function init() {
   const moreButtonView = new MoreButtonView(moreBtnArg);
   moreButtonView.init();
 
-  //추천 search
+  //추천 search - rolling
   const recommendOriginData = await getData(URL.RECOMMEND);
   const { list: recommendList } = recommendOriginData;
   const recommendData = recommendParser(recommendList);
@@ -82,6 +82,7 @@ async function init() {
   const recommendRolling = new RecommendRolling(rollingArg);
   recommendRolling.init();
 
+  //추천 search - searchTab
   const searchTabArg = bundleArg({ data: recommendData, selector: searchTabSelector });
   const searchTab = new SearchTab(searchTabArg);
   searchTab.init();
