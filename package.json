@@ -1,5 +1,5 @@
 {
-  "name": "fe-w4-martian",
+  "name": "fe-w5-searchUI",
   "version": "1.0.0",
   "description": "",
   "main": "webpack.config.js",
@@ -11,6 +11,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.13.10",
+    "babel-loader": "^8.2.2",
     "css-loader": "^5.0.2",
     "express": "^4.17.1",
     "sass": "^1.32.8",
