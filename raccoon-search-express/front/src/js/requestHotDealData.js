@@ -1,5 +1,5 @@
 import FetchAPI from './fetchAPI';
-import { initHotDealList } from '../../main';
+import { raccoonShopping } from '../../main';
 import { _ } from './const';
 
 export default class RequestHotDealData extends FetchAPI {
@@ -12,12 +12,12 @@ export default class RequestHotDealData extends FetchAPI {
   }
 
   addEvent() {
-    this.target.addEventListener('click', initHotDealList);
+    this.target.addEventListener('click', raccoonShopping.initHotDealList.bind(raccoonShopping));
   }
 
-  requestData() {
+  async requestData() {
     const requestItems = this.page * this.items;
-    const data = this.getHotDealList(this.current, requestItems);
+    const data = await this.getHotDealList(this.current, requestItems);
     this.current = requestItems;
     this.page++;
     return data;

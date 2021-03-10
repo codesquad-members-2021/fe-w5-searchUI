@@ -17,12 +17,12 @@ class RollingKeywords {
 
   addEvent() {
     this.searchBar.addEventListener('click', this.openSuggestionBox.bind(this));
-    this.searchBar.addEventListener('mouseover', this.mouseLeaveTimerCleaner);
+    this.searchBar.addEventListener('mouseover', this.clearMouseLeaveTimer);
     this.searchBar.addEventListener('mouseleave', this.closeSuggestionBox);
     this.input.addEventListener('input', this.toggleKeywordBox.bind(this));
   }
 
-  mouseLeaveTimerCleaner() {
+  clearMouseLeaveTimer() {
     clearTimeout(this.mouseLeaveTimer);
   }
 
@@ -38,7 +38,6 @@ class RollingKeywords {
       searchBox.style.borderColor = '#f95139';
       suggestion.style.display = 'block';
       input.focus();
-      console.log(this.rollingTimer);
       clearInterval(this.rollingTimer);
       return;
     }
