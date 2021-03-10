@@ -11,11 +11,12 @@ App.prototype.setup = function () {
   this.state = { test: 1 };
 };
 App.prototype.getTemplate = function () {
-  return /*html*/`
+  return /*html*/ `
         <header id ="header"></header>
     `;
 };
 App.prototype.mount = function () {
+  console.log(_.$("#header"));
   new Header(_.$("#header"), {});
 };
 App.prototype.setEvents = function () {};

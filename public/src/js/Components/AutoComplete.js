@@ -11,7 +11,18 @@ AutoComplete.prototype.setup = function () {
 };
 AutoComplete.prototype.getTemplate = function () {
   return /*html*/`
-        <header id ="header"></header>
+    <ol>
+        <li>자동 검색</li>
+        <li>자동 검색</li>
+        <li>자동 검색</li>
+        <li>자동 검색</li>
+        <li>자동 검색</li>
+        <li>자동 검색</li>
+        <li>자동 검색</li>
+        <li>자동 검색</li>
+        <li>자동 검색</li>
+        <li>자동 검색</li>
+    </ol>
     `;
 };
 AutoComplete.prototype.mount = function () {};
