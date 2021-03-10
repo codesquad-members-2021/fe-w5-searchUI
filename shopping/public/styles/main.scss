@@ -25,11 +25,14 @@ footer {
 }
 
 .colorBlack {
-  color: #000;
+  background-color: none;
+  // color: #000;
 }
 
 .colorGray {
-  color: #ddd;
+  background-color: #ddd;
+  width: 100%;
+  // color: #ddd;
 }
 
 .transition {

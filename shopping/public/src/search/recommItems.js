@@ -21,6 +21,7 @@ export const RecommItems = function (searchState) {
   this.timer = timer;
   this.recommendations = recommendations;
   this.topTenWords = topTenWords;
+  this.isDone = false;
 };
 
 RecommItems.prototype.initToggle = async function () {
@@ -44,8 +45,12 @@ RecommItems.prototype.registerEvent = async function () {
 };
 
 RecommItems.prototype.keydownEvent = function ({ key }) {
+  // let isDone = false;
+  if (!key.includes("Arrow") || this.isDone) return;
+  //  if(isDone) return
+  console.log(this.isDone);
   if (!this.recommWordsToggle.classList.contains("visible")) this.recommWordsToggle.classList.add("visible");
-  if (!key.includes("Arrow")) return;
+
   // const colorOn = () => {
   //   this.currElement = _.$All(".recommended__item")[this.currIndex];
   //   if (this.coloredElement) {
@@ -67,23 +72,29 @@ RecommItems.prototype.keydownEvent = function ({ key }) {
   //   // }
   // };
   if (key === "ArrowUp") {
-    if (this.currIndex - 1 >= 0) {
+    // if (isDone) return;
+    if (this.currIndex > 0) {
       this.currIndex--;
       this.colorOn();
-    }
-    if (this.currIndex < 0) {
+    } else if (this.currIndex - 1 < 0) {
+      console.log(`currIndex: ${this.currIndex}`);
+      this.recommWordsToggle.classList.remove("visible");
       this.colorOff();
-      this.recommWordsToggle.style.visibility = "hidden";
+      this.isDone = true;
+      // = "hidden";
     }
   }
   if (key === "ArrowDown") {
+    // if (isDone) return;
     if (this.currIndex + 1 < this.recommendations.length) {
       this.currIndex++;
       this.colorOn();
-    }
-    if (this.currIndex >= this.recommendations.length - 1) {
+    } else if (this.currIndex === this.recommendations.length - 1) {
+      this.recommWordsToggle.classList.remove("visible");
       this.colorOff();
-      this.recommWordsToggle.style.visibility = "hidden";
+      this.currIndex--;
+      this.isDone = true;
+      // = "hidden";
     }
   }
 };
@@ -132,29 +143,42 @@ RecommItems.prototype.loadRelatedWords = async function (inputValue) {
   const tempSuggestions = suggestions.map((item) => item.value);
   const set = [...new Set(tempSuggestions)]; // 중복값 제거
   // this.recommendations = [...set];
-  console.log(set);
+  // console.log(set);
   const tempRecommendations = set.reduce((acc, item, i) => acc + `<span class="recommended__item" data-id="${i}">${item}</span>`, ``);
-  return [tempRecommendations, set];
-  // this.recommWordsToggle.innerHTML = tempRecommendations;
-  // this.recommWordsToggle.classList.add("visible");
+  // return [tempRecommendations, set];
+  this.recommWordsToggle.innerHTML = tempRecommendations;
+  this.recommendations = set;
+  this.recommWordsToggle.classList.add("visible");
+};
+
+RecommItems.prototype.resetToggleStatus = function () {
+  this.currIndex = -1;
+  this.isDone = false;
 };
 
 RecommItems.prototype.inputEvent = function (e) {
+  // this.currIndex = -1;
+  this.resetToggleStatus();
   const inputValue = e.target.value;
   console.log("input", inputValue);
+  console.log(this);
   // this.resetTimer.bind(this)();
   if (this.timer) clearTimeout(this.timer);
   if (inputValue === ``) this.recommWordsToggle.innerHTML = this.topTenWords;
   if (inputValue !== ``) {
-    console.log(1);
-    this.timer = setTimeout(function () {
-      const [tempRecommendations, set] = this.loadRelatedWords(inputValue);
+    // console.log(1);
+    this.timer = setTimeout(
+      // function () {
+      // const [tempRecommendations, set] =
+      this.loadRelatedWords(inputValue),
       //this.loadRelatedWords is not a function or its return value is not iterable
       // error is occurred
-      this.recommendations = set;
-      this.recommWordsToggle.innerHTML = tempRecommendations;
-      this.recommWordsToggle.classList.add("visible");
-    }, times.debounce);
+      // this.recommendations = set;
+      // this.recommWordsToggle.innerHTML = tempRecommendations;
+      // this.recommWordsToggle.classList.add("visible");
+      // }
+      times.debounce
+    );
     // debugger;
   }
 };
