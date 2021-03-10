@@ -1,4 +1,3 @@
-import { CLASS_LIST } from '../util/data';
 import { makeRecommendItem, ol } from '../util/htmlTemplate';
 import { createDom } from '../util/util';
 
@@ -11,16 +10,14 @@ class SearchTab {
     this.rollingContainer = selector.rollingContainer;
   }
   init() {
-    this.onEvent();
+    this.registerEvent();
+    this.renderSearchTab();
   }
-  onEvent() {
+  registerEvent() {
     this.searchInput.addEventListener('click', this.handleClick.bind(this));
     this.searchInput.addEventListener('input', this.handleInput.bind(this));
   }
-  handleClick({ target: { value } }) {
-    if (value) return;
-    this.renderSearchTab();
-  }
+  handleClick({ target: { value } }) {}
   handleInput({ target: { value } }) {}
 
   getRecommendHTML() {
