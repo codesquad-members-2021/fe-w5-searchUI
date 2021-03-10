@@ -22,10 +22,9 @@ const _ = {
 /**
  * @param {String} urlPath
  */
-export const fetchData = async (url, serverUrl = 'http://localhost:3001') => {
-    const sendUrl = serverUrl ? (serverUrl + url) : url;
+export const fetchData = async (url) => {    
     try {
-        const res = await fetch(sendUrl);        
+        const res = await fetch(url);        
         return await res.json();        
     } catch (error) {
         console.error(error);

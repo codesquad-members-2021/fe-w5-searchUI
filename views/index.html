@@ -30,20 +30,7 @@
                             </button>
 
                             <div class="search__bar__rolling">
-                                <ul class="top48__0 transition__duration__500 rolling-list">
-                                    <%
-                                    const arrValues = [
-                                        '탭볼', '트러플오일', '커피머신', '맥북에어', '망고주스', 
-                                        '워킹화', 'lg청소기', '마키베리', '바디미스트', '기저귀휴지통'
-                                    ];
-                                    
-                                    for(let i = 0; i < arrValues.length; i++) {                                          
-                                    %>                                        
-                                    <li>
-                                        <span><%=(i + 1)%> <%= arrValues[i] %></span>
-                                    </li>
-                                    <% } %>                                                        
-                                </ul>
+                                <ul class="top52__0 transition__duration__500 rolling-list"></ul>
                             </div>
                         </div>                       
 
@@ -59,25 +46,8 @@
                             </div>
 
                             <div class="search__suggestion__inner display--none">
-                                <p>인기 쇼핑 키워드</p>
-                                <div class="inner__list">
-                                    <ol>
-                                        <% for(let i = 1; i <= 5; i++ ) { %> 
-                                        <li>
-                                            <span><%= i %></span> 테스트
-                                        </li>
-                                        <% } %> 
-                                    </ol>
-                                    <ol>
-                                        <% for(let i = 6; i <= 10; i++ ) { %> 
-                                        <li>
-                                            <span><%= i %></span> 테스트
-                                        </li>
-                                        <% } %> 
-                                    </ol>
-                                </div>
-                                
-                                
+                                <p>인기 쇼핑 키워드</p>                                
+                                <ul class="inner__list"></ul>
                             </div>  
                         </div>
                     </div>

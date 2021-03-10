@@ -2,8 +2,9 @@ import _ from './util.js';
 import MainController from './index/MainController.js';
 import SearchController from "./index/SearchController.js";
 
+const allWrapper = _.$('.all-wrapper');
+
 const indexWrappers = {
-    allWrapper: _.$('.all-wrapper'),
     mainBestWrapper: _.$('.content__main__one'),
     mainCarouselWrapper: _.$('.content__main__carousel'),
     moreWrapper: _.$('.content__more'),
@@ -28,4 +29,4 @@ const carouselOptions = {
 };
 
 new MainController(indexWrappers, controlItems, carouselOptions).init();
-new SearchController(_.$('.search')).init();
+new SearchController(allWrapper).init();
