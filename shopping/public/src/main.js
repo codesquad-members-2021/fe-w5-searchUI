@@ -1,10 +1,14 @@
 import { api } from "./utils/api.js";
 import { urls } from "./utils/urls.js";
 import { _ } from "./utils/selector.js";
-import { times } from "./utils/states.js";
+import { times, searchToggle, rollings } from "./utils/states.js";
 import { setHtmls, insertAdjacent, insertContents } from "./setters/setHtmls.js";
 import * as htmlMaker from "./utils/htmlMaker.js";
 import { setCarousel } from "./setters/setCarousel.js";
+// import RecommendedItem from "./search/recommItems.js";
+import RecommItems from "./search/recommItems.js";
+import request from "./utils/request.js";
+import Roller from "./search/roller.js";
 
 // event 상품
 const eventItemHtml = document.querySelector(".event__item");
@@ -62,78 +66,19 @@ const partners = api(urls.partners)(setHtmls, htmlMaker.partnerList, insertConte
 // 여기서부터 이번주 미션 시작
 // 개략적인 계획
 // 1. 일단 "작동"에 집중한 기능 구현
+// 1-1. 추천검색어
+// 1-2. 롤링
 // 2. 리팩토링
 // 3. 3주차 코드도 리팩토링
 
-// amazon-search test
-async function request(inputValue) {
-  const response = await fetch(urls.recommendedWords(inputValue));
-  const data = await response.json();
-  return data;
-}
+searchToggle.searchingInput = _.$(".searchBar__input");
+searchToggle.recommWordsToggle = _.$(".searchBar__toggle");
 
-// request recommededWords related to inputValue
-const searchingInput = _.$(".searchBar__input");
-const recommendedWordsToggle = _.$(".searchBar__toggle");
-let timer;
-let recommendations = [];
-searchingInput.addEventListener("input", (e) => {
-  if (timer) clearTimeout(timer);
-  timer = setTimeout(() => {
-    const inputValue = e.target.value;
-    const data = request(inputValue);
-    data.then(({ suggestions }) => {
-      // let temp = ``;
-      recommendations = suggestions.map((item) => item.value);
-      const set = new Set([...recommendations]); // 다시 값을 입력했는데 가습기가 두번 나옴
-      recommendations = [...set];
-      const tempRecommendations = recommendations.reduce((acc, item, i) => acc + `<span class="recommended__item" data-id="${i}">${item}</span>`, ``);
-      // recommendations.forEach((item, i) => {
-      //   temp += `<span class="recommended__item" data-id="${i}">${item}</span>`;
-      //   // return item.value;
-      // });
-      recommendedWordsToggle.innerHTML = tempRecommendations;
-    });
-  }, times.debounce);
-});
+rollings.rollingContainer = _.$(".rolling__container");
+rollings.rollingKeywordHtml = _.$(".rolling__keyword");
 
-// register event of direction-key to select the related word of recommendations
-let currIndex = -1;
-let coloredElement = null;
-let currElement = null;
-searchingInput.addEventListener("keydown", ({ key }) => {
-  if (key.includes("Arrow")) {
-    if (key === "ArrowUp") {
-      if (currIndex >= 0) {
-        currIndex--;
-        currElement = _.$All(".recommended__item")[currIndex];
-        if (coloredElement) coloredElement.style.color = "#000";
-        currElement.style.color = "#ddd";
-        coloredElement = currElement;
-      }
-      if (currIndex < 0) {
-        if (coloredElement) {
-          coloredElement.style.color = "#000";
-          coloredElement = null;
-          currElement = null;
-        }
-      }
-    }
-    if (key === "ArrowDown") {
-      if (currIndex < recommendations.length) {
-        currIndex++;
-        currElement = _.$All(".recommended__item")[currIndex];
-        if (coloredElement) coloredElement.style.color = "#000";
-        currElement.style.color = "#ddd";
-        coloredElement = currElement;
-      }
-      if (currIndex >= recommendations.length) {
-        if (coloredElement) {
-          coloredElement.style.color = "#000";
-          coloredElement = null;
-          currElement = null;
-        }
-      }
-    }
-  }
-});
+const recommItems = new RecommItems(searchToggle, rollings);
+console.log(recommItems);
+// const roller = new Roller(searchToggle, rollings);
+recommItems.registerEvent();
+// roller.initRoller();
