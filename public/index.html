@@ -14,7 +14,10 @@
           <img src="./img/logo_shw.png" />
         </div>
         <div class="header__top--search">
-          <input type="text" placeholder="1. 가정용금고" />
+          <input id="rollingUI--input" type="text" />
+          <div id="wrap--rollingUI">
+            <ul id="rolledList"></ul>
+          </div>
           <button><img src="./img/검색.png" /></button>
         </div>
       </div>
@@ -124,6 +127,6 @@
       </div>
     </article>
 
-    <script src="./js/carouselUIManager.js"></script>
+    <script type="module" src="./js/app.js"></script>
   </body>
 </html>

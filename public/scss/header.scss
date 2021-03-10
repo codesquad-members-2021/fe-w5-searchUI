@@ -16,6 +16,7 @@
 
 .header__top--search {
   @extend .item-display;
+  position: relative;
   justify-content: space-between;
   width: 670px;
   height: 54px;
@@ -26,8 +27,9 @@
 
   input {
     @extend .bold-font;
+    width: 100%;
     border: none;
-    margin: 3px 3px;
+    margin: 3px;
     padding: 10px 60px 10px 30px;
   }
 
