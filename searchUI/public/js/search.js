@@ -1,20 +1,16 @@
+import { _ } from "./util.js";
 export const Search = function (selectors) {
 	this.selectors = selectors;
 	this.init();
 	this.rollTimer;
-	this.debounceTimer;
-	this.currentIndex = 0; //upDownEvent()에 쓰일 state
-	this.currentLength = 0; //현재 suggestion 길이
+	this.debounceTimer; //util함수의 debounce를 쓰기위한 timer
+	this.currentIndex = 0; //selectSuggestion()에 쓰이는 state
+	this.currentLength = 0; //현재 suggestions 길이
 };
 
 Search.prototype.init = function () {
 	this.roll();
 	this.addEvent();
-};
-
-Search.prototype.debounce = function (func, delay = 1000) {
-	if (this.debounceTimer) clearTimeout(this.debounceTimer);
-	this.debounceTimer = setTimeout(func, delay);
 };
 
 Search.prototype.roll = function (index = 0, delay = 1000) {
@@ -27,61 +23,73 @@ Search.prototype.roll = function (index = 0, delay = 1000) {
 	}, delay);
 };
 
-Search.prototype.addEvent = function () {
-	document.addEventListener("click", this.hideEvent.bind(this));
-	this.selectors.searchBar.addEventListener("click", this.clickEvent.bind(this));
-	this.selectors.searchInput.addEventListener("focus", this.focusEvent.bind(this));
-	this.selectors.searchInput.addEventListener("input", () => this.debounce(this.inputEvent.bind(this), 1000));
-	this.selectors.searchInput.addEventListener("keydown", this.upDonwEvent.bind(this));
+Search.prototype.debounce = function (func, delay = 1000) {
+	clearTimeout(this.debounceTimer);
+	this.debounceTimer = setTimeout(func, delay);
 };
 
-Search.prototype.clickEvent = function () {
+Search.prototype.addEvent = function () {
+	_.E(document, "click", this.hideSuggestions.bind(this));
+	_.E(this.selectors.searchBar, "click", this.makeInputFocused.bind(this));
+	_.E(this.selectors.searchInput, "focus", this.revealSuggestions.bind(this));
+	_.E(this.selectors.searchInput, "input", () => this.debounce(this.getSuggestions.bind(this), 1000));
+	// _.E(this.selectors.searchInput, "input", () => _.debounce(this.getSuggestions.bind(this), 1000, this.debounceTimer));
+	_.E(this.selectors.searchInput, "keydown", this.selectSuggestion.bind(this));
+};
+
+Search.prototype.makeInputFocused = function () {
 	this.selectors.searchInput.focus();
 };
 
-Search.prototype.focusEvent = function () {
+Search.prototype.revealSuggestions = function () {
 	clearTimeout(this.rollTimer);
+	this.rollTimer = 0;
 	this.currentIndex = 0;
-	this.selectors.rollItems.classList.add("unseen");
-	this.selectors.searchBar.classList.add("focused");
-	this.selectors.suggestionHot.classList.remove("unseen");
-	this.selectors.suggestionRecommend.classList.add("unseen");
+	_.CA(this.selectors.rollItems, "unseen");
+	_.CA(this.selectors.searchBar, "focused");
+	_.CR(this.selectors.suggestionHot, "unseen");
+	_.CA(this.selectors.suggestionRecommend, "unseen");
 };
 
-Search.prototype.inputEvent = async function () {
-	const response = await fetch(`https://completion.amazon.com/api/2017/suggestions?session-id=139-3675547-2577611&customer-id=&request-id=J08DEQRH25DHAR0AFK3M&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=49&prefix=${this.selectors.searchInput.value}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615257159716`)
-	const { suggestions, prefix } = await response.json()
-	suggestions.length > 0 ? this.render(suggestions, prefix) : this.focusEvent();
+Search.prototype.getSuggestions = async function () {
+	const response = await fetch(`https://completion.amazon.com/api/2017/suggestions?session-id=139-3675547-2577611&customer-id=&request-id=J08DEQRH25DHAR0AFK3M&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=49&prefix=${this.selectors.searchInput.value}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615257159716`);
+	const { suggestions, prefix } = await response.json();
+	suggestions.length > 0 ? this.renderSuggestions(suggestions, prefix) : this.revealSuggestions();
 };
 
-Search.prototype.hideEvent = function (e) {
+Search.prototype.hideSuggestions = function (e) {
 	if (e.target.closest(".header__search-bar") !== null) return;
-	this.roll();
-	this.selectors.rollItems.classList.remove("unseen");
-	this.selectors.searchBar.classList.remove("focused");
-	this.selectors.suggestionHot.classList.add("unseen");
-	this.selectors.suggestionRecommend.classList.add("unseen");
+	if (!this.rollTimer) this.roll();
+	_.CR(this.selectors.rollItems, "unseen");
+	_.CR(this.selectors.searchBar, "focused");
+	_.CA(this.selectors.suggestionHot, "unseen");
+	_.CA(this.selectors.suggestionRecommend, "unseen");
 	this.selectors.searchInput.value = "";
 };
 
-Search.prototype.upDonwEvent = function (e) {
-	const list = this.selectors.suggestionRecommend.querySelectorAll("li");
-	if (e.keyCode === 38) {
-		this.currentIndex = this.currentIndex <= 0 ? 0 : --this.currentIndex;
-		this.selectors.searchInput.value = list[this.currentIndex].innerHTML.replace(/<span class="orange">/g, "").replace(/<\/span>/g, "");
-	} else if (e.keyCode === 40) {
-		this.currentIndex = this.currentIndex >= this.currentLength - 1 ? this.currentLength - 1 : ++this.currentIndex;
-		this.selectors.searchInput.value = list[this.currentIndex].innerHTML.replace(/<span class="orange">/g, "").replace(/<\/span>/g, "");
-	}
-};
-
-Search.prototype.render = function (suggestions, prefix) {
+Search.prototype.renderSuggestions = function (suggestions, prefix) {
 	this.currentLength = suggestions.length;
 	let html = "<ol>";
-	suggestions.forEach(({ value }) => (html += `<li>${value}</li>`));
+	suggestions.forEach(({ value }) => (html += `<li>${this.addHighLight(value, prefix)}</li>`));
 	html += "</ol>";
-	const regex = new RegExp(prefix, "g");
-	this.selectors.suggestionRecommend.innerHTML = html.replace(regex, `<span class="orange">${prefix}</span>`);
-	this.selectors.suggestionRecommend.classList.remove("unseen");
-	this.selectors.suggestionHot.classList.add("unseen");
+	this.selectors.suggestionRecommend.innerHTML = html;
+	_.CR(this.selectors.suggestionRecommend, "unseen");
+	_.CA(this.selectors.suggestionHot, "unseen");
+};
+//prettier-ignore
+Search.prototype.selectSuggestion = function (e) {
+	if(e.keyCode !== 38 && e.keyCode !== 40) return
+	const list = this.selectors.suggestionRecommend.querySelectorAll("li");
+	this.currentIndex = e.keyCode === 38
+		? this.currentIndex <= 0 ? 0 : --this.currentIndex
+		: this.currentIndex >= this.currentLength - 1 ? this.currentLength - 1 : ++this.currentIndex
+	this.selectors.searchInput.value = this.removeHighLight(list[this.currentIndex].innerHTML);
+};
+
+Search.prototype.addHighLight = function (text, target) {
+	return text.replace(new RegExp(target, "g"), `<span class="orange">${target}</span>`);
+};
+
+Search.prototype.removeHighLight = function (text) {
+	return text.replace(/<span class="orange">/g, "").replace(/<\/span>/g, "");
 };

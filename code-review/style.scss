@@ -22,7 +22,7 @@ $width: 970px;
         width: $width;
         justify-content: center;
         align-items: center;
-        .header__logo img {
+        &__logo img {
             width: 120px;
             padding-right: 2rem;
         }
@@ -142,101 +142,9 @@ $width: 970px;
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
-    .navbar__menu--item {
+    &--item {
         span {
             padding-left: 1rem;
-        }
-    }
-}
-
-.main {
-    display: flex;
-    padding-top: 1rem;
-    background-color: $lightgray;
-    justify-content: center;
-    flex-wrap: wrap;
-    .main__1st-content {
-        display: flex;
-        position: relative;
-        width: $width;
-        background-color: white;
-    }
-
-    .main__see-more-button {
-        display: flex;
-        width: $width;
-        height: 2rem;
-        background-color: $gray;
-        justify-content: center;
-        align-items: center;
-    }
-}
-
-._1st-content--slide {
-    overflow: hidden;
-    .slide--wrapper {
-        white-space: nowrap;
-        position: relative;
-        width: 485px * 3;
-        left: -485px;
-        height: 340px;
-        .slide--item {
-            display: inline-block;
-        }
-    }
-}
-
-.slide--arrow {
-    display: inline-flex;
-    position: absolute;
-    top: 250px;
-    left: 617px;
-    align-items: center;
-    .left-button,
-    .right-button {
-        background-color: transparent;
-        border: none;
-        color: $gray;
-        font-size: 300%;
-    }
-    .scroll-button {
-        background-color: $lightgray;
-        position: relative;
-        top: 8px;
-        margin: 0px 2px;
-        width: 30px;
-        border: none;
-        height: 10px;
-    }
-    .slide-on {
-        background-color: black;
-    }
-}
-.main__2nd-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-._2nd-content--list {
-    display: flex;
-    width: $width;
-    justify-content: space-between;
-    background-color: white;
-    li {
-        width: 200px;
-        padding: 1rem;
-        line-height: 110%;
-        img {
-            width: 200px;
-        }
-        ._2nd-content--title {
-            font-size: 85%;
-            font-weight: bold;
-        }
-        ._2nd-content--description {
-            font-size: 80%;
-            color: #888;
         }
     }
 }
