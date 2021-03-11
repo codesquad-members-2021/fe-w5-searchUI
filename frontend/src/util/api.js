@@ -9,21 +9,33 @@ const API = {
         });
       return result;
     },
-
     bannerInfo() {
       const result = fetch(`${END_POINT}/planning-events`)
         .then((response) => {
           return response.json();
         })
         .then((serializedData) => {
-          // console.log(JSON.stringify(serializedData));
           return serializedData;
-          // return serializedData;
-          // return JSON.stringify(serializedData);
         });
         
       return result;
     }
+  },
+  post: {
+    recommendKeywordsInfo(value) {
+      const result = fetch(`${END_POINT}/recommend-keywords`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({query: value})
+      })
+      .then((response) => {
+        return response.json();
+      });
+      return result;
+    },
   }
 }
 
