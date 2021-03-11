@@ -1,7 +1,7 @@
 {
   "name": "shoppinghow-clone",
   "version": "1.0.0",
-  "description": "codesquad masters FE week3",
+  "description": "codesquad masters FE week5",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app",
@@ -9,20 +9,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dyongdi/fe-w3-shopping.git"
+    "url": "git+https://github.com/dyongdi/fe-w5-searchUI.git"
   },
   "keywords": [],
   "author": "Autumn",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dyongdi/fe-w3-shopping/issues"
+    "url": "https://github.com/dyongdi/fe-w5-searchUI/issues"
   },
-  "homepage": "https://github.com/dyongdi/fe-w3-shopping#readme",
+  "homepage": "https://github.com/dyongdi/fe-w5-searchUI#readme",
   "devDependencies": {
     "nodemon": "^2.0.7",
     "sass": "^1.32.8"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1"
+  },
+  "proxy": {
+    "host": "3000"
   }
 }

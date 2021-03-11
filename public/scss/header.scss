@@ -8,7 +8,8 @@
 .nav-bar__theme-menu,
 .nav-bar__user-menu,
 .login-container,
-.recent-products-container {
+.recent-products-container,
+.header__top__search-bar {
   display: flex;
 }
 
@@ -55,5 +56,61 @@
     height: 54px;
     display: flex;
     align-items: center;
+  }
+}
+
+.header__top__search-bar {
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px 0px 30px;
+  position: relative;
+
+  .search-bar__input {
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .search-bar__button__icon {
+    font-size: 22px;
+    color: $point-color;
+  }
+}
+
+.header__top__search-bar:focus-within {
+  border: 1px solid $point-color;
+}
+
+.header__top__search-bar__sub-box {
+  width: 670px;
+  border: 1px solid $point-color;
+  background-color: $white;
+  border-radius: 10px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+}
+
+.rolling-keywords-container {
+  position: absolute;
+  overflow: hidden;
+  width: 80%;
+  height: 30px;
+  top: 12px;
+  user-select: none;
+  pointer-events: none;
+}
+
+.rolling-keywords {
+  transform: translateY(4px);
+  li {
+    color: $medium-gray2;
+    font-weight: 600;
+    height: 30px;
+    font-size: 20px;
   }
 }
