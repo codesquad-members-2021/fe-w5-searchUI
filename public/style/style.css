@@ -113,9 +113,8 @@ p {
   .search .hot_keyword_tpl {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 10% 90%;
+    grid-template-rows: 20% 80%;
     width: -webkit-fill-available;
-    height: 200px;
     border: 1px solid #f9624c;
     border-radius: 10px;
     background-color: #fff;
@@ -125,15 +124,15 @@ p {
     .search .hot_keyword_tpl > div:first-child {
       color: #888888;
       font-weight: 700;
-      grid-column: 1/3;
-      padding-top: 0;
-      padding-bottom: 10px; }
-    .search .hot_keyword_tpl div {
-      padding: 10px 0; }
-      .search .hot_keyword_tpl div div a {
+      grid-column: 1/3; }
+    .search .hot_keyword_tpl > div {
+      padding-top: 15px; }
+    .search .hot_keyword_tpl div div {
+      padding-bottom: 15px; }
+      .search .hot_keyword_tpl div div ul {
         font-size: 14px;
         font-weight: 400; }
-        .search .hot_keyword_tpl div div a span:nth-child(1) {
+        .search .hot_keyword_tpl div div ul span:nth-child(1) {
           font-weight: 800;
           margin-right: 10px;
           font-style: italic; }

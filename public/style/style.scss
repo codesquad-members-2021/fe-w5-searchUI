@@ -128,18 +128,13 @@ p {
       top: 25px;
       right: 10px;
     }
-
-    // &.show {
-    //   border: 1px solid $color-emphasis;
-    // }
   }
 
   .hot_keyword_tpl {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 10% 90%;
+    grid-template-rows: 20% 80%;
     width: -webkit-fill-available;
-    height: 200px;
     border: 1px solid $color-emphasis;
     border-radius: 10px;
     background-color: $color-background-white;
@@ -151,14 +146,16 @@ p {
       color: $color-text-grey;
       font-weight: 700;
       grid-column: 1/3;
-      padding-top: 0;
-      padding-bottom: 10px;
+    }
+
+    & > div {
+      padding-top: 15px;
     }
 
     div {
-      padding: 10px 0;
       div {
-        a {
+        padding-bottom: 15px;
+        ul {
           font-size: 14px;
           font-weight: 400;
           span:nth-child(1) {

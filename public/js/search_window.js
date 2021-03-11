@@ -15,7 +15,7 @@ export function SearchUI(){
 
 SearchUI.prototype.init = function(){
    this.getInitialData();
-   this.searchMouseEvent();
+   this.controllMouseEvent();
    this.realtimeSearch();
 }
 
@@ -57,8 +57,7 @@ SearchUI.prototype.renderKeywordBox= function(){
    this.makeTpl(halfArr, 6,  this.hotKeywordBox, 'beforeEnd');
 }
 
-
-SearchUI.prototype.searchMouseEvent = function(){
+SearchUI.prototype.controllMouseEvent = function(){
    const clickArea = this.searchBox.firstElementChild.closest('.search_box');
    clickArea.addEventListener('click',()=>{
       hideTarget(this.rollingPage);
@@ -97,16 +96,22 @@ SearchUI.prototype.realtimeSearch = function(){
 }
 
 SearchUI.prototype.renderRelatedTerm = function(resArray){
-
    while(this.relatedTermBox.firstChild) {
       this.relatedTermBox.removeChild(this.relatedTermBox.firstChild); 
    }
    resArray.forEach(el=> {
+      this.colorMatchingStr(el);
       const divEl = `<div>${el}</div>`;
       this.relatedTermBox.insertAdjacentHTML('beforeEnd', divEl);
    });
    showTarget(this.relatedTermBox);
    hideTarget(this.hotKeywordBox);
+}
+
+SearchUI.prototype.colorMatchingStr = function(el){
+   const matchingOption = new RegExp(this.searchWindow.value);
+   console.log(el, matchingOption, matchingOption.exec(el), this.searchWindow.value)
+   //검색어와 일치하는 단어칼라를 바꾸는 작업인데 아직 어떻게할지 아이디어가없습니다//
 }
 
 SearchUI.prototype.makeTpl = function(arr, startNumber, pasteArea, place){
