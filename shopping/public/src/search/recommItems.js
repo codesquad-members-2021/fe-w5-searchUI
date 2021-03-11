@@ -57,10 +57,12 @@ RecommItems.prototype.keydownEvent = function (e) {
   if (key === "ArrowUp") {
     e.preventDefault();
     this.moveUp();
+    e.target.value = this.currElement.innerText;
   }
   if (key === "ArrowDown") {
     e.preventDefault();
     this.moveDown();
+    e.target.value = this.currElement.innerText;
   }
 };
 
