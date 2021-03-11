@@ -1,4 +1,5 @@
-const $search = document.querySelector('.search-bar__input');
+import { _ } from './util.js';
+import { $search } from './ref.js';
 
 $search.addEventListener('input', () => {
   const searchInput = $search.value;
