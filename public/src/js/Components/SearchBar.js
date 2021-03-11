@@ -1,5 +1,6 @@
 import Component from "../core/Component.js";
 import { _ } from "../utils/dom.js";
+import { debounce } from "../utils/fns.js";
 import { getHotKeywords } from "../utils/requestKeyword.js";
 import AutoComplete from "./AutoComplete.js";
 import RollingKeywords from "./RollingKeywords.js";

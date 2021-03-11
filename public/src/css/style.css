@@ -71,6 +71,21 @@
 .wrap_rollingKeywords .box_rolling {
   overflow: hidden;
   height: 1.4rem;
+  background: tan;
+}
+.box_rolling .rollingKeywords {
+  height: 1.4rem;
+  transform: translateY(-2.9rem);
+}
+.rollingKeywords > li {
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  transition: height 1s ease;
+  box-sizing: border-box;
+}
+.rollingKeywords > li > span {
+  margin-right: 1rem;
 }
 .box_rolling .rollingKeywords {
   height: 1.4rem;
