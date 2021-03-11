@@ -11,6 +11,7 @@ function SearchTab({ data, selector }) {
   this.currentIdx = -1;
   this.orginInput;
   this.autoCompleteData;
+  this.timer;
 }
 
 SearchTab.prototype = {
@@ -23,13 +24,17 @@ SearchTab.prototype = {
     this.searchInput.addEventListener('input', this.handleInput.bind(this));
     this.searchInput.addEventListener('keydown', this.handleKeydown.bind(this));
   },
-  async handleInput({ target: { value } }) {
+  handleInput({ target: { value } }) {
+    if (this.timer) clearTimeout(this.timer);
+
     this.currentIdx = -1;
     this.orginInput = value;
-    const autoCompleteData = await getData(URL.autoComplete(value));
-    this.autoCompleteData = autoCompleteParser(autoCompleteData);
-    if (!this.autoCompleteData.length) this.renderSearchTab();
-    else this.renderAutoComplete(value, this.autoCompleteData);
+    this.timer = setTimeout(async () => {
+      const autoCompleteData = await getData(URL.autoComplete(value));
+      this.autoCompleteData = autoCompleteParser(autoCompleteData);
+      if (!this.autoCompleteData.length) this.renderSearchTab();
+      else this.renderAutoComplete();
+    }, 1000);
   },
   handleKeydown({ keyCode }) {
     if (keyCode === KEYCODE.UP) {
