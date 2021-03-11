@@ -24,12 +24,43 @@ const _ = {
  */
 export const fetchData = async (url) => {    
     try {
-        const res = await fetch(url);        
+        const res = await fetch(url);
         return await res.json();        
     } catch (error) {
         console.error(error);
     }
-}
+};
+
+
+    // function responseJsonpData(data) {
+    //     console.log(data);
+    // }
+    // function requestJsonp(word, callback) {
+    //     // const script = document.createElement('script');
+    //     const script = _.createElement('script');
+    //     script.src = `https://suggest-bar.daum.net/suggest?callback=${callback}&limit=10&mode=json&code=utf_in_out&q=${word}&id=shoppinghow_suggest`;
+    //     // document.body.append(script);
+    //     _.appendChild(document.body, script);
+    // }
+
+
+
+    // requestJsonp('abc', responseJsonpData);
+
+    
+    
+
+    // const url = `https://suggest-bar.daum.net/suggest?limit=10&mode=json&q=${inputValue}&id=shoppinghow_suggest`;
+    // try {
+    //     const data = await fetchData(url);        
+    //     const result = data.items.map((v) => v.split('|')[0]);
+    //     return result;
+    // } catch (error) {
+    //     console.error(error);
+    // }
+
+
+
 
 export const delay = (ms, data = null) => new Promise((resolve) => setTimeout(() => resolve(data), ms) );
 

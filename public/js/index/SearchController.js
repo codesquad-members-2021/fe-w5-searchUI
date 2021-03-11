@@ -15,6 +15,7 @@ SearchController.prototype.init = function () {
     this.setAllWrapMouseoverEvent(this.allWrapper);
 
     this.setSearchBarClickEvent(this.searchBarWrapper);
+    this.setSearchBarKeyDownEvent(this.searchBarWrapper);
     this.setSearchBarKeyUpEvent(this.searchBarWrapper);
     this.setSearchInputFocusinEvent(this.searchBarWrapper);
     this.setSearchInputFocusoutEvent(this.searchBarWrapper);
@@ -28,18 +29,37 @@ SearchController.prototype.init = function () {
 // [2] 데이터 관련
 // getRecomKeywords, 인기 쇼핑 키워드 10위까지.
 SearchController.prototype.getRecomKeywords = async function () {
+    const url = 'https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json';
     try {
-        const data = await fetchData('https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json');        
+        const data = await fetchData(url);        
         const result = data.list.map((v) => v.keyword).splice(0, 10);
         return result;
     } catch (error) {
         console.error(error);
     }
 };
+
+// getAutoCompleteData, 자동완성 데이터 가져옴
+SearchController.prototype.getAutoCompleteData = function (inputValue) {
+
+};
+
+
 // ========================
 
-// [3] 이벤트 등록
+// [3] 공통 function
+// 롤링 visible 제어
+SearchController.prototype.visibleRollingControl = function (inputTag = null) {
+    const inputValue = inputTag ? inputTag.value : _.$('input', this.searchBarWrapper).value;        
+    if (inputValue) 
+        _.forceToggleClass(this.searchBarRollingWrapper, 'visibility--hidden', true);
+    else
+        _.forceToggleClass(this.searchBarRollingWrapper, 'visibility--hidden', false);
+}
+// ========================
 
+
+// [4] 이벤트 등록
 // AllWrapper Mouseover
 SearchController.prototype.setAllWrapMouseoverEvent = function (allWrapper) { 
     _.addEvent(allWrapper, 'mouseover', (e) => this.allWrapMouseoverEventHandler(e));
@@ -47,16 +67,15 @@ SearchController.prototype.setAllWrapMouseoverEvent = function (allWrapper) {
 
 SearchController.prototype.allWrapMouseoverEventHandler = async function ({target}) { 
     const closestTarget = _.closestSelector(target, '.search');        
-    if (closestTarget) return;
-    await delay(500);
+    if (closestTarget) return;    
+
     _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', true);
-    _.forceToggleClass(this.searchBarRollingWrapper, 'visibility--hidden', false);
+    this.visibleRollingControl();
 
     const focusInput = _.$('input:focus', this.searchBarWrapper);
     if (!focusInput) return;
     focusInput.blur();
 };
-
 
 // 검색창 클릭 시, 인기 쇼핑 키워드 창 노출
 SearchController.prototype.setSearchBarClickEvent = function (searchBarWrapper) {     
@@ -76,27 +95,40 @@ SearchController.prototype.searchBarClickEventHandler = function ({target}) {
 // 1) focusin
 SearchController.prototype.setSearchInputFocusinEvent = function (searchBarWrapper) { 
     const input = _.$('input', searchBarWrapper);
-    _.addEvent(input, 'focusin', (e) => this.searchBarFocusinEventHandler(e));
+    _.addEvent(input, 'focusin', () => this.searchBarFocusoutEventHandler());
 };
 SearchController.prototype.searchBarFocusinEventHandler = function (e) {    
-    _.forceToggleClass(this.searchBarRollingWrapper, 'visibility--hidden', true);    
+    this.visibleRollingControl();
 };
 
 // 2) focusout
 SearchController.prototype.setSearchInputFocusoutEvent = function (searchBarWrapper) { 
     const input = _.$('input', searchBarWrapper);
-    _.addEvent(input, 'focusout', (e) => this.searchBarFocusoutEventHandler(e));
+    _.addEvent(input, 'focusout', () => this.searchBarFocusoutEventHandler());
 };
 SearchController.prototype.searchBarFocusoutEventHandler = function (e) {    
-    _.forceToggleClass(this.searchBarRollingWrapper, 'visibility--hidden', false);    
+    this.visibleRollingControl();    
 };
 
-// 검색창 입력 시, 자동완성 결과 및 인기 쇼핑 키워드 창 보일 시 숨김
+// 검색창 입력
+
+// 1) keydown
+SearchController.prototype.setSearchBarKeyDownEvent = function (searchBarWrapper) {     
+    _.addEvent(searchBarWrapper, 'keydown', (e) => this.searchBarKeyDownEventHandler(e));    
+};
+SearchController.prototype.searchBarKeyDownEventHandler = function ({target}) {
+    this.visibleRollingControl(target);     
+    this.getAutoCompleteData(target.value);
+};
+
+// 2) keyup
 SearchController.prototype.setSearchBarKeyUpEvent = function (searchBarWrapper) {     
     _.addEvent(searchBarWrapper, 'keyup', (e) => this.searchBarKeyUpEventHandler(e));    
 };
-
 SearchController.prototype.searchBarKeyUpEventHandler = function ({target}) {
+    this.visibleRollingControl(target);
+
+    // 자동완성 결과 및 인기 쇼핑 키워드 창 보일 시 숨김 (분리 필요)
     if (target.value) {
         _.forceToggleClass(this.searchSuggestInnerWrapper, 'display--none', true);        
         _.forceToggleClass(this.searchSuggestSimilarWrapper, 'display--none', false);
@@ -123,22 +155,26 @@ SearchController.prototype.makeRollingItem = async function (searchBarRollingWra
     try {
         const rollingListWrapper = _.$('.rolling-list', searchBarRollingWrapper);    
         const arrDatas = await this.getRecomKeywords();
-        arrDatas.forEach((data, i) => 
-            rollingListWrapper.insertAdjacentHTML('beforeend', `<li>${i+1} ${data}</li>`));
+
+        arrDatas.forEach((data, i) => {
+            (i === arrDatas.length-1) && 
+                rollingListWrapper.insertAdjacentHTML('afterbegin', `<li>${i+1} ${data}</li>`);            
+            rollingListWrapper.insertAdjacentHTML('beforeend', `<li>${i+1} ${data}</li>`);
+        });  
     } catch (error) {
         console.error(error);
     } 
 };
 
-// 검색창 롤링 애니메이션 실행 (initRollingPos, changeRollingPos 부분 추후 수정)
-SearchController.prototype.runRollingSearchBar = function (searchBarRollingWrapper, ms = 2000) {
+// 검색창 롤링 애니메이션 실행
+SearchController.prototype.runRollingSearchBar = function (searchBarRollingWrapper, ms = 3000) {
     setTimeout(async () => {
         const rollingListWrapper = _.$('.rolling-list', searchBarRollingWrapper);
         const rollingTopInfoClassName =
             rollingListWrapper.className.split(' ').find((className) => className.indexOf('top') > -1);
 
         const currentPos = Number(rollingTopInfoClassName.replace('top52__', ''));
-        const endPos = -9;        
+        const endPos = -10;        
 
         if ((currentPos-1) < endPos)
             this.initRollingPos(rollingListWrapper, rollingTopInfoClassName)        
@@ -149,13 +185,12 @@ SearchController.prototype.runRollingSearchBar = function (searchBarRollingWrapp
     }, ms);    
 };
 
-SearchController.prototype.initRollingPos = async function (rollingListWrapper, rollingTopInfoClassName) {
-    _.replaceClass(rollingListWrapper, rollingTopInfoClassName, `top52__-10`);
+SearchController.prototype.initRollingPos = async function (rollingListWrapper, rollingTopInfoClassName) {    
     _.replaceClass(rollingListWrapper, 'transition__duration__500', 'transition__duration__0'); 
-    _.replaceClass(rollingListWrapper, 'top52__-10', 'top52__1'); 
+    _.replaceClass(rollingListWrapper, rollingTopInfoClassName, `top52__0`);
     await delay(20); 
     _.replaceClass(rollingListWrapper, 'transition__duration__0', 'transition__duration__500');
-    _.replaceClass(rollingListWrapper, 'top52__1', 'top52__0');
+    _.replaceClass(rollingListWrapper, 'top52__0', 'top52__-1'); 
 };
 
 SearchController.prototype.changeRollingPos = function (rollingListWrapper, rollingTopInfoClassName, currentPos) {
