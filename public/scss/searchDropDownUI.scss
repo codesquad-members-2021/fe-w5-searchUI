@@ -1,0 +1,39 @@
+.search--dropdown {
+  align-items: flex-start;
+  position: absolute;
+  box-sizing: border-box;
+  top: 54px;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 30px;
+  z-index: 1;
+  visibility: hidden;
+}
+
+.dropdown--suggestion {
+  @extend .bold-font;
+  font-size: 16px;
+  padding-bottom: 5px;
+}
+
+.dropdown--lists {
+  @extend .item-display;
+  font-size: 14px;
+
+  .lists--keywords {
+    width: 50%;
+    padding-bottom: 6px;
+  }
+
+  li {
+    padding: 12px 15px 0px 0px;
+  }
+
+  .numRank {
+    font-weight: 700;
+    font-style: italic;
+    margin-right: 10px;
+  }
+}
