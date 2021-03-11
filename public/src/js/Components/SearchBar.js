@@ -14,7 +14,7 @@ SearchBar.prototype.setup = async function () {
   this.state = {
     onSearch: false,
     searching: false,
-    hotKeywords: await getHotKeywords(),
+    hotKeywords: (await getHotKeywords()).slice(0, 10),
   };
 };
 SearchBar.prototype.getTemplate = function () {
@@ -31,7 +31,7 @@ SearchBar.prototype.getTemplate = function () {
       </div>
     </fieldset>
   </form>
-  <div class="wrap_rollingKeywords"></div>
+  <div class="wrap_rollingKeywords" style="display:block;"></div>
   <div class="wrap_suggestion">
     <div class="suggestion_hot" >
       <div>
@@ -57,14 +57,27 @@ SearchBar.prototype.mount = function () {
   new AutoComplete(_.$(".suggestion_auto"), {});
 };
 SearchBar.prototype.setEvents = function () {
-  const toggleHotKeywords = ({ target }) => {
-    const { onSearch } = this.state;
-    this.setState({ onSearch: !onSearch }, false);
-    const $suggestionHot = _.$(".suggestion_hot");
-    $suggestionHot.style.display = !onSearch ? "block" : "none";
-  };
   const inputKeyword = () => {};
-  this.addEvent("focusin", "#input_search", toggleHotKeywords);
-  this.addEvent("focusout", "#input_search", toggleHotKeywords);
+  this.addEvent("focusin", "#input_search", ({ target }) => {
+    this.handlerOfFocusIn(target);
+  });
+  this.addEvent("focusout", "#input_search", ({ target }) => {
+    this.handlerOfFocusOut(target);
+  });
   // this.addEvent("input", "#input_search", debounce(inputKeyword, 1000));
+};
+SearchBar.prototype.handlerOfFocusIn = function () {
+  this.toggleHotKeywords();
+  this.hiddenRollingKeywords();
+};
+SearchBar.prototype.handlerOfFocusOut = function () {
+  _.$(".wrap_rollingKeywords").style.display = "block";
+};
+SearchBar.prototype.toggleHotKeywords = function () {
+  const { onSearch } = this.state;
+  this.setState({ onSearch: !onSearch }, false);
+  _.$(".suggestion_hot").style.display = !onSearch ? "block" : "none";
+};
+SearchBar.prototype.hiddenRollingKeywords = function () {
+  _.$(".wrap_rollingKeywords").style.display = "none";
 };

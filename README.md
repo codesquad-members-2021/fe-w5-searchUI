@@ -28,18 +28,18 @@
 
     - 검색 중 : currentMode : .suggestion_auto에 show 클래스 추가
 
-- [] 인기 검색어 api 요청
-- [] 인기 검색어 데이터를 RollingKeywords에 전달 및 suggestion_hot 생성
+- [x] 인기 검색어 api 요청
+- [x] 인기 검색어 데이터를 RollingKeywords에 전달 및 suggestion_hot 생성
 - [] input값 debounce해서 적당한 타이밍에 자동 검색어 api 요청
 - [] 자동 검색어 데이터 AutoComplte에 전달 
 
 ### RollingKeywords
-g
-- [] 두 번째 li만 보이도록 css 조정
-- [] 첫 번째 li의 height를 0으로 변경(애니메이션)
-- [] 첫 번째 li를 맨 마지막으로 옮긴 후 height 복구 
-- [] 2초에 한 번씩 2, 3번 반복. 
-- [] pauseRolling 실행시 일시 정지, rolling 실행시 다시 작동
+
+- [x] 두 번째 li만 보이도록 css 조정
+- [x] 첫 번째 li의 height를 0으로 변경(애니메이션)
+- [x] 첫 번째 li를 맨 마지막으로 옮긴 후 height 복구 
+- [x] 2초에 한 번씩 2, 3번 반복. 
+- [x] pauseRolling 실행시 일시 정지, rolling 실행시 다시 작동 x => display :none으로 변경시 일시정지 할 필요 없음
 
 ### AutoComplete 
 
