@@ -28,6 +28,7 @@ Search.prototype.onEvents = function () {
   _.on(this.searchInput, 'focus', this.focusHandler.bind(this));
   _.on(this.searchForm, 'focusout', this.focusoutHandler.bind(this));
   _.on(this.searchInput, 'input', this.inputHandler.bind(this));
+  _.on(this.searchInput, 'keydown', this.keydownHandler.bind(this));
 };
 
 Search.prototype.focusHandler = function ({ target }) {
@@ -56,6 +57,47 @@ Search.prototype.inputHandler = function ({ target }) {
     this.hideSimilarWords();
     this.showSuggestion();
   }
+};
+
+Search.prototype.keydownHandler = function ({ code }) {
+  const similarWords = _.$All('.similar-words');
+  if (similarWords.length === 0) return;
+  if (code !== 'ArrowDown' && code !== 'ArrowUp') return;
+
+  const focusedWordArr = Array.from(similarWords) //
+    .filter((word) => word.classList.contains('word-focused'));
+
+  const wordsContainer = {
+    words: similarWords,
+    wordfocused: focusedWordArr[0],
+  };
+  this.pressArrow(code, wordsContainer);
+};
+
+Search.prototype.pressArrow = function (code, wordsContainer) {
+  if (code === 'ArrowDown') {
+    return this.pressArrowDown(wordsContainer);
+  }
+
+  if (code === 'ArrowUp') {
+    return this.pressArrowUp(wordsContainer);
+  }
+};
+
+Search.prototype.pressArrowDown = function ({ words, wordfocused }) {
+  this.showSimilarWords();
+  if (!wordfocused) {
+    return words[0].classList.add('word-focused');
+  }
+  _.rmClass(wordfocused, 'word-focused');
+  _.addClass(wordfocused.nextElementSibling, 'word-focused');
+  if (!wordfocused.nextElementSibling) return this.hideSimilarWords();
+};
+
+Search.prototype.pressArrowUp = function ({ wordfocused }) {
+  if (!wordfocused?.previousElementSibling) return this.toggleSimilarWords();
+  _.rmClass(wordfocused, 'word-focused');
+  _.addClass(wordfocused?.previousElementSibling, 'word-focused');
 };
 
 Search.prototype.getKeywordsDebounce = function () {
@@ -120,21 +162,27 @@ Search.prototype.showSimilarWords = function () {
   _.addClass(similarWords, 'visible');
 };
 
+Search.prototype.toggleSimilarWords = function () {
+  const similarWords = _.$('.search-similar-words-wrap');
+  _.toggleClass(similarWords, 'visible');
+};
+
 Search.prototype.fetchKeywords = async function (text) {
   if (!text) return this.hideSimilarWords();
   try {
-    const keywordData = await fetch(
+    const data = await fetch(
       `https://completion.amazon.com/api/2017/suggestions?session-id=141-6040242-7044009&customer-id=&request-id=7ZD2PSMEE2JF3CVEXGZF&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=81&prefix=${text}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615307516261`
-    )
-      .then((res) => res.json())
-      .then((data) => data.suggestions);
-    this.renderSimilarWords(keywordData, text);
+    ).then((res) => res.json());
+    const keywordData = await data.suggestions;
+    await this.renderSimilarWords(keywordData, text);
   } catch (err) {
     alert(err);
   }
 };
 
 Search.prototype.renderSimilarWords = async function (suggestions, searchText) {
+  if (this.hasNoSimilarWords(suggestions)) return this.hideSimilarWords();
+
   const wordsContainer = _.$('.similar-word-lists');
   wordsContainer.innerHTML = ``;
   const listOfSimilarWords = suggestions
@@ -145,8 +193,9 @@ Search.prototype.renderSimilarWords = async function (suggestions, searchText) {
       const reassembledText = this.reassembleText(wordMatched, wordNotMatched);
       return prev + `<li class="similar-words">${reassembledText}</li>`;
     }, '');
+
   insertTemplate(wordsContainer, 'beforeend', listOfSimilarWords);
-  await this.showSimilarWords();
+  return this.showSimilarWords();
 };
 
 Search.prototype.highlightText = function (searchText) {
@@ -159,4 +208,8 @@ Search.prototype.excludeInputText = function (words, searchText) {
 
 Search.prototype.reassembleText = function (highlightText, restText) {
   return highlightText + restText;
+};
+
+Search.prototype.hasNoSimilarWords = function (suggestions) {
+  if (suggestions.length === 0) return true;
 };
