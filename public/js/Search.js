@@ -10,7 +10,6 @@ export function Search() {
   this.durationTime = 700;
   this.moveY = -2.5;
   this.debouncer = this.getKeywordsDebounce();
-  this.CURRENT_CACHE = {};
 }
 
 Search.prototype.init = function () {
@@ -121,7 +120,7 @@ Search.prototype.printFocusedWord = function (currentWordFocused) {
 
 Search.prototype.getKeywordsDebounce = function () {
   const ms = 600;
-  return debounce(this.fetchKeywords.bind(this), ms);
+  return debounce(this.getKeywordSuggestion.bind(this), ms);
 };
 
 Search.prototype.isNotTarget = function (target) {
@@ -151,17 +150,39 @@ Search.prototype.runKeyWordsRoll = function () {
   }, 2000);
 };
 
-Search.prototype.fetchKeywords = async function (text) {
+Search.prototype.getKeywordSuggestion = async function (text) {
   if (!text) return this.hideSimilarWords();
+  const url = this.getURL(text);
+
   try {
-    const data = await fetch(
-      `https://completion.amazon.com/api/2017/suggestions?session-id=141-6040242-7044009&customer-id=&request-id=7ZD2PSMEE2JF3CVEXGZF&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=81&prefix=${text}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615307516261`
-    ).then((res) => res.json());
-    const keywordData = await data.suggestions;
-    await this.renderSimilarWords(keywordData, text);
+    const cacheName = 'keywords';
+    const cacheStorage = await caches.open(cacheName);
+    const cachedData = await cacheStorage.match(text);
+    if (cachedData) {
+      const data = await cachedData.json();
+      const keywordData = await data.suggestions;
+      this.renderSimilarWords(keywordData, text);
+    } else {
+      const data = await this.fetchData(url, cacheStorage, text);
+      const keywordData = await data.suggestions;
+      this.renderSimilarWords(keywordData, text);
+    }
   } catch (err) {
     alert(err);
   }
+};
+
+Search.prototype.getURL = function (text) {
+  return `https://completion.amazon.com/api/2017/suggestions?session-id=141-6040242-7044009&customer-id=&request-id=7ZD2PSMEE2JF3CVEXGZF&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=81&prefix=${text}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615307516261`;
+};
+
+Search.prototype.fetchData = async function (url, cacheStorage, text) {
+  const data = await fetch(url).then((res) => {
+    let resClone = res.clone();
+    cacheStorage.put(text, resClone);
+    return res.json();
+  });
+  return data;
 };
 
 Search.prototype.renderSimilarWords = function (suggestions, searchText) {
