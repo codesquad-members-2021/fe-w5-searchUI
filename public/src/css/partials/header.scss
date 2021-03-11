@@ -100,11 +100,20 @@ header {
 
 .auto-complete {
   &__list {
+    width: 100%;
     & li {
-      padding: 12px 15px 0 0;
+      height: 25px;
+      line-height: 25px;
+      margin-bottom: 5px;
       .text-red {
         color: red;
       }
     }
+    & li:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+  .current-value {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 }

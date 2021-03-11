@@ -28,8 +28,10 @@ export const makeMoreBtn = ({ now, total, fold = false }) => `
 
 export const makeRecommendItem = (idx, value) => `<li><span><strong>${idx}</strong></span><span>${value}</span></li>`;
 
-export const makeAutoCompleteItem = ({ value, keyword }) => {
-  if (value.indexOf(keyword) < 0) return li({ value, classes: [CLASS_LIST.AUTOCOMPLETE_ITEM] });
+export const makeAutoCompleteItem = ({ value, keyword, isCurrentValue = false }) => {
+  const { AUTOCOMPLETE_ITEM } = CLASS_LIST;
+  if (value.indexOf(keyword) < 0)
+    return li({ value, classes: [AUTOCOMPLETE_ITEM, isCurrentValue ? 'current-value' : ''] });
   else {
     const keywordLength = keyword.length;
     const keywordIdx = value.indexOf(keyword);
@@ -37,7 +39,7 @@ export const makeAutoCompleteItem = ({ value, keyword }) => {
       value.slice(0, keywordIdx) +
       span({ value: keyword, classes: ['text-red'] }) +
       value.slice(keywordIdx + keywordLength);
-    return li({ value: newValue, classes: [CLASS_LIST.AUTOCOMPLETE_ITEM] });
+    return li({ value: newValue, classes: [AUTOCOMPLETE_ITEM, isCurrentValue ? 'current-value' : ''] });
   }
 };
 

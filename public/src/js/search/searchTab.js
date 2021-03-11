@@ -8,7 +8,7 @@ function SearchTab({ data, selector }) {
   this.searchTab = selector.searchTab;
   this.searchInput = selector.searchInput;
   this.searchTabTitle = selector.searchTabTitle;
-  this.currentIdx = 0;
+  this.currentIdx = -1;
   this.orginInput;
   this.autoCompleteData;
 }
@@ -24,7 +24,7 @@ SearchTab.prototype = {
     this.searchInput.addEventListener('keydown', this.handleKeydown.bind(this));
   },
   async handleInput({ target: { value } }) {
-    this.currentIdx = 0;
+    this.currentIdx = -1;
     this.orginInput = value;
     const autoCompleteData = await getData(URL.autoComplete(value));
     this.autoCompleteData = autoCompleteParser(autoCompleteData);
@@ -50,12 +50,13 @@ SearchTab.prototype = {
       ul({ value: firstList, classes: [SEARCH_TAB_LIST] }) + ul({ value: secondList, classes: [SEARCH_TAB_LIST] });
     return recommendHTML;
   },
-  getAutoCompleteHTML(inputValue, data) {
+  getAutoCompleteHTML(inputValue) {
     const { AUTOCOMPLETE_LIST } = CLASS_LIST;
-    const autoCompleteList = data.reduce(
-      (acc, autoData) => acc + makeAutoCompleteItem({ value: autoData, keyword: inputValue }),
-      ''
-    );
+    const autoCompleteList = this.autoCompleteData.reduce((acc, autoData, idx) => {
+      if (idx === this.currentIdx)
+        return acc + makeAutoCompleteItem({ value: autoData, keyword: inputValue, isCurrentValue: true });
+      else return acc + makeAutoCompleteItem({ value: autoData, keyword: inputValue });
+    }, '');
     const autoCompleteHTML = ul({ value: autoCompleteList, classes: [AUTOCOMPLETE_LIST] });
     return autoCompleteHTML;
   },
@@ -65,7 +66,7 @@ SearchTab.prototype = {
   },
   renderAutoComplete(inputValue) {
     this.hiddenTitle();
-    this.searchTab.innerHTML = this.getAutoCompleteHTML(inputValue, this.autoCompleteData);
+    this.searchTab.innerHTML = this.getAutoCompleteHTML(inputValue);
   },
   showTitle() {
     this.searchTabTitle.classList.remove(CLASS_LIST.HIDDEN);
@@ -76,22 +77,24 @@ SearchTab.prototype = {
   moveUpList() {
     if (this.currentIdx - 1 < 0) {
       this.backUpInputValue();
-      return;
+    } else {
+      this.currentIdx--;
+      this.searchInput.value = this.autoCompleteData[this.currentIdx];
     }
-    this.searchInput.value = this.autoCompleteData[this.currentIdx];
-    this.currentIdx--;
+    this.renderAutoComplete();
   },
   moveDownList() {
     if (this.currentIdx + 1 >= this.autoCompleteData.length) {
       this.backUpInputValue();
-      return;
+    } else {
+      this.currentIdx++;
+      this.searchInput.value = this.autoCompleteData[this.currentIdx];
     }
-    this.searchInput.value = this.autoCompleteData[this.currentIdx];
-    this.currentIdx++;
+    this.renderAutoComplete();
   },
   backUpInputValue() {
     this.searchInput.value = this.orginInput;
-    this.currentIdx = 0;
+    this.currentIdx = -1;
   },
 };
 
