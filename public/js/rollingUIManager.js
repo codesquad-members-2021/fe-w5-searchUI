@@ -1,4 +1,4 @@
-import { _ } from "./util";
+import { _, setStyle } from "./util";
 
 export default class RollingUIManager {
     constructor(el) {
@@ -9,25 +9,24 @@ export default class RollingUIManager {
         this.listPixel = 30;
         this.transitionMs = 700;
         this.intervalTime = 2000;
+        this.styleRef = { transition: `${this.transitionMs}ms`, transform: `translateY(${this.moveY}px)` }
     }
 }
 
 RollingUIManager.prototype.moveRollingList = function () {
     this.el.addEventListener("transitionend", () => {
         if (this.moveY == this.defaultY - (this.listPixel * this.listsNum)) {
-            this.el.style.transition = "0ms";
             this.moveY = this.defaultY;
-            this.el.style.transform = `translateY(${this.moveY}px)`;
+            this.styleRef = { transition: "0ms", transform: `translateY(${this.moveY}px)` }
+            setStyle({ el: this.el, styleRef: this.styleRef })
         }
     })
-
-    this.el.style.transition = `${this.transitionMs}ms`
-    this.el.style.transform = `translateY(${this.moveY}px)`;
+    setStyle({ el: this.el, styleRef: this.styleRef })
 
     this.timer = setInterval(() => {
         this.moveY -= this.listPixel;
-        this.el.style.transition = `${this.transitionMs}ms`
-        this.el.style.transform = `translateY(${this.moveY}px)`;
+        this.styleRef = { transition: `${this.transitionMs}ms`, transform: `translateY(${this.moveY}px)` }
+        setStyle({ el: this.el, styleRef: this.styleRef })
     }, this.intervalTime)
 }
 
@@ -42,12 +41,10 @@ RollingUIManager.prototype.eventHandler = function (el) {
 
 RollingUIManager.prototype.focusHandler = function () {
     this.stopRollingList();
-    this.el.style.transition = "0ms";
-    this.el.style.opacity = "0";
+    setStyle({ el: this.el, styleRef: { transition: "0ms", opacity: "0" } })
 };
 
 RollingUIManager.prototype.blurHandler = function () {
     this.moveRollingList();
-    this.el.style.transition = "0ms";
-    this.el.style.opacity = "1";
+    setStyle({ el: this.el, styleRef: { transition: "0ms", opacity: "1" } })
 }
