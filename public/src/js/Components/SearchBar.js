@@ -1,5 +1,6 @@
 import Component from "../core/Component.js";
 import { _ } from "../utils/dom.js";
+import { getHotKeywords } from "../utils/requestKeyword.js";
 import AutoComplete from "./AutoComplete.js";
 import RollingKeywords from "./RollingKeywords.js";
 
@@ -8,8 +9,9 @@ export default function SearchBar($target, props) {
 }
 
 SearchBar.prototype = Object.create(Component.prototype);
-SearchBar.prototype.setup = function () {
-  this.state = { test: 1 };
+SearchBar.prototype.setup = async function () {
+  const keyword = await getHotKeywords();
+  console.log(keyword);
 };
 SearchBar.prototype.getTemplate = function () {
   return /*html*/ `

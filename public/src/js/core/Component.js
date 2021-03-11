@@ -3,13 +3,12 @@ import { _ } from "../utils/dom.js";
 export default function Component($target, props) {
   this.$target = $target;
   this.props = props;
-  this.setup();
-  this.render();
-  this.setEvents();
+  this.init();
 }
 
 Component.prototype = {
   constructor: Component,
+  init,
   setup,
   render,
   getTemplate,
@@ -19,6 +18,11 @@ Component.prototype = {
   setState,
 };
 // methods
+async function init() {
+  await this.setup();
+  this.render();
+  this.setEvents();
+}
 function setup() {}
 function render() {
   this.$target.innerHTML = this.getTemplate();
