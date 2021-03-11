@@ -7,7 +7,10 @@ const SearchController = function(allWrapper) {
     this.searchBarRollingWrapper = _.$('.search__bar__rolling', this.searchBarWrapper);
     this.searchSuggestWrapper = _.$('.search__suggestion', this.searchWrapper);
     this.searchSuggestSimilarWrapper = _.$('.search__suggestion__similarwords', this.searchSuggestionWrapper);
-    this.searchSuggestInnerWrapper = _.$('.search__suggestion__inner', this.searchSuggestionWrapper);  
+    this.searchSuggestInnerWrapper = _.$('.search__suggestion__inner', this.searchSuggestionWrapper);
+    
+    this.autoCompleteData = null;
+    window.setAutoCompleteData = (data) => this.autoCompleteData = data;
 };
 
 // [1] 실행
@@ -22,7 +25,9 @@ SearchController.prototype.init = function () {
 
     this.makeSuggestionItem(this.searchSuggestInnerWrapper);
     this.makeRollingItem(this.searchBarRollingWrapper);
-    this.runRollingSearchBar(this.searchBarRollingWrapper);    
+    this.runRollingSearchBar(this.searchBarRollingWrapper);  
+    
+    
 };
 // ========================
 
@@ -39,11 +44,13 @@ SearchController.prototype.getRecomKeywords = async function () {
     }
 };
 
-// getAutoCompleteData, 자동완성 데이터 가져옴
-SearchController.prototype.getAutoCompleteData = function (inputValue) {
-
+// createAutoCompleteData, 자동완성 데이터 생성 (JSONP 활용) 
+SearchController.prototype.createAutoCompleteData = function (callbackName, inputValue) {
+    const script = _.createElement('script');
+    script.src = `https://suggest-bar.daum.net/suggest?callback=${callbackName}&limit=10&mode=json&q=${inputValue}&id=shoppinghow_suggest`;    
+    _.appendChild(document.body, script); 
+    return delay(1000, this.autoCompleteData);
 };
-
 
 // ========================
 
@@ -116,9 +123,10 @@ SearchController.prototype.searchBarFocusoutEventHandler = function (e) {
 SearchController.prototype.setSearchBarKeyDownEvent = function (searchBarWrapper) {     
     _.addEvent(searchBarWrapper, 'keydown', (e) => this.searchBarKeyDownEventHandler(e));    
 };
-SearchController.prototype.searchBarKeyDownEventHandler = function ({target}) {
+SearchController.prototype.searchBarKeyDownEventHandler = async function ({target}) {
     this.visibleRollingControl(target);     
-    this.getAutoCompleteData(target.value);
+    const testData = await this.createAutoCompleteData('setAutoCompleteData', target.value);    
+    console.log(testData)
 };
 
 // 2) keyup
