@@ -3,6 +3,7 @@ import { _ } from '../util.js';
 
 SuggestionView.MODE__POPULAR_KEYWORD = 0;
 SuggestionView.MODE__SUGGESTION_FROM_INPUT = 1;
+SuggestionView.MODE__NOT_FOUND = 2;
 
 export function SuggestionView(data) {
   this.$target;
@@ -12,28 +13,6 @@ export function SuggestionView(data) {
   this.suggestionFromInputView;
   this.init();
 }
-
-SuggestionView.prototype.show = function () {
-  this.$target.hidden = false;
-};
-SuggestionView.prototype.hide = function () {
-  this.$target.hidden = true;
-};
-
-SuggestionView.prototype.updateView = function () {
-  switch (this.mode) {
-    case SuggestionView.MODE__POPULAR_KEYWORD:
-      this.popularKeywordView.getEl().hidden = true;
-      this.suggestionFromInputView.getEl().hidden = false;
-      break;
-    case SuggestionView.MODE__SUGGESTION_FROM_INPUT:
-      this.popularKeywordView.getEl().hidden = false;
-      this.suggestionFromInputView.getEl().hidden = true;
-      break;
-    default:
-      throw new Error('not reached!');
-  }
-};
 
 SuggestionView.prototype.init = function () {
   this.$target = this.createEl();
@@ -46,7 +25,6 @@ SuggestionView.prototype.init = function () {
   this.suggestionFromInputView = new SuggestionFromInputView();
 
   this.$target.appendChild(this.popularKeywordView.getEl());
-  this.$target.appendChild(this.suggestionFromInputView.getEl());
 };
 
 SuggestionView.prototype.createEl = function () {
@@ -56,8 +34,40 @@ SuggestionView.prototype.createEl = function () {
   });
 };
 
+SuggestionView.prototype.show = function () {
+  this.$target.hidden = false;
+};
+SuggestionView.prototype.hide = function () {
+  this.$target.hidden = true;
+};
+
+SuggestionView.prototype.updateView = function () {
+  switch (this.mode) {
+    case SuggestionView.MODE__POPULAR_KEYWORD:
+      if (this.$target.contains(this.popularKeywordView.getEl())) break;
+      this.$target.removeChild(this.suggestionFromInputView.getEl());
+      this.$target.appendChild(this.popularKeywordView.getEl());
+      break;
+    case SuggestionView.MODE__SUGGESTION_FROM_INPUT:
+      if (this.$target.contains(this.suggestionFromInputView.getEl())) break;
+      this.$target.removeChild(this.popularKeywordView.getEl());
+      this.$target.appendChild(this.suggestionFromInputView.getEl());
+      break;
+    case SuggestionView.MODE__NOT_FOUND:
+      this.$target.removeChild(this.suggestionFromInputView.getEl());
+      this.$target.removeChild(this.popularKeywordView.getEl());
+      break;
+    default:
+      throw new Error('not reached!');
+  }
+};
+
 SuggestionView.prototype.getEl = function () {
   return this.$target;
+};
+
+SuggestionView.prototype.getMode = function () {
+  return this.mode;
 };
 
 SuggestionView.prototype.setMode = function (mode) {
@@ -130,7 +140,6 @@ PopularKeywordList.prototype.init = function () {
 PopularKeywordList.prototype.createEl = function () {
   return _.genEl('OL', {
     classNames: ['popular-keyword__list'],
-    // attributes: { start: this.start },
   });
 };
 
@@ -185,7 +194,7 @@ function SuggestionFromInputView(data) {
 
 SuggestionFromInputView.prototype.init = function () {
   this.$target = this.createEl();
-  this.list;
+  // this.appendList();
 };
 
 SuggestionFromInputView.prototype.createEl = function () {
@@ -196,11 +205,11 @@ SuggestionFromInputView.prototype.createEl = function () {
 
 SuggestionFromInputView.prototype.appendList = function () {
   this.list = new SuggestionFromInputList(this.data);
-  this.$target.appendChild(this.list.getEl());
+  this.$target.appendChild(this.list?.getEl());
 };
 
 SuggestionFromInputView.prototype.updateList = function () {
-  this.$target.remove(this.list.getEl());
+  this.list?.getEl().remove();
   this.appendList();
 };
 
@@ -221,6 +230,7 @@ function SuggestionFromInputList(data) {
 
 SuggestionFromInputList.prototype.init = function () {
   this.$target = this.createEl();
+  this.appendListItems();
 };
 
 SuggestionFromInputList.prototype.createEl = function () {
@@ -241,14 +251,29 @@ SuggestionFromInputList.prototype.appendListItems = function () {
 
 SuggestionFromInputList.prototype.updateMarks = function () {};
 
+SuggestionFromInputList.prototype.getEl = function () {
+  return this.$target;
+};
+
 function SuggestionFromInputListItem({ data, markStr }) {
   this.$target;
-  this.data = data;
-  this.markStr = markStr.slice(0, markStr.lastIndexOf('|'));
+  this.data = data.slice(0, markStr.lastIndexOf('|') - 1);
+  this.markStr = markStr;
+  this.begin;
+  this.mid = '';
+  this.end;
+  this.init();
 }
 
 SuggestionFromInputListItem.prototype.init = function () {
+  this.initParts();
   this.$target = this.createEl();
+};
+
+SuggestionFromInputListItem.prototype.initParts = function () {
+  [this.begin, this.end] = this.data.split(this.markStr);
+  this.end = this.end ?? '';
+  if (this.begin.length + this.end.length < this.data.length) this.mid = this.markStr;
 };
 
 SuggestionFromInputListItem.prototype.createEl = function () {
@@ -258,6 +283,12 @@ SuggestionFromInputListItem.prototype.createEl = function () {
   });
 };
 
+SuggestionFromInputListItem.prototype.getEl = function () {
+  return this.$target;
+};
+
 SuggestionFromInputListItem.prototype.template = function () {
-  return `${this.data.markStr}<span class="suggestion-from-input__list__item__mark"></span>`;
+  return `<a class="suggestion-from-input__list__item__link" href="">
+            ${this.begin}<span class="link__mark">${this.mid}</span>${this.end}
+          </a>`;
 };
