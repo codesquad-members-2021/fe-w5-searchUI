@@ -1,4 +1,4 @@
-import { _, insertTemplate } from './util.js';
+import { _, insertTemplate, debounce } from './util.js';
 import { similarWordsTemplate } from './HTMLTemplate.js';
 
 export function Search() {
@@ -9,8 +9,7 @@ export function Search() {
   this.rollKeyword = _.$('.search-rollkeywords');
   this.durationTime = 700;
   this.moveY = -2.5;
-  this.timer;
-  this.debouncer;
+  this.debouncer = this.getKeywordsDebounce();
   this.CURRENT_CACHE = {};
 }
 
@@ -48,18 +47,20 @@ Search.prototype.focusoutHandler = function ({ target }) {
 };
 
 Search.prototype.inputHandler = function ({ target }) {
-  target.value ? this.hideSuggestion() : this.hideSimilarWords();
-  const ms = 1000;
-  const text = target.value;
-  this.debounce(() => this.fetchKeywords(text), ms);
+  if (target.value) {
+    const text = target.value;
+    this.hideSuggestion();
+    this.debouncer(text);
+  }
+  if (!target.value) {
+    this.hideSimilarWords();
+    this.showSuggestion();
+  }
 };
 
-Search.prototype.debounce = function (fn, ms) {
-  let timer = this.debouncer;
-  if (timer) clearTimeout(timer);
-  this.debouncer = setTimeout(() => {
-    fn();
-  }, ms);
+Search.prototype.getKeywordsDebounce = function () {
+  const ms = 1000;
+  return debounce(this.fetchKeywords.bind(this), ms);
 };
 
 Search.prototype.isNotTarget = function (target) {
@@ -120,7 +121,7 @@ Search.prototype.showSimilarWords = function () {
 };
 
 Search.prototype.fetchKeywords = async function (text) {
-  if (!text) return this.hideSimilarWords;
+  if (!text) return this.hideSimilarWords();
   try {
     const keywordData = await fetch(
       `https://completion.amazon.com/api/2017/suggestions?session-id=141-6040242-7044009&customer-id=&request-id=7ZD2PSMEE2JF3CVEXGZF&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=81&prefix=${text}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615307516261`
