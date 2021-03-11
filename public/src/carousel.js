@@ -3,15 +3,12 @@ class Carousel {
     constructor() {
         this.children = slideBundle.children;
         this.setTime = 500;
-        // this.keyChildren = keywordRollingDiv.children;
         this.eventSignal = this.eventSignal();
     }
     eventSignal() {
         this.decideClickDirection();
         this.decideMouseoverChange();
-        // this.moveKeyRolling();
     }
-    // 
     moveKeyRolling() {
         keywordBundle.classList.toggle(this.dir);
         setTimeout(() => {
@@ -19,7 +16,6 @@ class Carousel {
             slideBundle.classList.toggle(this.dir);
         }, this.setTime);
     }
-
     decideMouseoverChange() {
         slideContainer.addEventListener('mouseover', ({target}) => {
             let targetKey = target.dataset.key;
@@ -40,7 +36,6 @@ class Carousel {
             }
         });
     }
-
     decideClickDirection() {
         slideContainer.addEventListener('click', ({target}) => {
             if(target.classList.contains('fa-chevron-right')) {
@@ -71,4 +66,3 @@ class Carousel {
 }
 
 let slide = new Carousel();
-// console.log(issueBundle.tagName)

@@ -5,6 +5,8 @@ const issueContainer = document.querySelector('.issue-banner__slide');
 const issueBanner = document.querySelector('.issue-banner');
 const issueBundle = document.querySelector('.issue-bundle');
 const keywordRollingDiv = document.querySelector('.front__search-keyword');
+const hotKeywordBox = document.querySelector('.front__hotKeyword-box');
+const inputBox = document.querySelector('.input-box__input');
 
 
 
@@ -27,10 +29,14 @@ export function loadHomeContentsData() {
 }
 loadHomeContentsData();
 
-export function loadKeyword() {
-    return fetch(`${local}:${port}${rollingKeyPath}`)
-    .then(response => response.json())
-    .then(json => json.list.searchKeyword);
-}
+export async function loadKeyword() {
+    const response = await fetch(`${local}:${port}${rollingKeyPath}`,
+    {
+        method: 'GET',
+    });
+    const data = await response.json();
+    return data.list.searchKeyword;
+    }
+
 loadKeyword();
-export {staticContainer, slideContainer, slideBundle, issueContainer, issueBanner, issueBundle, keywordRollingDiv};
+export {staticContainer, slideContainer, slideBundle, issueContainer, issueBanner, issueBundle, keywordRollingDiv, hotKeywordBox, inputBox};

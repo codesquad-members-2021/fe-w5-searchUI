@@ -22,6 +22,7 @@
 }
 .front .front__input-box {
   margin-left: 40px;
+  position: relative;
 }
 .front .front__input-box .input-box__input {
   height: 50px;
@@ -40,19 +41,38 @@
   border-radius: 10px;
 }
 .front .front__search-keyword {
-  left: 31%;
-  top: 45px;
+  top: 0px;
+  padding: 0 20px;
   position: absolute;
-  width: 400px;
+  width: 650px;
   height: 45px;
   overflow: hidden;
 }
 .front .front__search-keyword.remove {
   display: none;
 }
+.front .front__hotKeyword-box {
+  display: none;
+  position: absolute;
+  top: 49px;
+  background-color: white;
+  width: 650px;
+}
+.front .front__hotKeyword-box.focus {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 100px;
+  z-index: 3;
+  border-radius: 10px;
+  border: solid 2px red;
+}
 .front .search-keyword__list {
   font-size: 25px;
   padding-top: 10px;
+}
+.front .search-keyword__bundle {
+  z-index: -1;
 }
 .front .search-keyword__bundle.move {
   transform: translate3d(0, -40px, 0);
@@ -171,7 +191,6 @@ nav .add-on .add-on__login li {
 .main-banner .main-banner__slide .slide__under-btn1,
 .main-banner .main-banner__slide .slide__under-btn2,
 .main-banner .main-banner__slide .slide__under-btn3 {
-  width: 15px;
   height: 5px;
   background-color: #ccc;
 }
