@@ -370,6 +370,7 @@ a {
   font-size: 20px;
   line-height: 22px;
   letter-spacing: -1.15px;
+  cursor: default;
 }
 .header__logo-search .search__bar button {
   position: absolute;
@@ -394,6 +395,8 @@ a {
   font-weight: 800;
   position: relative;
   transition-property: top;
+  user-select: none;
+  pointer-events: none;
 }
 .header__logo-search .search__bar__rolling li {
   display: flex;
@@ -402,7 +405,7 @@ a {
 }
 .header__logo-search .search__suggestion {
   width: 670px;
-  padding: 18px 24px;
+  padding: 14px 24px;
   border-radius: 10px;
   border: 1px solid #f95139;
   background-color: #fff;
