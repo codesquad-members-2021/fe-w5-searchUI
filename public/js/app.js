@@ -1,20 +1,28 @@
 import 'regenerator-runtime/runtime';
-import { _, delay } from "./util"
+import { _ } from "./util"
 import CarouselUI from "./carouselUI";
-import { carouselUIManager } from "./carouselUIManager";
+import CarouselUIManager from "./carouselUIManager";
 import RollingUI from "./rollingUI";
 import RollingUIManager from "./rollingUIManager";
-import { test } from "./searchDropdownUI";
+import { SearchDropDownUI } from "./searchDropdownUI";
 
-const init = () => {
+const init = async () => {
     const carouselUI = new CarouselUI(_.$('.carouselUI'));
-    const rollingUI = new RollingUI(_.$("#rolledList"));
-    const rollingUIManager = new RollingUIManager(_.$("#rolledList"));
+    const rollingUI = new RollingUI(_.$("#rollingList"));
+    const rollingUIManager = new RollingUIManager(_.$("#rollingList"));
+    const searchDropdownUI = new SearchDropDownUI(_.$(".search--dropdown"));
 
-    carouselUI.insertDom();
-    setTimeout(() => carouselUIManager(_.$All(".carouselUI--img")), 300)
-    rollingUI.init();
-    rollingUIManager.eventHandler(_.$("#rollingUI--input"));
+    await carouselUI.init();
+
+    const carouselUIManager = new CarouselUIManager(_.$All(".carouselUI--img"));
+    carouselUIManager.init();
+    carouselUIManager.eventHandler();
+
+    await rollingUI.init(_.$("#rollingList"));
     rollingUIManager.moveRollingList();
+    rollingUIManager.eventHandler(_.$("#search--input"));
+
+    await searchDropdownUI.init(_.$(".dropdown--lists"));
+    searchDropdownUI.eventHandler(_.$("#search--input"));
 };
 init();
