@@ -42,7 +42,8 @@ const searchTabTitle = _.$('.search-tab__title');
 const searchTabSelector = { searchTab, searchInput, searchTabTitle };
 
 //토글
-const toggleList = [{ check: searchInput, show: rollingContainer, hidden: searchTabContainer }];
+const searchContainer = _.$('.box_search');
+const toggleList = [{ check: searchContainer, show: rollingContainer, hidden: searchTabContainer }];
 
 //슬라이더
 async function init() {
