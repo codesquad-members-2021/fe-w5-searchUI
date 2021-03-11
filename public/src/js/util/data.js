@@ -7,6 +7,8 @@ export const CLASS_LIST = {
   NEXT_ICON: 'fa-chevron-right',
   MORE_LIST: 'event-item-list',
   PLACEHOLDER_ITEM: 'placeholder-item',
+  SEARCH_TAB_LIST: 'search-tab__list',
+  AUTOCOMPLETE_ITEM: 'auto-complete__item',
 };
 
 export const URL = {

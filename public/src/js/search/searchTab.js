@@ -1,7 +1,7 @@
-import { URL } from '../util/data';
-import { li, makeRecommendItem, ol, recommendListTitle, ul } from '../util/htmlTemplate';
+import { CLASS_LIST, URL } from '../util/data';
+import { li, makeRecommendItem, ul } from '../util/htmlTemplate';
 import { autoCompleteParser } from '../util/parser';
-import { createDom, getData, _ } from '../util/util';
+import { getData, _ } from '../util/util';
 
 function SearchTab({ data, selector }) {
   this.recommendData = data;
@@ -30,6 +30,7 @@ SearchTab.prototype = {
   },
 
   getRecommendHTML() {
+    const { SEARCH_TAB_LIST } = CLASS_LIST;
     let firstList = this.recommendData
       .slice(0, this.recommendData.length / 2)
       .reduce((acc, data, idx) => acc + makeRecommendItem(idx + 1, data), '');
@@ -37,16 +38,16 @@ SearchTab.prototype = {
       .slice(this.recommendData.length / 2)
       .reduce((acc, data, idx) => acc + makeRecommendItem(idx + 1, data), '');
     const recommendHTML =
-      createDom('ol')({ value: firstList, classes: ['search-tab__list'] }) +
-      createDom('ol')({ value: secondList, classes: ['search-tab__list'] });
+      ul({ value: firstList, classes: [SEARCH_TAB_LIST] }) + ul({ value: secondList, classes: [SEARCH_TAB_LIST] });
     return recommendHTML;
   },
   getAutoCompleteHTML(data) {
+    const { AUTOCOMPLETE_ITEM } = CLASS_LIST;
     const autoCompleteList = data.reduce(
-      (acc, keyword) => acc + li({ value: keyword, classes: ['auto-complete__item'] }),
+      (acc, keyword) => acc + li({ value: keyword, classes: [AUTOCOMPLETE_ITEM] }),
       ''
     );
-    const autoCompleteHTML = ul({ value: autoCompleteList, classes: ['auto-complete__list'] });
+    const autoCompleteHTML = ul({ value: autoCompleteList, classes: [AUTOCOMPLETE_ITEM] });
     return autoCompleteHTML;
   },
   renderSearchTab() {
@@ -58,10 +59,10 @@ SearchTab.prototype = {
     this.searchTab.innerHTML = this.getAutoCompleteHTML(parsedAutoCompleteData);
   },
   showTitle() {
-    this.searchTabTitle.classList.remove('hidden');
+    this.searchTabTitle.classList.remove(CLASS_LIST.HIDDEN);
   },
   hiddenTitle() {
-    this.searchTabTitle.classList.add('hidden');
+    this.searchTabTitle.classList.add(CLASS_LIST.HIDDEN);
   },
 };
 
