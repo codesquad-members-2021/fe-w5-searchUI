@@ -33,15 +33,23 @@ Search.prototype.onEvents = function () {
 
 Search.prototype.focusHandler = function ({ target }) {
   if (this.isNotTarget(target)) return;
-  target.value ? this.hideSuggestion() : this.showSuggestion();
+  if (target.value) {
+    this.hideSuggestion();
+    this.showSimilarWords();
+  }
+  if (!target.value) this.showSuggestion();
+
   this.stopRolling();
   this.hideRollKeyword();
 };
 
 Search.prototype.focusoutHandler = function ({ target }) {
   if (this.isNotTarget(target)) return;
+
   this.hideSuggestion();
+  this.hideSimilarWords();
   this.runKeyWordsRoll();
+
   if (!this.searchInput.value) {
     this.showRollKeyword();
   }
@@ -53,6 +61,7 @@ Search.prototype.inputHandler = function ({ target }) {
     this.hideSuggestion();
     this.debouncer(text);
   }
+
   if (!target.value) {
     this.hideSimilarWords();
     this.showSuggestion();
@@ -64,14 +73,14 @@ Search.prototype.keydownHandler = function ({ code }) {
   if (similarWords.length === 0) return;
   if (code !== 'ArrowDown' && code !== 'ArrowUp') return;
 
-  const focusedWordArr = Array.from(similarWords) //
-    .filter((word) => _.contains(word, 'word-focused'));
-
+  const wordfocused = _.$('.word-focused');
   const wordsContainer = {
     words: similarWords,
-    wordfocused: focusedWordArr[0],
+    wordfocused,
   };
+
   this.pressArrow(code, wordsContainer);
+  if (!this.searchInput.value) this.hideSimilarWords();
 };
 
 Search.prototype.pressArrow = function (code, wordsContainer) {
@@ -87,10 +96,13 @@ Search.prototype.pressArrow = function (code, wordsContainer) {
 Search.prototype.pressArrowDown = function ({ words, wordfocused }) {
   this.showSimilarWords();
   if (!wordfocused) {
-    return words[0].classList.add('word-focused');
+    words[0].classList.add('word-focused');
+    return this.printFocusedWord(words[0]);
   }
   _.rmClass(wordfocused, 'word-focused');
   _.addClass(wordfocused.nextElementSibling, 'word-focused');
+  this.printFocusedWord(wordfocused.nextElementSibling);
+
   if (!wordfocused.nextElementSibling) return this.hideSimilarWords();
 };
 
@@ -98,6 +110,13 @@ Search.prototype.pressArrowUp = function ({ wordfocused }) {
   if (!wordfocused?.previousElementSibling) return this.toggleSimilarWords();
   _.rmClass(wordfocused, 'word-focused');
   _.addClass(wordfocused?.previousElementSibling, 'word-focused');
+  this.printFocusedWord(wordfocused.previousElementSibling);
+};
+
+Search.prototype.printFocusedWord = function (currentWordFocused) {
+  if (!currentWordFocused) return (this.searchInput.value = '');
+
+  this.searchInput.value = currentWordFocused.textContent;
 };
 
 Search.prototype.getKeywordsDebounce = function () {
@@ -180,7 +199,7 @@ Search.prototype.fetchKeywords = async function (text) {
   }
 };
 
-Search.prototype.renderSimilarWords = async function (suggestions, searchText) {
+Search.prototype.renderSimilarWords = function (suggestions, searchText) {
   if (this.hasNoSimilarWords(suggestions)) return this.hideSimilarWords();
 
   const wordsContainer = _.$('.similar-word-lists');
