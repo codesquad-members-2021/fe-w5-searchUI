@@ -126,3 +126,4 @@ SearchUI.prototype.makeTpl = function(arr, startNumber, pasteArea, place){
    });
    pasteArea.insertAdjacentElement(place, tempBox);
 }
+}
