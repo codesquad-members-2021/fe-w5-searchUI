@@ -111,7 +111,7 @@ SearchUI.prototype.renderRelatedTerm = function(resArray){
 SearchUI.prototype.colorMatchingStr = function(el){
    const matchingOption = new RegExp(this.searchWindow.value);
    console.log(el, matchingOption, matchingOption.exec(el), this.searchWindow.value)
-   //검색어와 일치하는 단어칼라를 바꾸는 작업인데 아직 어떻게할지 아이디어가없습니다//
+   //검색어와 일치하는 단어 색을 바꾸는 작업인데 아직 어떻게할지 아이디어가없습니다//
 }
 
 SearchUI.prototype.makeTpl = function(arr, startNumber, pasteArea, place){
