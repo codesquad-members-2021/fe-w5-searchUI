@@ -52,6 +52,7 @@
             line-height: 22px;
 
             letter-spacing: $header-letterSpacing;
+            cursor: default;
         }
 
         button {
@@ -83,8 +84,8 @@
             position: relative;
             transition-property: top;
 
-            // user-select: none;
-            // pointer-events: none
+            user-select: none;
+            pointer-events: none
         }
         li {
             display: flex;
@@ -95,7 +96,7 @@
 
     .search__suggestion {
         width: 670px;
-        padding: 18px 24px;
+        padding: 14px 24px;
         border-radius: 10px;
         border: 1px solid $search-borderColor;
         background-color: $white;

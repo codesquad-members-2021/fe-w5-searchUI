@@ -30,19 +30,13 @@
                             </button>
 
                             <div class="search__bar__rolling">
-                                <ul class="top52__0 transition__duration__500 rolling-list"></ul>
+                                <ul class="top52__-1 transition__duration__500 rolling-list"></ul>
                             </div>
                         </div>                       
 
                         <div class="search__suggestion visibility--hidden">                       
                             <div class="search__suggestion__similarwords display--none">
-                                <ul>
-                                    <% for (let i=0; i < 3; i++)  { %>
-                                    <li>
-                                        <a href="#"><%= i %> TEST </a>
-                                    </li>
-                                    <% } %>                                
-                                </ul>
+                                <ul class="similar__list"></ul>
                             </div>
 
                             <div class="search__suggestion__inner display--none">
@@ -193,5 +187,6 @@
             </div>
         </div>
     </body>
-    <script type="module" src="/js/index.js"></script>
+    
+    <script type="module" src="/js/index.js"></script>    
 </html>
