@@ -1,0 +1,197 @@
+$font-stack:    Helvetica, sans-serif;
+$primary-color: #333;
+
+@use 'reset';
+@use 'banner';
+@use 'nav';
+* {
+    // outline: 1px solid red;
+}
+.head_shw {
+    padding-top: 43px;
+    font-family: Apple SD Gothic Neo,Malgun Gothic,맑은 고딕,Dotum,돋움,sans-serif;
+    background-color: #fff;
+    text-align: center;
+    min-width: 977px;
+}
+
+.mainBanner{
+    background-color: #f3f3f3;
+    .cont_event{
+        display:flex;
+        flex-direction: row;
+        position:relative;
+        justify-content: center;
+        padding-top: 19px;
+        padding-bottom: 50px;
+        border: 1px solid #e4e4e4;
+        .cont_event-left{
+            display: flex;
+            justify-content: center;
+            width: 510px;
+            height: 340px;
+            background-color: white;
+            border: 1px solid #e4e4e4;
+        }
+        .cont_event-right{
+            display: flex;
+            justify-content: center;
+            width: 754px;
+            height: 340px;
+            background-color: white;
+            border: 1px solid #e4e4e4;
+        }
+        .page_box-list{
+            position: absolute;
+            display: flex;
+            background-color: white;
+            top: 305px;
+            left: 1162px;
+            .page_box{
+                margin: 0 2px;
+                background-color: #cccccc;
+                width:15px;
+                height:5px;
+            }
+            .select {
+                background-color: black;
+                margin: 0 2px;
+                width:15px;
+                height:5px;
+            }
+        }
+    }
+}
+
+.ico_slide-left{
+    display: inline-block;
+    overflow: hidden;
+    color:red;
+    width: 15px;
+    height: 25px;
+    font-size: 0;
+    line-height: 0;
+    background: url(//shop1.daumcdn.net/search/cdn/simage/shopping/v2/common/img_home_150131.png) no-repeat;
+    text-indent: -9999px;
+}
+
+.icon {
+    position: relative;
+    width: 80px;
+    height: 60px;
+    top:130px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    .arrowLeft {
+        border:none;
+        width: 66%;
+        position: absolute;
+        left: -20px;
+    }
+    .arrowLeft::after, .arrowLeft::before {
+        content: '';
+        position: absolute;
+        width: 60%;
+        height: 2px;
+        right: -20px;
+        background-color: #ECECEC;
+    }
+    .arrowLeft::after {
+        top: -11px;
+        transform: rotate(-45deg);
+    }
+    .arrowLeft::before {
+        top: 11px;
+        transform: rotate(45deg);
+    }
+    .arrowRight {
+        border:none;
+        width: 66%;
+        position: absolute;
+        left: -20px;
+    }
+    .arrowRight::after, .arrowRight::before {
+        content: '';
+        position: absolute;
+        width: 60%;
+        height: 2px;
+        right: -20px;
+        background-color: #ECECEC;
+    }
+    .arrowRight::after {
+        top: -11px;
+        transform: rotate(45deg);
+    }
+    .arrowRight::before {
+        top: 11px;
+        transform: rotate(-45deg);
+    }
+}
+
+.icon:focus{
+    outline: none;
+}
+
+
+.container{
+    position: absolute;
+    margin-left: 295px;
+    visibility: hidden;
+    z-index: 100;
+    cursor:pointer;
+}
+
+.slider__item {
+    display: none;
+}
+
+.showing {
+    display: block;
+}
+
+.slider2{
+    overflow: hidden;
+    width:485px;
+    margin-left:485px;
+    .slider_wrap{
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
+        // overflow:hidden;
+        border: solid 1px salmon;
+        align-items: center;
+        width: 485px;
+        margin-left: calc(50% - 242px);
+    }
+    .slider_wrap:hover{
+        transform: translate3d(485px, 0, 0); 
+        transition: transform 2s;
+    }
+}
+.slider_active {
+    transform: translate3d(485px, 0, 0); 
+    transition: transform 2s;
+}
+
+
+// .slider2__item:hover{
+//     transform: translate3d(485px, 0, 0); 
+//     transition: transform 2s;
+// }
+.subBanner{
+    position :relative;
+    #left2{
+        position:absolute;
+        background-color:black;
+    }
+    #right2{
+        position:absolute;
+        background-color:black;
+        left: 1500px;
+    }
+}
+
+.hidden {
+    display:none;
+}
