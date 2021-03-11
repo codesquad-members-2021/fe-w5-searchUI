@@ -26,8 +26,7 @@ SearchTab.prototype = {
   },
   handleInput({ target: { value } }) {
     if (this.timer) clearTimeout(this.timer);
-
-    this.currentIdx = -1;
+    this.initAutoCompleteIdx();
     this.orginInput = value;
     this.timer = setTimeout(async () => {
       const autoCompleteData = await getData(URL.autoComplete(value));
@@ -99,6 +98,9 @@ SearchTab.prototype = {
   },
   backUpInputValue() {
     this.searchInput.value = this.orginInput;
+    this.initAutoCompleteIdx();
+  },
+  initAutoCompleteIdx() {
     this.currentIdx = -1;
   },
 };
