@@ -6,15 +6,8 @@ export default class CarouselUI {
         this.imgurl = "http://localhost:8080/public/data/imgurl.json";
     }
 
-    makeImageDom(imgurl) {
-        this.el.insertAdjacentHTML("beforeend",
-            `<div class="carouselUI--img">
-                <img src="${imgurl}" />
-            </div>`);
-    };
-
-    insertDom() {
-        fetch(this.imgurl)
+    init() {
+        return fetch(this.imgurl)
             .then((res) => res.json())
             .then((data) => {
                 const rightpannel1Img = data.contents[0].rightpannel1.imgurl;
@@ -28,5 +21,12 @@ export default class CarouselUI {
                 this.makeImageDom(rightpannel1Img);
             })
     }
+
+    makeImageDom(imgurl) {
+        this.el.insertAdjacentHTML("beforeend",
+            `<div class="carouselUI--img">
+                <img src="${imgurl}" />
+            </div>`);
+    };
 }
 
