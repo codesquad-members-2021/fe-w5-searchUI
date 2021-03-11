@@ -136,13 +136,14 @@ body {
         margin: 0;
         padding: 0;
 
-        ol {
-            padding: 1rem;
-        }
-
         li {
-            padding: 0.5rem 0;
+            margin: 1rem 0;
+            padding: 0 0.5rem;
         }
+    }
+
+    .word-matched {
+        color: $primary-color;
     }
 }
 .under-nav-wrapper {
