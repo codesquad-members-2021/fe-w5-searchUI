@@ -1,14 +1,15 @@
 import '../../scss/SearchBarView.scss';
 import { _ } from '../util.js';
 import { SuggestionView } from './SuggestionView.js';
-import { SERVER_URL, SUGGESTION_PATH } from '../app.js';
+// import { SERVER_URL, SUGGESTION_PATH } from '../app.js';
 
-export function SearchBarView({ carouselView, suggestionView } = {}) {
+export function SearchBarView({ carouselView, suggestionView, serverUrl } = {}) {
   this.$target;
   this.$input;
   this.$button;
   this.carauselView = carouselView;
   this.suggestionView = suggestionView;
+  this.serverUrl = serverUrl;
   this.init();
 }
 
@@ -59,7 +60,7 @@ SearchBarView.prototype.onInput = async function () {
 };
 
 SearchBarView.prototype.fetchSuggestionData = async function (inputData) {
-  return fetch(SERVER_URL + SUGGESTION_PATH + `?q=${inputData}`).then(res => res.json);
+  return fetch(this.serverUrl + `/${inputData}`).then(res => res.json);
 };
 
 SearchBarView.prototype.template = function () {
