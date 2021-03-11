@@ -58,3 +58,6 @@
     display: block;
     color: #888;
     font-size: 12px; }
+
+.none {
+  visibility: hidden; }
