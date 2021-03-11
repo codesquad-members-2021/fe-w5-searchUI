@@ -52,7 +52,6 @@ router.post("/recommend-keywords", async (req, res) => {
   return res.status(200).send({response: result});
 })
 
-
 router.get("/planning-events", (req, res) => {
   return res.status(200).send(planningEventsData);
 });
