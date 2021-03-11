@@ -4,6 +4,8 @@ $search-bar-width: 675px;
 $search-bar-height: 54px;
 $search-bar-btn-width: $search-bar-height;
 $search-bar-btn-height: $search-bar-height;
+$btn-ic-url: url(http://shop1.daumcdn.net/search/cdn/simage/shopping/v2/common/nav/ico_gnb_shw.png);
+$def-border-radius: 10px;
 
 * {
   padding: 0;
@@ -21,7 +23,7 @@ $search-bar-btn-height: $search-bar-height;
     overflow: hidden;
     border: 1px solid $lightgray;
     box-sizing: content-box;
-    border-radius: 10px;
+    border-radius: $def-border-radius;
     background-color: white;
 
     &.on-focus {
@@ -46,8 +48,19 @@ $search-bar-btn-height: $search-bar-height;
       float: right;
       width: $search-bar-btn-width;
       height: 100%;
+      position: relative;
       cursor: pointer;
-      background: red;
+      background-color: white;
+
+      .btn__ic {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: 15px;
+        left: 14px;
+        background: $btn-ic-url;
+        background-size: 130px 90px;
+      }
     }
   }
 }

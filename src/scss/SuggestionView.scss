@@ -1,10 +1,6 @@
 @import 'color.scss';
 @import 'SearchBarView.scss';
 
-* {
-  border-radius: 10px;
-}
-
 ol, ul {
   list-style: none;
 }
@@ -20,6 +16,7 @@ a {
   top: -1px;
   left: 0;
   border: 1px solid $redorange;
+  border-radius: $def-border-radius;
   background-color: white;
 }
 
@@ -45,7 +42,6 @@ a {
           margin-right: 10px;
           font-weight: 700;
           font-size: 16px;
-          
         }
       }
     }

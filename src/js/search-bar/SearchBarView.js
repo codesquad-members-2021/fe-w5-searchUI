@@ -80,7 +80,7 @@ SearchBarView.prototype.template = function () {
   return `<div class="search-bar__inner">
             <input type="text" class="search-bar__inner__input"></input>
             <button class="search-bar__inner__btn">
-              <img class="btn__ic"/>
+              <div class="btn__ic"/>
             </button>
           <div>`;
 };
