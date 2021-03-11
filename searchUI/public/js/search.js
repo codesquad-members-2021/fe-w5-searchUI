@@ -14,13 +14,22 @@ Search.prototype.init = function () {
 };
 
 Search.prototype.roll = function (index = 0, delay = 1000) {
-	const itemLength = 10;
+	const itemLength = 11;
 	const itemHeight = 1.5;
 	this.rollTimer = setTimeout(() => {
 		this.selectors.rollItems.style.transform = `translate3d(0,-${index * itemHeight}rem,0)`;
 		this.selectors.rollItems.style.transition = "300ms";
-		this.roll(index >= itemLength - 1 ? 0 : ++index, delay);
+		this.roll(index >= itemLength - 1 ? 1 : ++index, delay);
 	}, delay);
+};
+
+Search.prototype.resetRoll = function ({ target }) {
+	const itemLength = 11;
+	const itemHeight = 1.5;
+	if (target.style.transform === `translate3d(0px, -${(itemLength-1)*itemHeight}rem, 0px)`) {
+		target.style.transform = "translate3d(0px, 0rem, 0px)";
+		target.style.transition = "0ms";
+	}
 };
 
 Search.prototype.debounce = function (func, delay = 1000) {
@@ -33,8 +42,11 @@ Search.prototype.addEvent = function () {
 	_.E(this.selectors.searchBar, "click", this.makeInputFocused.bind(this));
 	_.E(this.selectors.searchInput, "focus", this.revealSuggestions.bind(this));
 	_.E(this.selectors.searchInput, "input", () => this.debounce(this.getSuggestions.bind(this), 1000));
+
 	// _.E(this.selectors.searchInput, "input", () => _.debounce(this.getSuggestions.bind(this), 1000, this.debounceTimer));
+
 	_.E(this.selectors.searchInput, "keydown", this.selectSuggestion.bind(this));
+	_.E(this.selectors.rollItems, "transitionend", this.resetRoll);
 };
 
 Search.prototype.makeInputFocused = function () {
