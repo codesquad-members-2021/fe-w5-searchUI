@@ -7,6 +7,7 @@ export default function Component($target, props) {
   this.render();
   this.setEvents();
 }
+
 Component.prototype = {
   constructor: Component,
   setup,
@@ -28,6 +29,7 @@ function mount() {}
 function setEvents() {}
 function setState(newState) {
   this.state = { ...this.state, ...newState };
+  this.render();
 }
 function addEvent(eventType, selector, callback) {
   const children = [...this.$target.querySelectorAll(selector)];

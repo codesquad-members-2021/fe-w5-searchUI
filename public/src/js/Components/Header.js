@@ -20,9 +20,7 @@ Header.prototype.getTemplate = function () {
                 alt=""
             /></a>
           </h1>
-          <div class="searchBar">
-            
-          </div>
+          <div class="searchBar"></div>
         </div>
     `;
 };
