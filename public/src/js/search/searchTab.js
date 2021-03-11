@@ -1,5 +1,7 @@
+import { URL } from '../util/data';
 import { makeRecommendItem, ol } from '../util/htmlTemplate';
-import { createDom } from '../util/util';
+import { autoCompleteParser } from '../util/parser';
+import { createDom, getData } from '../util/util';
 
 function SearchTab({ data, selector }) {
   this.recommendData = data;
@@ -10,7 +12,7 @@ function SearchTab({ data, selector }) {
 }
 
 SearchTab.prototype = {
-  constrctor: SearchTab,
+  constructor: SearchTab,
   init() {
     this.registerEvent();
     this.renderSearchTab();
@@ -18,7 +20,14 @@ SearchTab.prototype = {
   registerEvent() {
     this.searchInput.addEventListener('input', this.handleInput.bind(this));
   },
-  handleInput({ target: { value } }) {},
+  async handleInput({ target: { value } }) {
+    if (!value) this.renderSearchTab();
+    else {
+      const autoCompleteData = await getData(URL.autoComplete(value));
+      const parsedAutoComData = autoCompleteParser(autoCompleteData);
+      this.renderAutoComplete(parsedAutoComData);
+    }
+  },
 
   getRecommendHTML() {
     let firstList = this.recommendData
@@ -34,6 +43,12 @@ SearchTab.prototype = {
   },
   renderSearchTab() {
     this.searchTab.innerHTML = this.getRecommendHTML();
+  },
+  getAutoCompleteHTML(data) {
+    createDom('ul')({ value, classes });
+  },
+  renderAutoComplete(parsedAutoComData) {
+    this.searchTab.innerHTML = this.getAutoCompleteHTML(parsedAutoComData);
   },
 };
 
