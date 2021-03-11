@@ -1,3 +1,4 @@
+import { CLASS_LIST } from './data.js';
 import { createDom } from './util.js';
 
 export const makeSlideItem = (imgurl) => `
@@ -27,7 +28,20 @@ export const makeMoreBtn = ({ now, total, fold = false }) => `
 
 export const makeRecommendItem = (idx, value) => `<li><span><strong>${idx}</strong></span><span>${value}</span></li>`;
 
-export const makeAutoCompleteItem = (value) => `<li class="">${value}</li>`;
+export const makeAutoCompleteItem = ({ value, keyword }) => {
+  if (value.indexOf(keyword) < 0) return li({ value, classes: [CLASS_LIST.AUTOCOMPLETE_ITEM] });
+  else {
+    const keywordLength = keyword.length;
+    const keywordIdx = value.indexOf(keyword);
+    const newValue =
+      value.slice(0, keywordIdx) +
+      span({ value: keyword, classes: ['text-red'] }) +
+      value.slice(keywordIdx + keywordLength);
+    return li({ value: newValue, classes: [CLASS_LIST.AUTOCOMPLETE_ITEM] });
+  }
+};
+
+const span = createDom('span');
 
 export const li = createDom('li');
 

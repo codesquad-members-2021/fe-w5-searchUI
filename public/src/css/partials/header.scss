@@ -102,6 +102,9 @@ header {
   &__list {
     & li {
       padding: 12px 15px 0 0;
+      .text-red {
+        color: red;
+      }
     }
   }
 }

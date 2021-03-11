@@ -1,5 +1,5 @@
 import { CLASS_LIST, URL } from '../util/data';
-import { li, makeRecommendItem, ul } from '../util/htmlTemplate';
+import { li, makeAutoCompleteItem, makeRecommendItem, ul } from '../util/htmlTemplate';
 import { autoCompleteParser } from '../util/parser';
 import { getData, _ } from '../util/util';
 
@@ -25,38 +25,38 @@ SearchTab.prototype = {
     } else {
       const autoCompleteData = await getData(URL.autoComplete(value));
       const parsedAutoCompleteData = autoCompleteParser(autoCompleteData);
-      this.renderAutoComplete(parsedAutoCompleteData);
+      this.renderAutoComplete(value, parsedAutoCompleteData);
     }
   },
 
   getRecommendHTML() {
     const { SEARCH_TAB_LIST } = CLASS_LIST;
-    let firstList = this.recommendData
+    const firstList = this.recommendData
       .slice(0, this.recommendData.length / 2)
       .reduce((acc, data, idx) => acc + makeRecommendItem(idx + 1, data), '');
-    let secondList = this.recommendData
+    const secondList = this.recommendData
       .slice(this.recommendData.length / 2)
       .reduce((acc, data, idx) => acc + makeRecommendItem(idx + 1, data), '');
     const recommendHTML =
       ul({ value: firstList, classes: [SEARCH_TAB_LIST] }) + ul({ value: secondList, classes: [SEARCH_TAB_LIST] });
     return recommendHTML;
   },
-  getAutoCompleteHTML(data) {
-    const { AUTOCOMPLETE_ITEM } = CLASS_LIST;
+  getAutoCompleteHTML(inputValue, data) {
+    const { AUTOCOMPLETE_LIST } = CLASS_LIST;
     const autoCompleteList = data.reduce(
-      (acc, keyword) => acc + li({ value: keyword, classes: [AUTOCOMPLETE_ITEM] }),
+      (acc, autoData) => acc + makeAutoCompleteItem({ value: autoData, keyword: inputValue }),
       ''
     );
-    const autoCompleteHTML = ul({ value: autoCompleteList, classes: [AUTOCOMPLETE_ITEM] });
+    const autoCompleteHTML = ul({ value: autoCompleteList, classes: [AUTOCOMPLETE_LIST] });
     return autoCompleteHTML;
   },
   renderSearchTab() {
     this.showTitle();
     this.searchTab.innerHTML = this.getRecommendHTML();
   },
-  renderAutoComplete(parsedAutoCompleteData) {
+  renderAutoComplete(inputValue, parsedAutoCompleteData) {
     this.hiddenTitle();
-    this.searchTab.innerHTML = this.getAutoCompleteHTML(parsedAutoCompleteData);
+    this.searchTab.innerHTML = this.getAutoCompleteHTML(inputValue, parsedAutoCompleteData);
   },
   showTitle() {
     this.searchTabTitle.classList.remove(CLASS_LIST.HIDDEN);

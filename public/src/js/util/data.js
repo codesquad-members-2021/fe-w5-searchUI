@@ -8,6 +8,7 @@ export const CLASS_LIST = {
   MORE_LIST: 'event-item-list',
   PLACEHOLDER_ITEM: 'placeholder-item',
   SEARCH_TAB_LIST: 'search-tab__list',
+  AUTOCOMPLETE_LIST: 'auto-complete__list',
   AUTOCOMPLETE_ITEM: 'auto-complete__item',
 };
 
