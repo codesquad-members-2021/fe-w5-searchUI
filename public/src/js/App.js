@@ -22,6 +22,4 @@ App.prototype.getTemplate = function () {
 App.prototype.mount = function () {
   new Header(_.$("#header"), {});
 };
-App.prototype.setEvents = function () {
-  this.addEvent();
-};
+App.prototype.setEvents = function () {};

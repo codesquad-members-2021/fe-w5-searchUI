@@ -2,6 +2,9 @@
   position: absolute;
   left: -9999px;
 }
+.show {
+  display: block;
+}
 #header {
   width: 100%;
 }
@@ -79,6 +82,7 @@
 }
 
 .wrap_suggestion .suggestion_hot {
+  display: none;
   padding: 0 2rem;
 }
 .wrap_suggestion .suggestion_hot > div {
@@ -99,6 +103,9 @@
 .wrap_suggestion .suggestion_hot > ol > li > span {
   font-weight: bold;
   margin-right: 1rem;
+}
+.wrap_suggestion .suggestion_auto {
+  display: none;
 }
 .wrap_suggestion .suggestion_auto > ol > li {
   padding: 0.2rem 2rem;

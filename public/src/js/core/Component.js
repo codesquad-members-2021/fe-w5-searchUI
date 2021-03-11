@@ -31,18 +31,19 @@ function render() {
 function getTemplate() {}
 function mount() {}
 function setEvents() {}
-function setState(newState) {
+function setState(newState, isRender = true) {
   this.state = { ...this.state, ...newState };
-  this.render();
+  isRender ? this.render() : null;
 }
+
 function addEvent(eventType, selector, callback) {
   const children = [...this.$target.querySelectorAll(selector)];
   this.$target.addEventListener(eventType, (event) => {
-    if (!_isTarget(children, event.target)) return false;
+    if (!_isTarget(children, selector, event.target)) return false;
     callback(event);
   });
 }
 
-function _isTarget(children, target) {
+function _isTarget(children, selector, target) {
   return children.includes(target) || target.closest(selector);
 }

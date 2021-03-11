@@ -13,11 +13,7 @@ RollingKeywords.prototype.setup = function () {
 RollingKeywords.prototype.getTemplate = function () {
   return /*html*/ `
     <ol class="rollingKeywords">
-      <li>테스트</li>
-      <li>테스트</li>
-      <li>테스트</li>
-      <li>테스트</li>
-      <li>테스트</li>
+      
     </ol>
     `;
 };
