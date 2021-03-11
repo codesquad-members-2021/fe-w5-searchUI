@@ -20,10 +20,14 @@ export default class FetchAPI {
   };
 
   getRollingKeyword = () => fetch(this.url.rollingKeyword).then((response) => response.json());
-  getSimilarword = (string) => {
+
+  // 이건 fetch 아니다.
+  getSimilarword = (string, callback) => {
+    console.log(string);
+    const script = document.createElement('script');
     const param = { q: string };
     const queryParam = new URLSearchParams(param);
-    return fetch(`${this.url.slimilarword}?callback=similarword&limit=10&mode=json&code=utf_in_out&${queryParam.toString()}&id=shoppinghow_suggest`) //
-      .then((response) => response.json());
+    script.src = `${this.url.slimilarword}?callback=${callback.name}&limit=10&mode=json&code=utf_in_out&${queryParam}&id=shoppinghow_suggest`;
+    document.body.append(script);
   };
 }
