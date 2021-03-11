@@ -129,7 +129,7 @@ RecommItems.prototype.resetTimer = function () {
 RecommItems.prototype.loadRelatedWords = async function (inputValue) {
   const data = await request(urls.recommendedWords, inputValue);
   const { suggestions } = data;
-  const tempSuggestions = suggestions.map((item) => item.value);
+  const tempSuggestions = suggestions.map((item) => item.value.normalize("NFC"));
   const set = [...new Set(tempSuggestions)]; // 중복값 제거
   const tempRecommendations =
     `<div class="recommended">` +
@@ -157,6 +157,7 @@ RecommItems.prototype.inputEvent = function (e) {
     this.recommWordsToggle.innerHTML = this.topTenWords;
   }
   if (inputValue !== ``) {
+    // loading 추가?
     this.timer = setTimeout((_) => this.loadRelatedWords(inputValue), times.debounce);
   }
 };
