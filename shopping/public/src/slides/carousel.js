@@ -4,7 +4,6 @@ export default class Carousel extends Slide {
   constructor(carouselState, longClickState) {
     super(carouselState);
     if (longClickState) {
-      // console.log(longClickState);
       const { isPressed, timer, isMoved } = longClickState;
       this.isPressed = isPressed;
       this.timer = timer;
@@ -28,9 +27,7 @@ export default class Carousel extends Slide {
         startNum,
       };
 
-      // console.log(this.slideList);
       this.setTotalWidth(slideWidth, slideLen);
-      // Add cloned slides
       this.cloneChildren(this.slideList).then((children) => this.addClones(children));
       this.transform(slideWidth, startNum + 1);
       this.initCarouselState(startNum, slideContents);

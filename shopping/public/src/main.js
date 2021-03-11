@@ -1,7 +1,7 @@
 import { api } from "./utils/api.js";
 import { urls } from "./utils/urls.js";
 import { _ } from "./utils/selector.js";
-import { times, searchToggle, rollings } from "./utils/states.js";
+import { times, keywordState, rollings } from "./utils/states.js";
 import { setHtmls, insertAdjacent, insertContents } from "./setters/setHtmls.js";
 import * as htmlMaker from "./utils/htmlMaker.js";
 import { setCarousel } from "./setters/setCarousel.js";
@@ -9,6 +9,7 @@ import { setCarousel } from "./setters/setCarousel.js";
 import RecommItems from "./search/recommItems.js";
 import request from "./utils/request.js";
 import Roller from "./search/roller.js";
+import Keyword from "./search/keyword.js";
 
 // event 상품
 const eventItemHtml = document.querySelector(".event__item");
@@ -71,14 +72,13 @@ const partners = api(urls.partners)(setHtmls, htmlMaker.partnerList, insertConte
 // 2. 리팩토링
 // 3. 3주차 코드도 리팩토링
 
-searchToggle.searchingInput = _.$(".searchBar__input");
-searchToggle.recommWordsToggle = _.$(".searchBar__toggle");
+keywordState.searchingInput = _.$(".searchBar__input");
+keywordState.recommWordsToggle = _.$(".searchBar__toggle");
 
 rollings.rollingContainer = _.$(".rolling__container");
 rollings.rollingKeywordHtml = _.$(".rolling__keyword");
 
-const recommItems = new RecommItems(searchToggle, rollings);
-console.log(recommItems);
-// const roller = new Roller(searchToggle, rollings);
+const recommItems = new RecommItems(keywordState, rollings);
+const roller = new Roller(keywordState.searchingInput, rollings);
 recommItems.registerEvent();
-// roller.initRoller();
+roller.roll();

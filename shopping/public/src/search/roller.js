@@ -1,40 +1,60 @@
-import { urls } from "../utils/urls.js";
-import request from "../utils/request.js";
-import RecommItems from "./recommItems.js";
-import { rollings, times } from "../utils/states.js";
+import { times } from "../utils/states.js";
+import Keyword from "./keyword.js";
 
-export default function Roller({ topTenWords }, { rollingContainer }) {
-  //   debugger;
-  RecommItems.call(this, topTenWords);
-  //   const { rollingContainer } = rollings;
-  //   this.rollingKeywordHtml = rollingKeywordHtml;
+export default function Roller(searchingInput, rollings) {
+  const { rollingKeywordHtml, rollingContainer } = rollings;
+  Keyword.call(this, searchingInput, rollingKeywordHtml);
   this.rollingContainer = rollingContainer;
-  this.itemCount = 0; // roller
-  this.currItem = null; // roller
-  //   this.rollingTopTenWords = null;
+  this.itemCount = 0;
 }
 
-Roller.prototype = Object.create(RecommItems.prototype);
+Roller.prototype = Object.create(Keyword.prototype);
 
-Roller.prototype.initRoller = async function (className) {
-  const popularWords = await this.getTopten();
-  const popularWordsArr = Object.entries(popularWords[0]);
-  this.topTenWords = this.createTemplate(popularWordsArr, className) + this.createTemplate(popularWordsArr.slice(0, 2), className);
+Roller.prototype.init = async function (className) {
+  this.popularWords = await this.getTopten();
+  this.topTenWords = this.createTemplate(this.popularWords, className) + this.createTemplate(this.popularWords.slice(0, 2), className);
+  this.itemCount = this.popularWords.length;
   this.rollingContainer.innerHTML = this.topTenWords;
-  this.itemCount = popularWordsArr.length;
+};
+
+Roller.prototype.roll = async function () {
+  await this.init("rolling__items");
   this.rollInterval();
 };
 
-Roller.prototype.rollInterval = function () {
-  const intervalTimer = setInterval(() => {
-    if (this.currItem >= 0 && this.currItem <= this.itemCount) {
-      this.rollingContainer.style.transition = `${times.transition}ms`;
-      this.rollingContainer.style.transform = `translateY(-${++times.currItem * times.transform}px)`;
-      if (this.currItem > this.itemCount) {
-        this.currItem = 0;
-        this.rollingContainer.style.transition = `${times.init}ms`;
-        this.rollingContainer.style.transform = `translateY(-${this.currItem * times.transform}px)`;
-      }
-    }
-  }, times.rolling);
+Roller.prototype.rollIntervalFinish = function () {
+  this.rollingContainer.style.transition = `${times.init}ms`;
+  this.rollingContainer.style.transform = `translateY(${times.init})px`;
+  this.currIndex = 0;
 };
+
+Roller.prototype.rollInterval = async function () {
+  while (this.currIndex <= this.itemCount) {
+    await delay(times.rolling);
+    this.rollDown(++this.currIndex);
+    if (this.currIndex > this.itemCount) {
+      this.rollFinish();
+      await delay(times.init);
+      this.rollDown(++this.currIndex);
+    }
+  }
+};
+
+Roller.prototype.rollDown = function (index) {
+  this.rollingContainer.style.transition = `${times.transition}ms`;
+  this.rollingContainer.style.transform = `translateY(-${index * times.transform}px)`;
+};
+
+Roller.prototype.rollFinish = function () {
+  this.rollingContainer.style.transition = `${times.init}ms`;
+  this.rollingContainer.style.transform = `translateY(${times.init}px)`;
+  this.currIndex = 0;
+};
+
+function delay(ms) {
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve();
+    }, ms)
+  );
+}
