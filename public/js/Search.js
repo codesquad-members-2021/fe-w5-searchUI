@@ -65,7 +65,7 @@ Search.prototype.keydownHandler = function ({ code }) {
   if (code !== 'ArrowDown' && code !== 'ArrowUp') return;
 
   const focusedWordArr = Array.from(similarWords) //
-    .filter((word) => word.classList.contains('word-focused'));
+    .filter((word) => _.contains(word, 'word-focused'));
 
   const wordsContainer = {
     words: similarWords,
