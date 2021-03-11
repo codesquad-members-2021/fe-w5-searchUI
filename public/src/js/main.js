@@ -38,10 +38,12 @@ const rollingAnimation = { oneStep: 54, transition: 'all 1s' };
 const searchTabContainer = _.$('.search-tab-container');
 const searchTab = _.$('.search-tab');
 const searchInput = _.$('.box_search>input');
-const searchTabSelector = { searchTabContainer, searchTab, searchInput, rollingContainer };
+const searchTabTitle = _.$('.search-tab__title');
+const searchTabSelector = { searchTab, searchInput, searchTabTitle };
 
 //토글
-const toggleList = [{ check: searchInput, show: rollingContainer, hidden: searchTabContainer }];
+const searchContainer = _.$('.box_search');
+const toggleList = [{ check: searchContainer, show: rollingContainer, hidden: searchTabContainer }];
 
 //슬라이더
 async function init() {
