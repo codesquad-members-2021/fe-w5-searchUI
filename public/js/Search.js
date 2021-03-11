@@ -120,26 +120,41 @@ Search.prototype.showSimilarWords = function () {
 
 Search.prototype.fetchKeywords = async function (text) {
   if (!text) return this.hideSimilarWords;
-  const keywordData = await fetch(
-    `https://completion.amazon.com/api/2017/suggestions?session-id=141-6040242-7044009&customer-id=&request-id=7ZD2PSMEE2JF3CVEXGZF&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=81&prefix=${text}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615307516261`
-  )
-    .then((res) => res.json())
-    .then((data) => data.suggestions);
-  this.renderSimilarWords(keywordData);
+  try {
+    const keywordData = await fetch(
+      `https://completion.amazon.com/api/2017/suggestions?session-id=141-6040242-7044009&customer-id=&request-id=7ZD2PSMEE2JF3CVEXGZF&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=81&prefix=${text}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615307516261`
+    )
+      .then((res) => res.json())
+      .then((data) => data.suggestions);
+    this.renderSimilarWords(keywordData, text);
+  } catch (err) {
+    alert(err);
+  }
 };
 
-Search.prototype.renderSimilarWords = function (suggestions) {
+Search.prototype.renderSimilarWords = async function (suggestions, searchText) {
   const wordsContainer = _.$('.similar-word-lists');
   wordsContainer.innerHTML = ``;
   const listOfSimilarWords = suggestions
     .map((suggestion) => suggestion.value)
     .reduce((prev, words) => {
-      return (
-        prev +
-        `<li class="similar-words">${words}</li>
-      `
-      );
+      const wordMatched = this.highlightText(searchText);
+      const wordNotMatched = this.excludeInputText(words, searchText);
+      const reassembledText = this.reassembleText(wordMatched, wordNotMatched);
+      return prev + `<li class="similar-words">${reassembledText}</li>`;
     }, '');
   insertTemplate(wordsContainer, 'beforeend', listOfSimilarWords);
-  this.showSimilarWords();
+  await this.showSimilarWords();
+};
+
+Search.prototype.highlightText = function (searchText) {
+  return `<span class="word-matched">${searchText}</span>`;
+};
+
+Search.prototype.excludeInputText = function (words, searchText) {
+  return `${words.slice(searchText.length)}`;
+};
+
+Search.prototype.reassembleText = function (highlightText, restText) {
+  return highlightText + restText;
 };
