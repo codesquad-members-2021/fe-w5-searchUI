@@ -3,9 +3,10 @@ export const Search = function (selectors) {
 	this.selectors = selectors;
 	this.init();
 	this.rollTimer;
-	this.debounceTimer; //util함수의 debounce를 쓰기위한 timer
-	this.currentIndex = 0; //selectSuggestion()에 쓰이는 state
-	this.currentLength = 0; //현재 suggestions 길이
+	this.rollIndex = 1;
+	this.rollLength = 11;
+	this.suggestionIndex = 0;
+	this.suggestionsLength = 0;
 };
 
 Search.prototype.init = function () {
@@ -13,40 +14,31 @@ Search.prototype.init = function () {
 	this.addEvent();
 };
 
-Search.prototype.roll = function (index = 0, delay = 1000) {
-	const itemLength = 11;
+Search.prototype.roll = function (delay = 1000) {
 	const itemHeight = 1.5;
 	this.rollTimer = setTimeout(() => {
-		this.selectors.rollItems.style.transform = `translate3d(0,-${index * itemHeight}rem,0)`;
+		this.selectors.rollItems.style.transform = `translate3d(0,-${this.rollIndex * itemHeight}rem,0)`;
 		this.selectors.rollItems.style.transition = "300ms";
-		this.roll(index >= itemLength - 1 ? 1 : ++index, delay);
+		this.rollIndex = this.rollIndex >= this.rollLength - 1 ? 1 : ++this.rollIndex;
+		this.roll(delay);
 	}, delay);
 };
 
 Search.prototype.resetRoll = function ({ target }) {
-	const itemLength = 11;
 	const itemHeight = 1.5;
-	if (target.style.transform === `translate3d(0px, -${(itemLength-1)*itemHeight}rem, 0px)`) {
+	if (target.style.transform === `translate3d(0px, -${(this.rollLength - 1) * itemHeight}rem, 0px)`) {
 		target.style.transform = "translate3d(0px, 0rem, 0px)";
 		target.style.transition = "0ms";
 	}
-};
-
-Search.prototype.debounce = function (func, delay = 1000) {
-	clearTimeout(this.debounceTimer);
-	this.debounceTimer = setTimeout(func, delay);
 };
 
 Search.prototype.addEvent = function () {
 	_.E(document, "click", this.hideSuggestions.bind(this));
 	_.E(this.selectors.searchBar, "click", this.makeInputFocused.bind(this));
 	_.E(this.selectors.searchInput, "focus", this.revealSuggestions.bind(this));
-	_.E(this.selectors.searchInput, "input", () => this.debounce(this.getSuggestions.bind(this), 1000));
-
-	// _.E(this.selectors.searchInput, "input", () => _.debounce(this.getSuggestions.bind(this), 1000, this.debounceTimer));
-
+	_.E(this.selectors.searchInput, "input", _.debounce(this.getSuggestions.bind(this), 1000, this.debounceTimer));
 	_.E(this.selectors.searchInput, "keydown", this.selectSuggestion.bind(this));
-	_.E(this.selectors.rollItems, "transitionend", this.resetRoll);
+	_.E(this.selectors.rollItems, "transitionend", this.resetRoll.bind(this));
 };
 
 Search.prototype.makeInputFocused = function () {
@@ -56,7 +48,7 @@ Search.prototype.makeInputFocused = function () {
 Search.prototype.revealSuggestions = function () {
 	clearTimeout(this.rollTimer);
 	this.rollTimer = 0;
-	this.currentIndex = 0;
+	this.suggestionIndex = 0;
 	_.CA(this.selectors.rollItems, "unseen");
 	_.CA(this.selectors.searchBar, "focused");
 	_.CR(this.selectors.suggestionHot, "unseen");
@@ -80,7 +72,7 @@ Search.prototype.hideSuggestions = function (e) {
 };
 
 Search.prototype.renderSuggestions = function (suggestions, prefix) {
-	this.currentLength = suggestions.length;
+	this.suggestionsLength = suggestions.length;
 	let html = "<ol>";
 	suggestions.forEach(({ value }) => (html += `<li>${this.addHighLight(value, prefix)}</li>`));
 	html += "</ol>";
@@ -92,10 +84,10 @@ Search.prototype.renderSuggestions = function (suggestions, prefix) {
 Search.prototype.selectSuggestion = function (e) {
 	if(e.keyCode !== 38 && e.keyCode !== 40) return
 	const list = this.selectors.suggestionRecommend.querySelectorAll("li");
-	this.currentIndex = e.keyCode === 38
-		? this.currentIndex <= 0 ? 0 : --this.currentIndex
-		: this.currentIndex >= this.currentLength - 1 ? this.currentLength - 1 : ++this.currentIndex
-	this.selectors.searchInput.value = this.removeHighLight(list[this.currentIndex].innerHTML);
+	this.suggestionIndex = e.keyCode === 38
+		? this.suggestionIndex <= 0 ? 0 : --this.suggestionIndex
+		: this.suggestionIndex >= this.suggestionsLength - 1 ? this.suggestionsLength - 1 : ++this.suggestionIndex
+	this.selectors.searchInput.value = this.removeHighLight(list[this.suggestionIndex].innerHTML);
 };
 
 Search.prototype.addHighLight = function (text, target) {

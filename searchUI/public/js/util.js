@@ -11,8 +11,11 @@ export const _ = {
 
 	E: (target, type, listener, useCapture = false) => target.addEventListener(type, listener, useCapture),
 
-	debounce: (func, delay, timer) => {
-		clearTimeout(timer)
-		timer = setTimeout(func, delay, timer);
+	debounce: (func, delay) => {
+		let timer; 
+		return function () {
+			clearTimeout(timer);
+			timer = setTimeout(func, delay);
+		};
 	},
 };
