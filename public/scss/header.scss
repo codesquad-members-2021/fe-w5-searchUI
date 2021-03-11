@@ -14,7 +14,7 @@
   }
 }
 
-.header__top--search {
+.header__top__search {
   @extend .item-display;
   position: relative;
   justify-content: space-between;
@@ -29,6 +29,7 @@
     @extend .bold-font;
     width: 100%;
     border: none;
+    outline: none;
     margin: 3px;
     padding: 10px 60px 10px 30px;
   }
@@ -36,6 +37,11 @@
   button {
     @include button(none, #fff);
     margin: 3px 3px;
+
+    &:focus {
+      outline: none;
+      opacity: 0.8;
+    }
 
     img {
       @extend .header-img;

@@ -8,11 +8,12 @@
 - 검색창 UI 개발
   1. Rolling List UI (👌)
      - carousel UI clone (👌)
+     - 검색창에 focus시 Rolling stop (👌)
   2. Drop Down UI
-     - input 클릭 시 DropDown UI
-     - 검색창과 dropdown은 border:red
-     - 클릭 시 Rolling을 멈추고, ui를 사라지게 하며, [인기쇼핑키워드]가 노출된다.
-     - input이 들어가면 [인기쇼핑키워드]를 사라지게 한다.
+     - input 클릭 시 DropDown UI (👌)
+     - 검색창과 dropdown은 border:red (👌)
+     - 클릭 시 Rolling을 멈추고, ui를 사라지게 하며, [인기쇼핑키워드]가 노출된다. (👌)
+     - input이 들어가면 [인기쇼핑키워드]를 사라지게 한다. (👌)
   3. 자동완성 UI
      - input시 , 자동 완성된 결과가 노출된다.
      - 일치하는 글자에 하이라이트를 준다.

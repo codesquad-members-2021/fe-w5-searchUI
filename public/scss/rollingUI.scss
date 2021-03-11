@@ -1,12 +1,11 @@
-#wrap--rollingUI {
+.search--wrapRollingList {
   position: absolute;
-  width: 100%;
   overflow: hidden;
+  width: 20%;
   padding: 10px 60px 16px 30px;
 }
 
-#rolledList {
+#rollingList {
   @extend .bold-font;
   position: absolute;
-  width: 100%;
 }

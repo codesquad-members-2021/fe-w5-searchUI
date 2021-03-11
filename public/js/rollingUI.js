@@ -1,15 +1,13 @@
-import 'regenerator-runtime/runtime';
-
 export default class RollingUI {
     constructor(el) {
         this.el = el;
     }
 
-    async init() {
+    async init(lists) {
         const data = await this.loadData();
         const makeLists = this.makeLists(data);
 
-        this.el.insertAdjacentHTML("beforeend", makeLists)
+        lists.insertAdjacentHTML("beforeend", makeLists)
     }
 
     async loadData() {
