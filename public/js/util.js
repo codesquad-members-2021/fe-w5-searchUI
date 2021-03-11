@@ -17,4 +17,13 @@ const insertTemplate = (target, where, template) => {
   return target.insertAdjacentHTML(where, template);
 };
 
+export const debounce = (fn, ms) => {
+  let timerID;
+  return (...args) => {
+    if (timerID) clearTimeout(timerID);
+    timerID = setTimeout(() => {
+      fn(args);
+    }, ms);
+  };
+};
 export { _, delay, insertTemplate };
