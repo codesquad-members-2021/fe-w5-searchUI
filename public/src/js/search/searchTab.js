@@ -41,10 +41,6 @@ SearchTab.prototype = {
       createDom('ol')({ value: secondList, classes: ['search-tab__list'] });
     return recommendHTML;
   },
-  renderSearchTab() {
-    this.searchTabTitle.classList.remove('hidden');
-    this.searchTab.innerHTML = this.getRecommendHTML();
-  },
   getAutoCompleteHTML(data) {
     const autoCompleteList = data.reduce(
       (acc, keyword) => acc + li({ value: keyword, classes: ['auto-complete__item'] }),
@@ -53,12 +49,20 @@ SearchTab.prototype = {
     const autoCompleteHTML = ul({ value: autoCompleteList, classes: ['auto-complete__list'] });
     return autoCompleteHTML;
   },
+  renderSearchTab() {
+    this.showTitle();
+    this.searchTab.innerHTML = this.getRecommendHTML();
+  },
   renderAutoComplete(parsedAutoCompleteData) {
-    this.searchTabTitle.classList.add('hidden');
+    this.hiddenTitle();
     this.searchTab.innerHTML = this.getAutoCompleteHTML(parsedAutoCompleteData);
   },
-  showTitle() {},
-  hiddenTitle() {},
+  showTitle() {
+    this.searchTabTitle.classList.remove('hidden');
+  },
+  hiddenTitle() {
+    this.searchTabTitle.classList.add('hidden');
+  },
 };
 
 export default SearchTab;
