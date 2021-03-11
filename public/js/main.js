@@ -1,5 +1,6 @@
 import { _ } from './util.js';
-import { $search } from './ref.js';
+import { $search, $rollingKeywords, $recommendedKeyword } from './ref.js';
+const { log } = console;
 
 $search.addEventListener('input', () => {
   const searchInput = $search.value;
@@ -10,3 +11,18 @@ $search.addEventListener('input', () => {
     .then(jsonData => jsonData.suggestions.map(v => v.value))
     .then(console.log);
 })
+
+const renderRecommendedKeywords = async () => {
+  const recommendedKeywords = await fetch(`
+    https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json
+  `)
+    .then(res => res.json())
+    .then(jsonData => jsonData.list.map(v => v.keyword));
+
+  const renderedValue = recommendedKeywords.reduce((prev, curr, idx) => {
+    return prev + `<li>${recommendedKeywords[idx]}</li>`
+  }, '<ol>')
+  $recommendedKeyword.innerHTML = renderedValue + '</ol>';
+}
+
+renderRecommendedKeywords();
