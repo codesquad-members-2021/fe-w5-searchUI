@@ -50,12 +50,12 @@ SearchTab.prototype = {
       ul({ value: firstList, classes: [SEARCH_TAB_LIST] }) + ul({ value: secondList, classes: [SEARCH_TAB_LIST] });
     return recommendHTML;
   },
-  getAutoCompleteHTML(inputValue) {
+  getAutoCompleteHTML() {
     const { AUTOCOMPLETE_LIST } = CLASS_LIST;
     const autoCompleteList = this.autoCompleteData.reduce((acc, autoData, idx) => {
       if (idx === this.currentIdx)
-        return acc + makeAutoCompleteItem({ value: autoData, keyword: inputValue, isCurrentValue: true });
-      else return acc + makeAutoCompleteItem({ value: autoData, keyword: inputValue });
+        return acc + makeAutoCompleteItem({ value: autoData, keyword: this.orginInput, isCurrentValue: true });
+      else return acc + makeAutoCompleteItem({ value: autoData, keyword: this.orginInput });
     }, '');
     const autoCompleteHTML = ul({ value: autoCompleteList, classes: [AUTOCOMPLETE_LIST] });
     return autoCompleteHTML;
@@ -64,9 +64,9 @@ SearchTab.prototype = {
     this.showTitle();
     this.searchTab.innerHTML = this.getRecommendHTML();
   },
-  renderAutoComplete(inputValue) {
+  renderAutoComplete() {
     this.hiddenTitle();
-    this.searchTab.innerHTML = this.getAutoCompleteHTML(inputValue);
+    this.searchTab.innerHTML = this.getAutoCompleteHTML();
   },
   showTitle() {
     this.searchTabTitle.classList.remove(CLASS_LIST.HIDDEN);
