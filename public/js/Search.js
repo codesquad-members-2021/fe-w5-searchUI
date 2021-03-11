@@ -59,7 +59,7 @@ Search.prototype.inputHandler = function ({ target }) {
 };
 
 Search.prototype.getKeywordsDebounce = function () {
-  const ms = 1000;
+  const ms = 600;
   return debounce(this.fetchKeywords.bind(this), ms);
 };
 
