@@ -85,7 +85,6 @@ body {
             margin-bottom: 1rem;
             font-size: $search-bar-font-size;
             color: $main-grey-color;
- 
         }
     }
 
@@ -137,12 +136,25 @@ body {
         padding: 0;
 
         ol {
-            padding: 1rem;
+            margin: 1rem 0;
         }
 
         li {
-            padding: 0.5rem 0;
+            padding: 0.5rem;
+            cursor: pointer;
         }
+
+        li:hover {
+            background-color: rgba(209, 209, 209, 0.411);
+        }
+    }
+
+    .word-focused {
+        background-color: rgba(209, 209, 209, 0.411);
+    }
+
+    .word-matched {
+        color: $primary-color;
     }
 }
 .under-nav-wrapper {
