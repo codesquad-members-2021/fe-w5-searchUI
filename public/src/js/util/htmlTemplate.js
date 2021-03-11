@@ -25,7 +25,11 @@ export const makeMoreBtn = ({ now, total, fold = false }) => `
 <span><i class="fas fa-angle-${fold ? 'up' : 'down'}"></i></span>
 `;
 
+export const recommendListTitle = (value) => `<div class="search-tab__title">${value}</div>`;
+
 export const makeRecommendItem = (idx, value) => `<li><span><strong>${idx}</strong></span><span>${value}</span></li>`;
+
+export const makeAutoCompleteItem = (value) => `<li class="">${value}</li>`;
 
 export const li = createDom('li');
 

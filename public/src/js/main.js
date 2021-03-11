@@ -38,7 +38,8 @@ const rollingAnimation = { oneStep: 54, transition: 'all 1s' };
 const searchTabContainer = _.$('.search-tab-container');
 const searchTab = _.$('.search-tab');
 const searchInput = _.$('.box_search>input');
-const searchTabSelector = { searchTabContainer, searchTab, searchInput, rollingContainer };
+const searchTabTitle = _.$('.search-tab__title');
+const searchTabSelector = { searchTab, searchInput, searchTabTitle };
 
 //토글
 const toggleList = [{ check: searchInput, show: rollingContainer, hidden: searchTabContainer }];
@@ -90,6 +91,18 @@ toggle.init();
 
 init();
 
-getData(
-  'https://completion.amazon.com/api/2017/suggestions?session-id=136-7196080-8943745&customer-id=&request-id=64K2NCH8DSXF305XB5GB&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=78&prefix=iphone&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615428578330'
-).then(console.log);
+// getData(
+//   'https://completion.amazon.com/api/2017/suggestions?session-id=136-7196080-8943745&customer-id=&request-id=64K2NCH8DSXF305XB5GB&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=78&prefix=iphone&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615428578330'
+// ).then(console.log);
+
+// fetch(`
+// https://completion.amazon.com/api/2017/suggestions
+// ?session-id=146-7463946-6351015&customer-id=&request-id=GJ3692SXTPG2EG7P3KFS
+// &page-type=Gateway&lop=en_US&site-variant=desktop
+// &client-info=amazon-search-ui&mid=ATVPDKIKX0DER
+// &alias=aps&b2b=0&fresh=0&ks=undefined&prefix='왜'
+// &event=onFocusWithSearchTerm&limit=11&fb=1&suggestion-type=KEYWORD
+// &suggestion-type=WIDGET&_=1615392526147
+// `)
+//   .then((res) => res.json())
+//   .then(console.log);
