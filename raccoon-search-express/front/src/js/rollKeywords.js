@@ -2,7 +2,7 @@ import '@babel/polyfill';
 import { delay } from './util';
 import { _ } from './const';
 
-class RollingKeywords {
+export default class RollingKeywords {
   constructor(data) {
     this.data = data;
     this.lists = _.$('.list_rollkeywords');
@@ -68,7 +68,7 @@ class RollingKeywords {
   getKeywordList() {
     let numRank = 1;
     const keywordList = this.data.list.reduce((acc, cur) => {
-      let list = `<li><span class="num_rank">${numRank}</span>${cur.keyword}</li>`;
+      const list = `<li><span class="num_rank">${numRank}</span>${cur.keyword}</li>`;
       acc += list;
       numRank++;
       return acc;
@@ -84,7 +84,7 @@ class RollingKeywords {
   getSuggestionBoxData(start, last) {
     const ol = this.data.list.slice(start, last);
     const keywordList = ol.reduce((acc, cur) => {
-      let list = `
+      const list = `
       <li>
         <a href=${acc.imgurl} class="link_keyword _GC_" data-gg="{o1:1}"> <span class="num_rank">${this.rankNumber}</span>${cur.keyword} </a>
       </li>`;
@@ -149,5 +149,3 @@ class RollingKeywords {
 
   requestExtraData() {}
 }
-
-export { RollingKeywords };

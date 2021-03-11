@@ -6,10 +6,7 @@ export default class FetchAPI {
       hotDealList: 'http://localhost:3000/api/hotDealList',
       shoppingPartner: 'http://localhost:3000/api/shoppingPartner',
       rollingKeyword: 'https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json',
-    };
-    this.req = {
-      sucess: 'Request successful',
-      failed: 'Request failed',
+      slimilarword: 'https://suggest-bar.daum.net/suggest',
     };
   }
 
@@ -23,4 +20,10 @@ export default class FetchAPI {
   };
 
   getRollingKeyword = () => fetch(this.url.rollingKeyword).then((response) => response.json());
+  getSimilarword = (string) => {
+    const param = { q: string };
+    const queryParam = new URLSearchParams(param);
+    return fetch(`${this.url.slimilarword}?callback=similarword&limit=10&mode=json&code=utf_in_out&${queryParam.toString()}&id=shoppinghow_suggest`) //
+      .then((response) => response.json());
+  };
 }
