@@ -1,0 +1,128 @@
+.hidden {
+  position: absolute;
+  left: -9999px;
+}
+.show {
+  display: block;
+}
+#header {
+  width: 100%;
+}
+.wrap_header {
+  width: 40%;
+  height: 3.5rem;
+  margin: 3rem auto;
+
+  display: flex;
+  align-items: center;
+}
+.logo {
+  width: 7rem;
+}
+.logo img {
+  width: 100%;
+}
+.wrap_header .searchBar {
+  position: relative;
+  flex: 1;
+  margin-left: 2rem;
+  height: 90%;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid red;
+  border-radius: 0.5rem;
+}
+.searchBar .form_search {
+  width: 100%;
+  height: 100%;
+}
+.form_search fieldset {
+  height: 100%;
+}
+.form_search .box_search {
+  display: flex;
+  height: 100%;
+  padding-left: 2rem;
+  box-sizing: border-box;
+}
+
+#input_search {
+  flex: 1;
+  padding: 1rem;
+  font-size: 1.4rem;
+  border: none;
+  outline: none;
+}
+#btn_search {
+  width: 3rem;
+}
+
+.searchBar .wrap_rollingKeywords {
+  pointer-events: none;
+  position: absolute;
+  left: 2rem;
+  top: 0;
+  font-size: 1.4rem;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.wrap_rollingKeywords .box_rolling {
+  overflow: hidden;
+  height: 1.4rem;
+}
+.box_rolling .rollingKeywords {
+  height: 1.4rem;
+  transform: translateY(-2.9rem);
+}
+.rollingKeywords > li {
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  transition: height 1s ease;
+  box-sizing: border-box;
+
+  font-weight: 800;
+  color: rgb(80, 80, 80);
+}
+.rollingKeywords > li > span {
+  margin-right: 1rem;
+}
+.wrap_suggestion {
+  padding: 1.5rem 0;
+  border-radius: 0.5rem;
+  border: 1px solid red;
+}
+
+.wrap_suggestion .suggestion_hot {
+  display: none;
+  padding: 0 2rem;
+}
+.wrap_suggestion .suggestion_hot > div {
+  font-weight: bold;
+  color: rgb(90, 90, 90);
+  margin-bottom: 1.5rem;
+}
+.wrap_suggestion .suggestion_hot > ol {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.2rem;
+}
+.wrap_suggestion .suggestion_hot > ol > li {
+  width: 50%;
+  margin-bottom: 1rem;
+}
+.wrap_suggestion .suggestion_hot > ol > li > span {
+  font-weight: bold;
+  margin-right: 1rem;
+}
+.wrap_suggestion .suggestion_auto {
+  display: none;
+}
+.wrap_suggestion .suggestion_auto > ol > li {
+  padding: 0.2rem 2rem;
+}
+.wrap_suggestion .suggestion_auto > ol > li:hover {
+  background: rgb(167, 167, 167);
+}
