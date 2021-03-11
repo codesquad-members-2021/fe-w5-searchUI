@@ -16,7 +16,7 @@ window["responseJsonpData"] = function (data) {
   inputevent.inputValue(data.items.map((value) => value.substr(0, value.length-2)));
 };
 
-fetch("http://localhost:3000/moreItem.json")
+fetch("https://shoppinghow.kakao.com/v1.0/shophow/top/planningEvent.json?_=1615454214929")
   .then((res) => res.json())
   .then((json) => {
     const morebtn = new Morebtn(json.mallEventList, $.moreBtn, $.moreContainer);

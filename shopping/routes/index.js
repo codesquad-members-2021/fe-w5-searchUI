@@ -6,6 +6,7 @@ const planningEvent = require("../public/images/planningEvent.json");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
+  res.cookie("hasVisited", "1", { path: "/" });
   res.render("index", {
     title: "Shoppinghow",
     home: homeContent,
@@ -20,6 +21,5 @@ router.get("/homeContents.json", (req, res, next) => {
 router.get("/moreItem.json", (req, res, next) => {
   res.send(planningEvent);
 });
-
 
 module.exports = router;
