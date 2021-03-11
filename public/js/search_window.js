@@ -1,154 +1,151 @@
 import {
-   _
+   _, getData
 } from "./util.js";
-const searchWindow = _.$('.search_input');
-const searchBox = _.$('.search_box');
-const searchArea = _.$('.search');
-const hotKeywordBox=_.$('.hot_keyword_tpl');
 
 
-const getData = async (url, indexName, indexName2) => {
-   const response = await fetch(url).then(res=>res.json());
-   const parsingData = await response[indexName];
-   return parsingData.map(el=>el[indexName2]).slice(0,10);
+
+
+export function SearchUI(){ 
+   this.searchWindow = _.$('.search_input');   
+   this.searchBox = _.$('.search_box'); 
+   this.searchArea = _.$('.search');  
+   this.hotKeywordBox=_.$('.hot_keyword_tpl');
+   this.popularSearchTerm;
+   this.rollingPage;
+   this.init();
 }
 
-const getRelatedTerm = (url, indexName, indexName2) =>{
-   const relatedTermArr = getData(url, indexName, indexName2)
-   renderRelatedTerm(relatedTermArr);
+SearchUI.prototype.init = function(){
+   this.getInitialData();
+   this.inputSearchTerm();
+   this.realtimeSearch();
 }
 
-const renderRelatedTerm = (resArray) => {
-   console.log(resArray)
-   const relatedTermBox = _.$('.related_term_tpl');
-   const firstNode = relatedTermBox.firstChild;
-   if(firstNode) relatedTermBox.removeChild(firstNode); 
-   
+SearchUI.prototype.getInitialData = async function(){
+   const url = 'https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json?_=1615192416887';
+   const initialData = await getData(url);
+   this.popularSearchTerm = initialData.list.map(el=>el.keyword);
+  
+   this.renderRollingKeyword();
+   this.renderKeywordBox();
+}
 
-   const tempBox = _.create('div');
-   resArray.forEach(el=> {
-      const divEl = _.create('div');
-      divEl.innerText=el;
-      tempBox.appendChild( divEl)
-   });
-   relatedTermBox.insertAdjacentElement('afterBegin', tempBox);
-   showTarget(relatedTermBox);
-   hideTarget(hotKeywordBox)
+SearchUI.prototype.inputSearchTerm = function(){
+   const clickArea = this.searchBox.firstElementChild.closest('.search_box');
+   clickArea.addEventListener('click',()=>{
+      this.hideRolling();
+      this.showHotkeyword();
+   })
+}
 
-   relatedTermBox.addEventListener("mouseleave", ()=>setTimeout(()=>{
-      if(searchWindow.value==='') showRolling()
-      hideTarget(relatedTermBox)
-      showTarget(hotKeywordBox);
+SearchUI.prototype.showHotkeyword = function(){
+   this.showTarget(this.hotKeywordBox);
+   this.showTarget(this.searchBox);
+
+   this.searchArea.addEventListener("mouseleave", ()=>setTimeout(()=>{
+      if(this.searchWindow.value==='') this.showRolling()
+      this.hideTarget(this.hotKeywordBox)
+      this.hideTarget(this.searchBox)
    }, 200));
-   
+
 }
-const rollupKeyword =(tempBox)=>{
+
+SearchUI.prototype.hideRolling = function(){
+   this.rollingPage.classList.add('off');
+}
+
+SearchUI.prototype.showRolling = function(){
+   this.rollingPage.classList.remove('off');
+}
+
+SearchUI.prototype.hideTarget = function(target){
+   target.classList.remove("show");
+}
+
+SearchUI.prototype.showTarget = function(target){
+   target.classList.add("show");
+}
+
+SearchUI.prototype.realtimeSearch = function(){
+   let timer;
+   this.searchWindow.addEventListener('input', (e)=>{
+      if (timer)  clearTimeout(timer);
+      timer = setTimeout(async ()=>{
+         const searchingWord = this.searchWindow.value;
+         const relatedLink = `https://completion.amazon.com/api/2017/suggestions?mid=ATVPDKIKX0DER&alias=aps&suggestion-type=KEYWORD&prefix=${searchingWord}`;
+         const relatedTermData = await getData(relatedLink);
+         const relatedTermArr = relatedTermData.suggestions.map(el=>el.value)
+         this.renderRelatedTerm(relatedTermArr);
+      }, 1000);
+   })
+}
+
+SearchUI.prototype.renderRollingKeyword = function(){
+   this.makeTpl(this.popularSearchTerm, 1, this.searchWindow, 'beforeBegin');
+   this.searchBox.firstElementChild.className="rolling_keyword";
+   
+   this.rollingPage = _.$('.rolling_keyword');
+   this.rollupKeyword();
+}
+
+SearchUI.prototype.renderKeywordBox= function(){
+   const tempTitle = `<div>인기 쇼핑 키워드</div>`;
+   this.hotKeywordBox.insertAdjacentHTML('afterBegin', tempTitle);
+
+   const halfArr =this.popularSearchTerm.filter((v,i)=>i<this.popularSearchTerm.length/2)
+ 
+   this.makeTpl(halfArr, 1, this.hotKeywordBox,'beforeEnd');
+   this.makeTpl(halfArr, 6,  this.hotKeywordBox, 'beforeEnd');
+}
+
+SearchUI.prototype.rollupKeyword= function(){
  
    setInterval(()=>{
-      tempBox.style.transition = '1s';
-      tempBox.style.transform =`translateY(-50px)`;
+      this.rollingPage.style.transition = '1s';
+      this.rollingPage.style.transform =`translateY(-50px)`;
      setTimeout(() => {
-         const first = tempBox.firstElementChild;
-         tempBox.appendChild(first);
-         tempBox.style.transition ='none';
-         tempBox.style.transform ='translateY(0px)';
+         const first = this.rollingPage.firstElementChild;
+         this.rollingPage.appendChild(first);
+         this.rollingPage.style.transition ='none';
+         this.rollingPage.style.transform ='translateY(0px)';
       },1000)
    }, 2500)
  
 }
 
-const makeTpl = (originArr, arr, startNumber, pasteArea, place)=>{
-   const tempBox = _.create('div');
-   arr.forEach((v, idx)=>{
-      const tempDiv = _.create('div');
-      tempDiv.innerHTML = 
-      `<ul>
-         <span class="kwd_number">${idx+startNumber}</span>
-         <span>${originArr[idx+startNumber-1]}</span>
-      </ul>`
-      tempBox.insertAdjacentElement('beforeEnd', tempDiv)
-   });
-   pasteArea.insertAdjacentElement(place, tempBox);
-}
+SearchUI.prototype.renderRelatedTerm = function(resArray){
+   const relatedTermBox = _.$('.related_term_tpl');
 
-const renderRollingKeyword = (arr)=>{
-   makeTpl(arr, arr, 1, searchWindow, 'beforeBegin');
-   searchBox.firstElementChild.className="rolling_keyword";
-   searchBox.firstElementChild.classList.add="on";
-   const rollingPage = _.$('.rolling_keyword');
-   rollupKeyword(rollingPage);
-}
-
-const renderKeywordBox = (arr)=>{
-   const tempTitle = _.create('div');
-   tempTitle.innerText='인기 쇼핑 키워드';
-   hotKeywordBox.insertAdjacentElement('afterBegin', tempTitle);
+   while(relatedTermBox.firstChild) {
+      relatedTermBox.removeChild(relatedTermBox.firstChild); 
+   }
    
+   resArray.forEach(el=> {
+      const divEl = `<div>${el}</div>`;
+      relatedTermBox.insertAdjacentHTML('beforeEnd', divEl);
+   });
 
-   const halfArr =arr.filter((v,i)=>i<arr.length/2)
- 
-   makeTpl(arr, halfArr, 1, hotKeywordBox,'beforeEnd');
-   makeTpl(arr, halfArr, 6,  hotKeywordBox, 'beforeEnd');
-}
+  
+   this.showTarget(relatedTermBox);
+   this.hideTarget(this.hotKeywordBox);
 
-
-const hideRolling = () => {
-   const rollingPage = _.$('.rolling_keyword');
-   rollingPage.style.display = 'none';
-}
-
-const showRolling = () => {
-   const rollingPage = _.$('.rolling_keyword');
-   rollingPage.style.display = 'block';
-}
-
-const hideTarget = (target) => {
-   target.classList.remove("show");
-}
-
-const showTarget = (target) => {
-   target.classList.add("show");
-}
-
-const realtimeSearch = () => {
-   let timer;
-   searchWindow.addEventListener('input', (e)=>{
-      if (timer)  clearTimeout(timer);
-      timer = setTimeout(function() {
-         const searchingWord = searchWindow.value;
-         const relatedLink = `https://completion.amazon.com/api/2017/suggestions?session-id=143-2446705-2343767&customer-id=&request-id=S6PGC8D1B31CR1Z4MJQB&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=229&prefix=${searchingWord}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615298235851', searchingWord`;
-         getRelatedTerm(relatedLink, 'suggestions', 'value');
-      }, 1000);
-   })
-}
-
-const showHotkeyword = () => {
-   showTarget(hotKeywordBox);
-   showTarget(searchBox);
-
-   searchArea.addEventListener("mouseleave", ()=>setTimeout(()=>{
-      if(searchWindow.value==='') showRolling()
-      hideTarget(hotKeywordBox)
-      hideTarget(searchBox)
+   relatedTermBox.addEventListener("mouseleave", ()=>setTimeout(()=>{
+      if(this.searchWindow.value==='') this.showRolling();
+      this.hideTarget(relatedTermBox);
+      this.showTarget(this.hotKeywordBox);
    }, 200));
 }
 
-const searchWindowClick = () => {
-   const clickArea = searchBox.firstElementChild.closest('.search_box');
-   clickArea.addEventListener('click',()=>{
-      hideRolling();
-      showHotkeyword();
-   })
-}
-
-export const searchInit = ()=>{
-
-   const url = 'https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json?_=1615192416887';
-   const parsingDataArr = getData(url, 'list', 'keyword');
-   console.log(parsingDataArr)
-   parsingDataArr.then(res=>  renderRollingKeyword(res));
-   parsingDataArr.then(res=> renderKeywordBox(res));
-  
-   searchWindowClick();
-   realtimeSearch();
+SearchUI.prototype.makeTpl = function(arr, startNumber, pasteArea, place){
+   const tempBox = _.create('div');
+   
+   arr.forEach((v, idx)=>{
+      const tempDiv = 
+      `<div><ul>
+         <span class="kwd_number">${idx+startNumber}</span>
+         <span>${this.popularSearchTerm[idx+startNumber-1]}</span>
+      </ul></div>`;
+      tempBox.insertAdjacentHTML('beforeEnd', tempDiv)
+   });
+   pasteArea.insertAdjacentElement(place, tempBox);
 }

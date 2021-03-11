@@ -183,16 +183,15 @@ p {
       background-color: $color-background-white;
       position: absolute;
       z-index: 9999;
+
       div {
-        div {
-          width: -webkit-fill-available;
-          box-sizing: border-box;
-          padding: 5px 30px;
-          font-size: 14px;
-          &:hover {
-            cursor: pointer;
-            background-color: $color-css-grey;
-          }
+        width: -webkit-fill-available;
+        box-sizing: border-box;
+        padding: 5px 30px;
+        font-size: 14px;
+        &:hover {
+          cursor: pointer;
+          background-color: $color-css-grey;
         }
       }
     }

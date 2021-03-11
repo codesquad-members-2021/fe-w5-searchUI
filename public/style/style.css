@@ -150,12 +150,12 @@ p {
       background-color: #fff;
       position: absolute;
       z-index: 9999; }
-      .search .related_term_tpl.show div div {
+      .search .related_term_tpl.show div {
         width: -webkit-fill-available;
         box-sizing: border-box;
         padding: 5px 30px;
         font-size: 14px; }
-        .search .related_term_tpl.show div div:hover {
+        .search .related_term_tpl.show div:hover {
           cursor: pointer;
           background-color: #bbbbbb; }
 
