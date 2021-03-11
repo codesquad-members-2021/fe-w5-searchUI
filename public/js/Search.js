@@ -7,6 +7,7 @@ export function Search() {
   this.suggestion = _.$('.search-suggestion');
   this.keywordsToroll = _.$('.nav-search-rank');
   this.rollKeyword = _.$('.search-rollkeywords');
+  this.durationTime = 700;
   this.moveY = -2.5;
   this.timer;
   this.debouncer;
@@ -74,7 +75,7 @@ Search.prototype.animateKeywords = function (move, start, end) {
       this.moveY = start;
     }
   };
-  this.keywordsToroll.style.transitionDuration = '700ms';
+  this.keywordsToroll.style.transitionDuration = `${this.durationTime}ms`;
 };
 
 Search.prototype.runKeyWordsRoll = function () {
