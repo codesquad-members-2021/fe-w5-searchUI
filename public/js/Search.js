@@ -151,41 +151,6 @@ Search.prototype.runKeyWordsRoll = function () {
   }, 2000);
 };
 
-Search.prototype.stopRolling = function () {
-  return clearInterval(this.timer);
-};
-
-Search.prototype.hideRollKeyword = function () {
-  _.addClass(this.rollKeyword, 'search-rollkeyword-hidden');
-};
-
-Search.prototype.showRollKeyword = function () {
-  _.rmClass(this.rollKeyword, 'search-rollkeyword-hidden');
-};
-
-Search.prototype.hideSuggestion = function () {
-  _.rmClass(this.suggestion, 'visible');
-};
-
-Search.prototype.showSuggestion = function () {
-  _.addClass(this.suggestion, 'visible');
-};
-
-Search.prototype.hideSimilarWords = function () {
-  const similarWords = _.$('.search-similar-words-wrap');
-  _.rmClass(similarWords, 'visible');
-};
-
-Search.prototype.showSimilarWords = function () {
-  const similarWords = _.$('.search-similar-words-wrap');
-  _.addClass(similarWords, 'visible');
-};
-
-Search.prototype.toggleSimilarWords = function () {
-  const similarWords = _.$('.search-similar-words-wrap');
-  _.toggleClass(similarWords, 'visible');
-};
-
 Search.prototype.fetchKeywords = async function (text) {
   if (!text) return this.hideSimilarWords();
   try {
@@ -231,4 +196,39 @@ Search.prototype.reassembleText = function (highlightText, restText) {
 
 Search.prototype.hasNoSimilarWords = function (suggestions) {
   if (suggestions.length === 0) return true;
+};
+
+Search.prototype.stopRolling = function () {
+  return clearInterval(this.timer);
+};
+
+Search.prototype.hideRollKeyword = function () {
+  _.addClass(this.rollKeyword, 'search-rollkeyword-hidden');
+};
+
+Search.prototype.showRollKeyword = function () {
+  _.rmClass(this.rollKeyword, 'search-rollkeyword-hidden');
+};
+
+Search.prototype.hideSuggestion = function () {
+  _.rmClass(this.suggestion, 'visible');
+};
+
+Search.prototype.showSuggestion = function () {
+  _.addClass(this.suggestion, 'visible');
+};
+
+Search.prototype.hideSimilarWords = function () {
+  const similarWords = _.$('.search-similar-words-wrap');
+  _.rmClass(similarWords, 'visible');
+};
+
+Search.prototype.showSimilarWords = function () {
+  const similarWords = _.$('.search-similar-words-wrap');
+  _.addClass(similarWords, 'visible');
+};
+
+Search.prototype.toggleSimilarWords = function () {
+  const similarWords = _.$('.search-similar-words-wrap');
+  _.toggleClass(similarWords, 'visible');
 };
