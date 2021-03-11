@@ -1,5 +1,6 @@
 import Component from "../core/Component.js";
 import { _ } from "../utils/dom.js";
+import { debounce } from "../utils/fns.js";
 import { getHotKeywords } from "../utils/requestKeyword.js";
 import AutoComplete from "./AutoComplete.js";
 import RollingKeywords from "./RollingKeywords.js";
@@ -38,7 +39,7 @@ SearchBar.prototype.getTemplate = function () {
       </div>
       <ol>
       ${hotKeywords
-        .map((keyword, i) => `<li><span>${i + 1}</span>${keyword}</li>`)
+        .map((keyword, i) => `<li><span>${i + 1}</span> ${keyword}</li>`)
         .join("")}
       </ol>
     </div>
@@ -49,7 +50,10 @@ SearchBar.prototype.getTemplate = function () {
     `;
 };
 SearchBar.prototype.mount = function () {
-  new RollingKeywords(_.$(".wrap_rollingKeywords"), {});
+  const { hotKeywords } = this.state;
+  new RollingKeywords(_.$(".wrap_rollingKeywords"), {
+    hotKeywords,
+  });
   new AutoComplete(_.$(".suggestion_auto"), {});
 };
 SearchBar.prototype.setEvents = function () {
@@ -59,7 +63,8 @@ SearchBar.prototype.setEvents = function () {
     const $suggestionHot = _.$(".suggestion_hot");
     $suggestionHot.style.display = !onSearch ? "block" : "none";
   };
-
+  const inputKeyword = () => {};
   this.addEvent("focusin", "#input_search", toggleHotKeywords);
   this.addEvent("focusout", "#input_search", toggleHotKeywords);
+  // this.addEvent("input", "#input_search", debounce(inputKeyword, 1000));
 };

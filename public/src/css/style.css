@@ -33,8 +33,6 @@
 
   border: 1px solid red;
   border-radius: 0.5rem;
-
-  background: slateblue;
 }
 .searchBar .form_search {
   width: 100%;
@@ -55,12 +53,14 @@
   padding: 1rem;
   font-size: 1.4rem;
   border: none;
+  outline: none;
 }
 #btn_search {
   width: 3rem;
 }
 
 .searchBar .wrap_rollingKeywords {
+  pointer-events: none;
   position: absolute;
   left: 2rem;
   top: 0;
@@ -68,14 +68,26 @@
   padding: 1rem;
   box-sizing: border-box;
 }
-
-.wrap_rollingKeywords .rollingKeywords {
+.wrap_rollingKeywords .box_rolling {
   overflow: hidden;
   height: 1.4rem;
+  background: tan;
 }
-
+.box_rolling .rollingKeywords {
+  height: 1.4rem;
+  transform: translateY(-2.9rem);
+}
+.rollingKeywords > li {
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  transition: height 1s ease;
+  box-sizing: border-box;
+}
+.rollingKeywords > li > span {
+  margin-right: 1rem;
+}
 .wrap_suggestion {
-  background: teal;
   padding: 1.5rem 0;
   border-radius: 0.5rem;
   border: 1px solid red;
@@ -97,7 +109,6 @@
 }
 .wrap_suggestion .suggestion_hot > ol > li {
   width: 50%;
-  background: tan;
   margin-bottom: 1rem;
 }
 .wrap_suggestion .suggestion_hot > ol > li > span {
