@@ -16,7 +16,6 @@ export default class Slide {
   }
 
   setTotalWidth(slideWidth, slideLen) {
-    // console.log(this.slideList);
     this.slideList.style.width = `${slideWidth * (slideLen + 2)}px`;
   }
 

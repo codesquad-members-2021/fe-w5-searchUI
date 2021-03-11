@@ -31,20 +31,18 @@ const longClickState = {
 };
 
 const times = {
-  debounce: 300,
-  rolling: 1000,
-  transition: 300,
+  debounce: 1000,
+  rolling: 2000,
+  quickRolling: 0,
+  transition: 500,
   transform: 22,
   init: 0,
 };
 
-const searchToggle = {
-  currIndex: -1,
+const keywordState = {
   searchingInput: null,
   recommWordsToggle: null,
-  timer: null,
   recommendations: [],
-  topTenWords: null,
 };
 
 const rollings = {
@@ -52,4 +50,4 @@ const rollings = {
   rollingKeywordHtml: null,
 };
 
-export { carouselState, longClickState, partnerState, times, searchToggle, rollings };
+export { carouselState, longClickState, partnerState, times, keywordState, rollings };
