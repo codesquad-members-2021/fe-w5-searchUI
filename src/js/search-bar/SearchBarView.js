@@ -2,6 +2,8 @@ import '../../scss/SearchBarView.scss';
 import { _ } from '../util.js';
 import { SuggestionView } from './SuggestionView.js';
 
+const THROTTLE_INTERVAL = 100;
+
 export function SearchBarView({ carouselView, suggestionView, serverUrl } = {}) {
   this.$target;
   this.$inputContainer;
@@ -39,7 +41,7 @@ SearchBarView.prototype.onEvents = function () {
   this.$target.addEventListener('mouseleave', this.onMouseleave.bind(this));
   this.$target.addEventListener('keydown', this.onKeydown.bind(this));
   this.$inputContainer.addEventListener('click', this.onClick.bind(this));
-  this.$input.addEventListener('input', this.onInputClosure().bind(this));
+  this.$input.addEventListener('input', _.throttle(this.onInput.bind(this), THROTTLE_INTERVAL));
 };
 
 SearchBarView.prototype.onKeydown = function (evt) {
@@ -51,12 +53,23 @@ SearchBarView.prototype.onKeydown = function (evt) {
 
       case SuggestionView.MODE__SUGGESTION_FROM_INPUT:
         evt.code === 'ArrowDown' ? this.suggestionView.selectDown() : this.suggestionView.selectUp();
-        if (!this.suggestionView.getSelectedItem()) this.suggestionView.setMode(SuggestionView.MODE__NOT_FOUND);
+        const selectedItem = this.suggestionView.getSelectedItem();
+
+        if (selectedItem) {
+          this.$input.value = selectedItem;
+        } else {
+          this.suggestionView.setMode(SuggestionView.MODE__NOT_FOUND);
+          this.suggestionView.hide();
+        }
         break;
 
       case SuggestionView.MODE__NOT_FOUND:
-        if (this.$input.value) this.suggestionView.setMode(SuggestionView.MODE__SUGGESTION_FROM_INPUT);
-        else this.suggestionView.setMode(SuggestionView.MODE__POPULAR_KEYWORD);
+        if (this.$input.value) {
+          this.suggestionView.setMode(SuggestionView.MODE__SUGGESTION_FROM_INPUT);
+          this.suggestionView.show();
+        } else {
+          this.suggestionView.setMode(SuggestionView.MODE__POPULAR_KEYWORD);
+        }
         break;
     }
   }
@@ -84,27 +97,24 @@ SearchBarView.prototype.onClick = function (evt) {
   if (this.suggestionView.getMode() !== SuggestionView.MODE__NOT_FOUND) this.suggestionView.show();
 };
 
-SearchBarView.prototype.onInputClosure = function () {
-  let prevInputValue;
+SearchBarView.prototype.onInput = async function (evt) {
+  if (this.$input.value) {
+    if (!this.suggestionView.isChangeable()) return;
 
-  return async evt => {
-    if (this.$input.value && this.$input.value !== prevInputValue) {
-      prevInputValue = this.$input.value;
-      const suggestionData = await this.fetchSuggestionData(this.$input.value);
+    const suggestionData = await this.fetchSuggestionData(this.$input.value);
 
-      if (!suggestionData) {
-        this.suggestionView.hide();
-        this.suggestionView.setMode(SuggestionView.MODE__NOT_FOUND);
-        return;
-      }
-
-      this.suggestionView.setMode(SuggestionView.MODE__SUGGESTION_FROM_INPUT);
-      this.suggestionView.setData(suggestionData);
-    } else if (!this.$input.value && !evt.isComposing) {
-      this.suggestionView.setMode(SuggestionView.MODE__POPULAR_KEYWORD);
-      prevInputValue = '';
+    if (!suggestionData) {
+      this.suggestionView.hide();
+      this.suggestionView.setMode(SuggestionView.MODE__NOT_FOUND);
+      return;
     }
-  };
+
+    this.suggestionView.show();
+    this.suggestionView.setMode(SuggestionView.MODE__SUGGESTION_FROM_INPUT);
+    this.suggestionView.setData(suggestionData);
+  } else if (!evt.isComposing) {
+    this.suggestionView.setMode(SuggestionView.MODE__POPULAR_KEYWORD);
+  }
 };
 
 SearchBarView.prototype.fetchSuggestionData = function (inputData) {

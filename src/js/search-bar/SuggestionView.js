@@ -9,6 +9,7 @@ export function SuggestionView(data) {
   this.$target;
   this.data = data;
   this.mode = SuggestionView.MODE__POPULAR_KEYWORD;
+  this.changeable = true;
   this.popularKeywordView;
   this.suggestionFromInputView;
   this.init();
@@ -39,6 +40,7 @@ SuggestionView.prototype.updateView = function () {
     case SuggestionView.MODE__POPULAR_KEYWORD:
       this.suggestionFromInputView.hide();
       this.popularKeywordView.show();
+      this.changeable = true;
       break;
     case SuggestionView.MODE__SUGGESTION_FROM_INPUT:
       this.popularKeywordView.hide();
@@ -55,14 +57,20 @@ SuggestionView.prototype.updateView = function () {
 
 SuggestionView.prototype.selectUp = function () {
   this.suggestionFromInputView.selectUp();
+  this.changeable = !this.suggestionFromInputView.isSelectedSomething();
 };
 
 SuggestionView.prototype.selectDown = function () {
   this.suggestionFromInputView.selectDown();
+  this.changeable = !this.suggestionFromInputView.isSelectedSomething();
 };
 
 SuggestionView.prototype.getSelectedItem = function () {
   return this.suggestionFromInputView.getSelectedItem();
+};
+
+SuggestionView.prototype.isChangeable = function () {
+  return this.changeable;
 };
 
 SuggestionView.prototype.show = function () {
@@ -203,6 +211,7 @@ function SuggestionFromInputView(data) {
   this.$target;
   this.list;
   this.data = data;
+  this.changeable = true;
   this.init();
 }
 
@@ -218,7 +227,7 @@ SuggestionFromInputView.prototype.createEl = function () {
 
 SuggestionFromInputView.prototype.appendList = function () {
   this.list = new SuggestionFromInputList(this.data);
-  this.$target.appendChild(this.list?.getEl());
+  this.$target.appendChild(this.list.getEl());
 };
 
 SuggestionFromInputView.prototype.updateList = function () {
@@ -236,6 +245,10 @@ SuggestionFromInputView.prototype.selectDown = function () {
 
 SuggestionFromInputView.prototype.getSelectedItem = function () {
   return this.list?.getSelectedItem();
+};
+
+SuggestionFromInputView.prototype.isSelectedSomething = function () {
+  return this.currIdx !== -1;
 };
 
 SuggestionFromInputView.prototype.show = function () {
@@ -287,14 +300,15 @@ SuggestionFromInputList.prototype.selectUp = function () {
   if (this.currIdx === -1) return;
 
   this.$target.children[this.currIdx].classList.remove('select');
-
   if (--this.currIdx !== -1) this.$target.children[this.currIdx].classList.add('select');
 };
 
 SuggestionFromInputList.prototype.selectDown = function () {
   if (this.currIdx !== -1) {
     this.$target.children[this.currIdx].classList.remove('select');
-  } else if (this.currIdx === this.$target.children.length - 1) {
+  }
+
+  if (this.currIdx === this.$target.children.length - 1) {
     this.currIdx = -1;
     return;
   }
@@ -303,7 +317,9 @@ SuggestionFromInputList.prototype.selectDown = function () {
 };
 
 SuggestionFromInputList.prototype.getSelectedItem = function () {
-  return this.currIdx === -1 ? null : this.$target.children[this.currIdx];
+  return this.currIdx === -1
+    ? null
+    : this.data.items[this.currIdx].slice(0, this.data.items[this.currIdx].lastIndexOf('|'));
 };
 
 SuggestionFromInputList.prototype.getEl = function () {
@@ -312,7 +328,7 @@ SuggestionFromInputList.prototype.getEl = function () {
 
 function SuggestionFromInputListItem({ data, markStr }) {
   this.$target;
-  this.data = data.slice(0, markStr.lastIndexOf('|') - 1);
+  this.data = data.slice(0, data.lastIndexOf('|'));
   this.markStr = markStr;
   this.begin;
   this.mid = '';
