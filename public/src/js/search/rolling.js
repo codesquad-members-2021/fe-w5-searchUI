@@ -5,6 +5,7 @@ import { delay } from '../util/util.js';
 function RecommendRolling({ data, selector, animation }) {
   this.rollingData = data;
   this.rollingList = selector.rollingList;
+  this.searchInput = selector.searchInput;
   this.step = 0;
   this.oneStep = animation.oneStep;
   this.transition = animation.transition;

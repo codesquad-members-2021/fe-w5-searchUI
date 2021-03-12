@@ -15,12 +15,12 @@ class Toggle {
   }
   toggle(target) {
     for (const toggle of this.toggleList) {
-      const { check, show, hidden } = toggle;
+      const { check, show, hidden, showOption } = toggle;
       if (check.contains(target)) {
         this.show(hidden);
         this.hidden(show);
       } else {
-        this.show(show);
+        if (!showOption.value) this.show(show);
         this.hidden(hidden);
       }
     }

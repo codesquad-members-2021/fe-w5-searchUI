@@ -31,13 +31,13 @@ const hotDealAnimation = { oneStep: 260.6, transition: 'all 0.3s' };
 //추천 리스트 rolling
 const rollingContainer = _.$('.placeholder-container');
 const rollingList = _.$('.placeholder-list');
-const rollingSelector = { rollingList };
+const searchInput = _.$('.box_search>input');
+const rollingSelector = { rollingList, searchInput };
 const rollingAnimation = { oneStep: 54, transition: 'all 1s' };
 
 //추천 리스트 search-tab
 const searchTabContainer = _.$('.search-tab-container');
 const searchTab = _.$('.search-tab');
-const searchInput = _.$('.box_search>input');
 const searchTabTitle = _.$('.search-tab__title');
 const searchTabSelector = { searchTab, searchInput, searchTabTitle };
 
@@ -86,7 +86,9 @@ async function init() {
 }
 
 //토글
-const toggleList = [{ check: searchContainer, show: rollingContainer, hidden: searchTabContainer }];
+const toggleList = [
+  { check: searchContainer, show: rollingContainer, hidden: searchTabContainer, showOption: searchInput },
+];
 const toggle = new Toggle(toggleList);
 toggle.init();
 
