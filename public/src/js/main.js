@@ -43,7 +43,6 @@ const searchTabSelector = { searchTab, searchInput, searchTabTitle };
 
 //토글
 const searchContainer = _.$('.box_search');
-const toggleList = [{ check: searchContainer, show: rollingContainer, hidden: searchTabContainer }];
 
 //슬라이더
 async function init() {
@@ -51,12 +50,12 @@ async function init() {
   const { mileageList: slideData, mallEventList: hotDealData } = slideOriginData;
 
   const parsedBannerdata = slideParser(slideData);
-  const bannerArg = bundleArg({ data: parsedBannerdata, selector: BannerSelector, animation: BannerAnimation });
+  const bannerArg = { data: parsedBannerdata, selector: BannerSelector, animation: BannerAnimation };
   const bannerSlider = new BannerSlider(bannerArg);
   bannerSlider.init();
 
   const parsedHotDealData = hotDealParser(hotDealData);
-  const hotDealArg = bundleArg({ data: parsedHotDealData, selector: hotDealSelector, animation: hotDealAnimation });
+  const hotDealArg = { data: parsedHotDealData, selector: hotDealSelector, animation: hotDealAnimation };
   const hotDealSlider = new HotDealSlider(hotDealArg);
   hotDealSlider.init();
 
@@ -64,7 +63,7 @@ async function init() {
   const moreOriginData = await getData(URL.MORE);
   const { contents: moreData } = moreOriginData;
   const parsedMoreData = moreParser(moreData);
-  const moreBtnArg = bundleArg({ data: parsedMoreData, selector: moreSelectors });
+  const moreBtnArg = { data: parsedMoreData, selector: moreSelectors };
   const moreButtonView = new MoreButtonView(moreBtnArg);
   moreButtonView.init();
 
@@ -72,21 +71,22 @@ async function init() {
   const recommendOriginData = await getData(URL.RECOMMEND);
   const { list: recommendList } = recommendOriginData;
   const recommendData = recommendParser(recommendList);
-  const rollingArg = bundleArg({
+  const rollingArg = {
     data: recommendData,
     selector: rollingSelector,
     animation: rollingAnimation,
-  });
+  };
   const recommendRolling = new RecommendRolling(rollingArg);
   recommendRolling.init();
 
   //추천 search - searchTab
-  const searchTabArg = bundleArg({ data: recommendData, selector: searchTabSelector });
+  const searchTabArg = { data: recommendData, selector: searchTabSelector };
   const searchTab = new SearchTab(searchTabArg);
   searchTab.init();
 }
 
 //토글
+const toggleList = [{ check: searchContainer, show: rollingContainer, hidden: searchTabContainer }];
 const toggle = new Toggle(toggleList);
 toggle.init();
 

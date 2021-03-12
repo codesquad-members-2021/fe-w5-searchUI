@@ -33,12 +33,12 @@ SearchTab.prototype = {
   },
   getRecommendHTML() {
     const { SEARCH_TAB_LIST } = CLASS_LIST;
-    const firstList = this.recommendData
-      .slice(0, this.recommendData.length / 2)
-      .reduce((acc, data, idx) => acc + makeRecommendItem(idx + 1, data), '');
-    const secondList = this.recommendData
-      .slice(this.recommendData.length / 2)
-      .reduce((acc, data, idx) => acc + makeRecommendItem(idx + 1, data), '');
+    let firstList = '';
+    let secondList = '';
+    this.recommendData.forEach((data, idx) => {
+      if (idx < this.recommendData.length / 2) firstList += makeRecommendItem(idx + 1, data);
+      else secondList += makeRecommendItem(idx + 1, data);
+    });
     const recommendHTML =
       ul({ value: firstList, classes: [SEARCH_TAB_LIST] }) + ul({ value: secondList, classes: [SEARCH_TAB_LIST] });
     return recommendHTML;
