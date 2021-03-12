@@ -31,19 +31,18 @@ const hotDealAnimation = { oneStep: 260.6, transition: 'all 0.3s' };
 //추천 리스트 rolling
 const rollingContainer = _.$('.placeholder-container');
 const rollingList = _.$('.placeholder-list');
-const rollingSelector = { rollingList };
+const searchInput = _.$('.box_search>input');
+const rollingSelector = { rollingList, searchInput };
 const rollingAnimation = { oneStep: 54, transition: 'all 1s' };
 
 //추천 리스트 search-tab
 const searchTabContainer = _.$('.search-tab-container');
 const searchTab = _.$('.search-tab');
-const searchInput = _.$('.box_search>input');
 const searchTabTitle = _.$('.search-tab__title');
 const searchTabSelector = { searchTab, searchInput, searchTabTitle };
 
 //토글
 const searchContainer = _.$('.box_search');
-const toggleList = [{ check: searchContainer, show: rollingContainer, hidden: searchTabContainer }];
 
 //슬라이더
 async function init() {
@@ -51,12 +50,12 @@ async function init() {
   const { mileageList: slideData, mallEventList: hotDealData } = slideOriginData;
 
   const parsedBannerdata = slideParser(slideData);
-  const bannerArg = bundleArg({ data: parsedBannerdata, selector: BannerSelector, animation: BannerAnimation });
+  const bannerArg = { data: parsedBannerdata, selector: BannerSelector, animation: BannerAnimation };
   const bannerSlider = new BannerSlider(bannerArg);
   bannerSlider.init();
 
   const parsedHotDealData = hotDealParser(hotDealData);
-  const hotDealArg = bundleArg({ data: parsedHotDealData, selector: hotDealSelector, animation: hotDealAnimation });
+  const hotDealArg = { data: parsedHotDealData, selector: hotDealSelector, animation: hotDealAnimation };
   const hotDealSlider = new HotDealSlider(hotDealArg);
   hotDealSlider.init();
 
@@ -64,7 +63,7 @@ async function init() {
   const moreOriginData = await getData(URL.MORE);
   const { contents: moreData } = moreOriginData;
   const parsedMoreData = moreParser(moreData);
-  const moreBtnArg = bundleArg({ data: parsedMoreData, selector: moreSelectors });
+  const moreBtnArg = { data: parsedMoreData, selector: moreSelectors };
   const moreButtonView = new MoreButtonView(moreBtnArg);
   moreButtonView.init();
 
@@ -72,21 +71,24 @@ async function init() {
   const recommendOriginData = await getData(URL.RECOMMEND);
   const { list: recommendList } = recommendOriginData;
   const recommendData = recommendParser(recommendList);
-  const rollingArg = bundleArg({
+  const rollingArg = {
     data: recommendData,
     selector: rollingSelector,
     animation: rollingAnimation,
-  });
+  };
   const recommendRolling = new RecommendRolling(rollingArg);
   recommendRolling.init();
 
   //추천 search - searchTab
-  const searchTabArg = bundleArg({ data: recommendData, selector: searchTabSelector });
+  const searchTabArg = { data: recommendData, selector: searchTabSelector };
   const searchTab = new SearchTab(searchTabArg);
   searchTab.init();
 }
 
 //토글
+const toggleList = [
+  { check: searchContainer, show: rollingContainer, hidden: searchTabContainer, showOption: searchInput },
+];
 const toggle = new Toggle(toggleList);
 toggle.init();
 
