@@ -61,3 +61,6 @@
 
 .none {
   display: none; }
+
+.selected {
+  background-color: #f6f6f6; }

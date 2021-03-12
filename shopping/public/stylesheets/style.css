@@ -63,6 +63,9 @@
 .none {
   display: none; }
 
+.selected {
+  background-color: #f6f6f6; }
+
 header {
   width: 100%;
   padding-top: 43px;

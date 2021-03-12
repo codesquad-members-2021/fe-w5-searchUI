@@ -50,16 +50,15 @@ inputEvent.prototype = {
         if (this.selectedIndex >= 0) {
           this.selectedIndex -= 1;
         }
-        console.log(this.selectedIndex);
         break;
 
       case 40:
         if (this.selectedIndex < list.length - 1) {
           this.selectedIndex += 1;
         }
-        console.log(this.selectedIndex);
         break;
     }
+    this.SelecteList(list);
   },
 
   insertHTML(Parents) {
@@ -70,6 +69,13 @@ inputEvent.prototype = {
     this.suggestionInner.innerHTML = value
       .map((keyword) => html.inputListHTML(keyword))
       .reduce((acc, cur) => (acc += cur));
+  },
+
+  SelecteList(List) {
+    if (this.selectedIndex >= 0) {
+      List.forEach((v) => _.remove(v, "selected"));
+      _.add(List[this.selectedIndex], "selected");
+    }
   },
 
   constructor: inputEvent,
