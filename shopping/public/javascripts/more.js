@@ -13,6 +13,7 @@ export default class Morebtn {
 
   init() {
     this.splitData(4);
+    this.render();
     this.clickEvent();
   }
 
