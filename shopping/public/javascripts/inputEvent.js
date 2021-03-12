@@ -67,7 +67,16 @@ inputEvent.prototype = {
 
   inputValue(value) {
     this.suggestionInner.innerHTML = value
-      .map((keyword) => html.inputListHTML(keyword))
+      .map((keyword) =>
+        html.inputListHTML(
+          keyword.replace(
+            this.input.value.toLowerCase(),
+            `<span class="highlight">` +
+              this.input.value.toLowerCase() +
+              `</span>`
+          )
+        )
+      )
       .reduce((acc, cur) => (acc += cur));
   },
 
