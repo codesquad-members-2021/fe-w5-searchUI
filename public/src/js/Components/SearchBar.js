@@ -57,16 +57,14 @@ SearchBar.prototype.mount = function () {
   new AutoComplete(_.$(".suggestion_auto"), {});
 };
 SearchBar.prototype.setEvents = function () {
-  const inputKeyword = () => {};
-  this.addEvent("focusin", "#input_search", ({ target }) => {
-    this.handlerOfFocusIn(target);
+  this.addEvent("focusin", "#input_search", () => {
+    this.handlerOfFocusInOut();
   });
-  this.addEvent("focusout", "#input_search", ({ target }) => {
-    this.handlerOfFocusOut(target);
+  this.addEvent("focusout", "#input_search", () => {
+    this.handlerOfFocusInOut();
   });
-  // this.addEvent("input", "#input_search", debounce(inputKeyword, 1000));
 };
-SearchBar.prototype.handlerOfFocusIn = function () {
+SearchBar.prototype.handlerOfFocusInOut = function () {
   const toggle = pipe(
     this.toggleHotKeywords.bind(this),
     this.toggleWrapSuggestion,
@@ -74,19 +72,11 @@ SearchBar.prototype.handlerOfFocusIn = function () {
   );
   toggle();
 };
-SearchBar.prototype.handlerOfFocusOut = function () {
-  const toggle = pipe(
-    this.toggleHotKeywords.bind(this),
-    this.toggleWrapSuggestion,
-    this.toggleRollingKeywords
-  );
-  toggle();
-};
+
 SearchBar.prototype.toggleHotKeywords = function () {
   const { onSearch } = this.state;
   this.setState({ onSearch: !onSearch }, false);
-  _.$(".suggestion_hot").style.display = !onSearch ? "block" : "none";
-
+  _.$(".suggestion_hot").style.display = onSearch ? "none" : "block";
   return !onSearch;
 };
 SearchBar.prototype.toggleWrapSuggestion = function (onSearch) {
@@ -95,8 +85,8 @@ SearchBar.prototype.toggleWrapSuggestion = function (onSearch) {
 };
 SearchBar.prototype.toggleRollingKeywords = function (onSearch) {
   const isRemainKeyword = function () {
-    return _.$("#input_search").value === "" ? true : false;
+    return _.$("#input_search").value !== "" ? true : false;
   };
   _.$(".wrap_rollingKeywords").style.display =
-    !onSearch && isRemainKeyword() ? "block" : "none";
+    onSearch && isRemainKeyword() ? "none" : "block";
 };
