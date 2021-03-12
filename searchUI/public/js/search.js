@@ -1,12 +1,13 @@
 import { _ } from "./util.js";
 export const Search = function (selectors) {
 	this.selectors = selectors;
-	this.init();
 	this.rollTimer;
 	this.rollIndex = 1;
-	this.rollLength = 11;
+	this.rollLength = _.$A('li',this.selectors.rollItems).length
+	this.rollHeight = _.$('li',this.selectors.rollItems).offsetHeight // 왜 .style에 정보가 없을까
 	this.suggestionIndex = 0;
 	this.suggestionsLength = 0;
+	this.init();
 };
 
 Search.prototype.init = function () {
@@ -15,9 +16,8 @@ Search.prototype.init = function () {
 };
 
 Search.prototype.roll = function (delay = 1000) {
-	const itemHeight = 1.5;
 	this.rollTimer = setTimeout(() => {
-		this.selectors.rollItems.style.transform = `translate3d(0,-${this.rollIndex * itemHeight}rem,0)`;
+		this.selectors.rollItems.style.transform = `translate3d(0,-${this.rollIndex * this.rollHeight}px,0)`;
 		this.selectors.rollItems.style.transition = "300ms";
 		this.rollIndex = this.rollIndex >= this.rollLength - 1 ? 1 : ++this.rollIndex;
 		this.roll(delay);
@@ -25,19 +25,18 @@ Search.prototype.roll = function (delay = 1000) {
 };
 
 Search.prototype.resetRoll = function ({ target }) {
-	const itemHeight = 1.5;
-	if (target.style.transform === `translate3d(0px, -${(this.rollLength - 1) * itemHeight}rem, 0px)`) {
-		target.style.transform = "translate3d(0px, 0rem, 0px)";
+	if (target.style.transform === `translate3d(0px, -${(this.rollLength - 1) * this.rollHeight}px, 0px)`) {
+		target.style.transform = "translate3d(0px, 0px, 0px)";
 		target.style.transition = "0ms";
 	}
 };
 
 Search.prototype.addEvent = function () {
-	_.E(document, "click", this.hideSuggestions.bind(this));
 	_.E(this.selectors.searchBar, "click", this.makeInputFocused.bind(this));
-	_.E(this.selectors.searchInput, "focus", this.revealSuggestions.bind(this));
-	_.E(this.selectors.searchInput, "input", _.debounce(this.getSuggestions.bind(this), 1000));
-	_.E(this.selectors.searchInput, "keydown", this.selectSuggestion.bind(this));
+	_.E(this.selectors.searchInput, "focus", this.revealPopular.bind(this));
+	_.E(this.selectors.searchInput, "blur", this.hideSuggestions.bind(this));
+	_.E(this.selectors.searchInput, "input", _.debounce(this.getAutocomplete.bind(this), 1000));
+	_.E(this.selectors.searchInput, "keydown", this.selectAutocomplete.bind(this));
 	_.E(this.selectors.rollItems, "transitionend", this.resetRoll.bind(this));
 };
 
@@ -45,45 +44,44 @@ Search.prototype.makeInputFocused = function () {
 	this.selectors.searchInput.focus();
 };
 
-Search.prototype.revealSuggestions = function () {
+Search.prototype.revealPopular = function () {
 	clearTimeout(this.rollTimer);
 	this.rollTimer = 0;
 	this.suggestionIndex = 0;
 	_.CA(this.selectors.rollItems, "unseen");
 	_.CA(this.selectors.searchBar, "focused");
-	_.CR(this.selectors.suggestionHot, "unseen");
-	_.CA(this.selectors.suggestionRecommend, "unseen");
+	_.CR(this.selectors.popular, "unseen");
+	_.CA(this.selectors.autocomplete, "unseen");
 };
 
-Search.prototype.getSuggestions = async function () {
+Search.prototype.getAutocomplete = async function () {
 	const response = await fetch(`https://completion.amazon.com/api/2017/suggestions?session-id=139-3675547-2577611&customer-id=&request-id=J08DEQRH25DHAR0AFK3M&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=49&prefix=${this.selectors.searchInput.value}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD&suggestion-type=WIDGET&_=1615257159716`);
 	const { suggestions, prefix } = await response.json();
-	suggestions.length > 0 ? this.renderSuggestions(suggestions, prefix) : this.revealSuggestions();
+	suggestions.length > 0 ? this.renderAutocomplete(suggestions, prefix) : this.revealPopular();
 };
 
-Search.prototype.hideSuggestions = function (e) {
-	if (e.target.closest(".header__search-bar") !== null) return;
-	if (!this.rollTimer) this.roll();
+Search.prototype.hideSuggestions = function () {
+	this.roll();
 	_.CR(this.selectors.rollItems, "unseen");
 	_.CR(this.selectors.searchBar, "focused");
-	_.CA(this.selectors.suggestionHot, "unseen");
-	_.CA(this.selectors.suggestionRecommend, "unseen");
+	_.CA(this.selectors.popular, "unseen");
+	_.CA(this.selectors.autocomplete, "unseen");
 	this.selectors.searchInput.value = "";
 };
 
-Search.prototype.renderSuggestions = function (suggestions, prefix) {
+Search.prototype.renderAutocomplete = function (suggestions, prefix) {
 	this.suggestionsLength = suggestions.length;
 	let html = "<ol>";
 	suggestions.forEach(({ value }) => (html += `<li>${this.addHighLight(value, prefix)}</li>`));
 	html += "</ol>";
-	this.selectors.suggestionRecommend.innerHTML = html;
-	_.CR(this.selectors.suggestionRecommend, "unseen");
-	_.CA(this.selectors.suggestionHot, "unseen");
+	this.selectors.autocomplete.innerHTML = html;
+	_.CR(this.selectors.autocomplete, "unseen");
+	_.CA(this.selectors.popular, "unseen");
 };
 //prettier-ignore
-Search.prototype.selectSuggestion = function (e) {
+Search.prototype.selectAutocomplete = function (e) {
 	if(e.keyCode !== 38 && e.keyCode !== 40) return
-	const list = this.selectors.suggestionRecommend.querySelectorAll("li");
+	const list = this.selectors.autocomplete.querySelectorAll("li");
 	this.suggestionIndex = e.keyCode === 38
 		? this.suggestionIndex <= 0 ? 0 : --this.suggestionIndex
 		: this.suggestionIndex >= this.suggestionsLength - 1 ? this.suggestionsLength - 1 : ++this.suggestionIndex
