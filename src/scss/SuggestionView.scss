@@ -23,6 +23,10 @@ a {
 .popular-keyword {
   padding: 25px 29px 23px;
 
+  &.hide {
+    display: none;
+  }
+
   &__tit {
     padding-bottom: 5px;
     font-weight: 800;
@@ -48,9 +52,12 @@ a {
   }
 }
 
-
 .suggestion-from-input {
   padding: 18px 0 20px;
+
+  &.hide {
+    display: none;
+  }
   
   &__list {
     display: inline-block;

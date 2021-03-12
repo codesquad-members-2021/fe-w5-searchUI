@@ -18,13 +18,13 @@ SuggestionView.prototype.init = function () {
   this.$target = this.createEl();
   this.popularKeywordView = new PopularKeywordView({
     title: '인기 쇼핑 키워드',
-    list: this.data.list,
+    list: this.data,
     listCnt: 2,
-    maxListItemCnt: 5,
   });
   this.suggestionFromInputView = new SuggestionFromInputView();
 
   this.$target.appendChild(this.popularKeywordView.getEl());
+  this.$target.appendChild(this.suggestionFromInputView.getEl());
 };
 
 SuggestionView.prototype.createEl = function () {
@@ -34,32 +34,30 @@ SuggestionView.prototype.createEl = function () {
   });
 };
 
+SuggestionView.prototype.updateView = function () {
+  switch (this.mode) {
+    case SuggestionView.MODE__POPULAR_KEYWORD:
+      this.suggestionFromInputView.hide();
+      this.popularKeywordView.show();
+      break;
+    case SuggestionView.MODE__SUGGESTION_FROM_INPUT:
+      this.popularKeywordView.hide();
+      this.suggestionFromInputView.show();
+      break;
+    case SuggestionView.MODE__NOT_FOUND:
+      this.popularKeywordView.hide();
+      this.suggestionFromInputView.hide();
+      break;
+    default:
+      throw new Error('not reached!');
+  }
+};
+
 SuggestionView.prototype.show = function () {
   this.$target.hidden = false;
 };
 SuggestionView.prototype.hide = function () {
   this.$target.hidden = true;
-};
-
-SuggestionView.prototype.updateView = function () {
-  switch (this.mode) {
-    case SuggestionView.MODE__POPULAR_KEYWORD:
-      if (this.$target.contains(this.popularKeywordView.getEl())) break;
-      this.$target.removeChild(this.suggestionFromInputView.getEl());
-      this.$target.appendChild(this.popularKeywordView.getEl());
-      break;
-    case SuggestionView.MODE__SUGGESTION_FROM_INPUT:
-      if (this.$target.contains(this.suggestionFromInputView.getEl())) break;
-      this.$target.removeChild(this.popularKeywordView.getEl());
-      this.$target.appendChild(this.suggestionFromInputView.getEl());
-      break;
-    case SuggestionView.MODE__NOT_FOUND:
-      this.$target.removeChild(this.suggestionFromInputView.getEl());
-      this.$target.removeChild(this.popularKeywordView.getEl());
-      break;
-    default:
-      throw new Error('not reached!');
-  }
 };
 
 SuggestionView.prototype.getEl = function () {
@@ -76,17 +74,14 @@ SuggestionView.prototype.setMode = function (mode) {
 };
 
 SuggestionView.prototype.setData = function (data) {
-  // if (!SuggestionView.MODE__SUGGESTION) throw new Error('not reached!');
-
   this.suggestionFromInputView.setData(data);
 };
 
-function PopularKeywordView({ title, list, listCnt, maxListItemCnt } = { listCnt: 1 }) {
+function PopularKeywordView({ title, list, listCnt }) {
   this.$target;
   this.title = title;
   this.list = list;
   this.listCnt = listCnt;
-  this.maxListItemCnt = maxListItemCnt;
   this.init();
 }
 
@@ -104,14 +99,12 @@ PopularKeywordView.prototype.createEl = function () {
 
 PopularKeywordView.prototype.appendLists = function () {
   const $listContainer = _.$('.popular-keyword__list-cont', this.$target);
-  const listSize = this.maxListItemCnt ?? Math.ceil(this.list.length / this.listCnt);
-
+  const listSize = Math.ceil(this.list.length / this.listCnt);
   for (let i = 0; i < this.listCnt; i++) {
     const beginIdx = i * listSize;
     const list = new PopularKeywordList({
       list: this.list.slice(beginIdx, beginIdx + listSize),
       start: beginIdx + 1,
-      maxListItemCnt: this.maxListItemCnt,
     });
     $listContainer.appendChild(list.getEl());
   }
@@ -125,7 +118,15 @@ PopularKeywordView.prototype.template = function () {
   return `<div class="popular-keyword__tit">${this.title}</div><div class="popular-keyword__list-cont"></div>`;
 };
 
-function PopularKeywordList({ list, start } = { start: 1 }) {
+PopularKeywordView.prototype.show = function () {
+  this.$target.classList.remove('hide');
+};
+
+PopularKeywordView.prototype.hide = function () {
+  this.$target.classList.add('hide');
+};
+
+function PopularKeywordList({ list, start }) {
   this.$target;
   this.list = list;
   this.start = start;
@@ -188,6 +189,7 @@ PopularKeywordListItem.prototype.template = function () {
 
 function SuggestionFromInputView(data) {
   this.$target;
+  this.list;
   this.data = data;
   this.init();
 }
@@ -211,6 +213,14 @@ SuggestionFromInputView.prototype.appendList = function () {
 SuggestionFromInputView.prototype.updateList = function () {
   this.list?.getEl().remove();
   this.appendList();
+};
+
+SuggestionFromInputView.prototype.show = function () {
+  this.$target.classList.remove('hide');
+};
+
+SuggestionFromInputView.prototype.hide = function () {
+  this.$target.classList.add('hide');
 };
 
 SuggestionFromInputView.prototype.getEl = function () {
@@ -248,8 +258,6 @@ SuggestionFromInputList.prototype.appendListItems = function () {
     this.$target.appendChild(li.getEl());
   });
 };
-
-SuggestionFromInputList.prototype.updateMarks = function () {};
 
 SuggestionFromInputList.prototype.getEl = function () {
   return this.$target;

@@ -20,6 +20,7 @@ $def-border-radius: 10px;
   &__inner {
     width: $search-bar-width;
     height: $search-bar-height;
+    position:relative;
     overflow: hidden;
     border: 1px solid $lightgray;
     box-sizing: content-box;
@@ -30,27 +31,32 @@ $def-border-radius: 10px;
       border: 1px solid $redorange;
     }
 
+    &__input-cont {
+      padding: 16px 60px 14px 30px;
+    }
+
     &__input {
       display: inline-block;
       width: $search-bar-width - $search-bar-btn-width;
       height: 100%;
-      padding: 16px 60px 14px 30px;
       font-weight: 700;
       font-size: 20px;
       line-height: 22px;
       border: 0;
       outline: 0;
       color: black;
+      cursor: default;
     }
   
     &__btn {
       display: inline-block;
-      float: right;
       width: $search-bar-btn-width;
       height: 100%;
-      position: relative;
-      cursor: pointer;
+      position: absolute;
+      top: 0;
+      right: 0;
       background-color: white;
+      cursor: pointer;
 
       .btn__ic {
         width: 24px;

@@ -1,11 +1,31 @@
 import '../scss/app.scss';
 import { _ } from './util.js';
 import { SearchBarView } from './search-bar/SearchBarView.js';
+import { SuggestionView } from './search-bar/SuggestionView.js';
+import { CarouselView } from './search-bar/CarouselView.js';
 
-document.addEventListener('DOMContentLoaded', main);
+const SERVER_URL = 'http://localhost:3000';
+const SUGGESTION_URL = SERVER_URL + '/json/suggest';
+const RECOMMAND_KEYWORD_URL = SERVER_URL + '/json/recomKeyword.json';
 
-function main() {
-  const $mainContainer = _.$('.main-cont');
-  const searchBarView = new SearchBarView();
-  $mainContainer.appendChild(searchBarView.createEl());
+const CAROUSEL_INTERVAL = 2000;
+const $mainContainer = _.$('.main-cont');
+
+document.addEventListener('DOMContentLoaded', initViews);
+
+async function initViews() {
+  const [carouselView, suggestionView] = await fetch(RECOMMAND_KEYWORD_URL)
+    .then(res => res.json())
+    .then(json => [
+      new CarouselView({ data: json.list.slice(0, 10), interval: CAROUSEL_INTERVAL }),
+      new SuggestionView(json.list.slice(0, 10)),
+    ]);
+
+  const searchBarView = new SearchBarView({
+    carouselView,
+    suggestionView,
+    serverUrl: SUGGESTION_URL,
+  });
+
+  $mainContainer.appendChild(searchBarView.getEl());
 }
