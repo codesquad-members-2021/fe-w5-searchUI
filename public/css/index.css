@@ -428,7 +428,7 @@ a {
   letter-spacing: -1.15px;
   color: #222;
 }
-.header__logo-search .search__suggestion__similarwords li > a:hover {
+.header__logo-search .search__suggestion__similarwords li > a:hover, .header__logo-search .search__suggestion__similarwords a.selected {
   background-color: #f0f0f0;
 }
 .header__logo-search .search__suggestion__inner {

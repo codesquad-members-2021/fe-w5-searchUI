@@ -46,4 +46,7 @@ export const fetchData = async (url) => {
 export const delay = (ms, data = null) =>
     new Promise((resolve) => setTimeout(() => resolve(data), ms));
 
+export const isKorEngNum = (str) => /[a-zA-Z0-9ㄱ-힣]/gi.test(str);
+export const isPossibleInput = (str) => /Key|Numpad|Digit|Backspace/g.test(str);
+
 export default _;

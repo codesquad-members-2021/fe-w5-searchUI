@@ -1,4 +1,4 @@
-import _, {delay, fetchData} from "../util.js";
+import _, {delay, fetchData, isKorEngNum, isPossibleInput} from "../util.js";
 
 const SearchController = function(allWrapper) {
     this.allWrapper = allWrapper;
@@ -108,9 +108,9 @@ SearchController.prototype.setAllWrapMouseoverEvent = function (allWrapper) {
     _.addEvent(allWrapper, 'mouseover', (e) => this.allWrapMouseoverEventHandler(e));
 };
 
-SearchController.prototype.allWrapMouseoverEventHandler = async function ({target}) { 
-    const closestTarget = _.closestSelector(target, '.search');        
-    if (closestTarget) return;    
+SearchController.prototype.allWrapMouseoverEventHandler = function ({target}) {
+    const closestTarget = _.closestSelector(target, '.search');
+    if (closestTarget) return;
 
     _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', true);
     this.visibleRollingControl();
@@ -146,12 +146,17 @@ SearchController.prototype.setSearchInputFocusinoutEvent = function (searchBarWr
 SearchController.prototype.setSearchBarKeyDownEvent = function (searchBarWrapper) {     
     _.addEvent(searchBarWrapper, 'keydown', (e) => this.searchBarKeyDownEventHandler(e));    
 };
-SearchController.prototype.searchBarKeyDownEventHandler = function ({target}) {     
+SearchController.prototype.searchBarKeyDownEventHandler = function (e) {
+    const {target, keyCode} = e;
     this.visibleRollingControl(target); 
-    
-    // keyDown의 경우 첫 입력은 없는 걸로 판별됨.
+
+    // keyDown의 경우 첫 입력은 없는 걸로 판별됨
     if (!target.value) 
         _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', true);
+
+    // 방향키 (위 / 아래)에 따른 자동완성창 컨트롤
+    if (keyCode === 38 || keyCode === 40) 
+        this.runAutocompleteKeyboardControl(this.searchSuggestSimilarWrapper, keyCode);
 };
 
 // 2) keyup
@@ -159,15 +164,17 @@ SearchController.prototype.setSearchBarKeyUpEvent = function (searchBarWrapper) 
     _.addEvent(searchBarWrapper, 'keyup', (e) => this.searchBarKeyUpEventHandler(e));    
 };
 SearchController.prototype.searchBarKeyUpEventHandler = function (e) {
-    const { target } = e;
-        
+    const { target, key, code } = e;
+    
     this.visibleRollingControl(target);    
     this.visibleSuggestionControl(target);
+    
+    if (!isKorEngNum(key) || !isPossibleInput(code)) return;        
 
     this.setDebouncer(() => {
         this.removeSuggestionSimilarItems(this.searchSuggestSimilarWrapper);        
         this.makeSuggestionSimilarItems(this.searchSuggestSimilarWrapper, target);  
-    }, 300);   
+    }, 800);   
 };
 // ========================
 
@@ -178,6 +185,16 @@ SearchController.prototype.searchBarKeyUpEventHandler = function (e) {
 SearchController.prototype.setDebouncer = function (callbackFn, ms) {
     if (this.debouncer) clearTimeout(this.debouncer);
     this.debouncer = setTimeout(() => callbackFn(), ms); 
+};
+
+// 검색창 자동완성 키보드 컨트롤 (방향키 위 / 아래)
+SearchController.prototype.runAutocompleteKeyboardControl = function (searchSuggestSimilarWrapper, keyCode) {
+    const similarWrapper = _.$('.similar__list', searchSuggestSimilarWrapper);
+    const arrItems = Array.from(similarWrapper.children);
+    if (arrItems.length <= 0) return;
+
+    const currSelectedTag = arrItems.find((li) => _.containsClass(_.$('a', li), 'selected'));
+    
 };
 
 // 검색창 자동완성 아이템 제거
