@@ -1,0 +1,11 @@
+const _ = {
+  $: (selector, base = document) => base.querySelector(selector),
+  $All: (selector, base = document) => base.querySelectorAll(selector)
+}
+
+const pipe = (...fns) => arg => fns.reduce((arg, fn) => fn(arg), arg);
+const createDom = (tag) => ({ value, classes }) => `<${tag} class='${classes.join(' ')}'>${value}</${tag}>`;
+const getData = (url) => fetch(url).then((res) => res.json());
+const delay = (value, ms) => new Promise((resolve) => setTimeout(() => resolve(value), ms));
+
+export { _, pipe, createDom, getData, delay }
