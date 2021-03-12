@@ -23,7 +23,6 @@ export default class FetchAPI {
 
   // 이건 fetch 아니다.
   getSimilarword = (string, callback) => {
-    console.log(string);
     const script = document.createElement('script');
     const param = { q: string };
     const queryParam = new URLSearchParams(param);
