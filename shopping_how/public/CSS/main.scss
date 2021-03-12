@@ -177,8 +177,16 @@ header {
       border: 0;
     }
 
+    .searchbox__input {
+      width: 580px;
+      height: 100%;
+      border: none;
+    }
+
     .slider_window {
       height: 22px;
+      position: absolute;
+      top: 15px;
       overflow: hidden;
     }
   }

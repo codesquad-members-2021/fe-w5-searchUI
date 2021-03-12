@@ -88,8 +88,14 @@ header {
       cursor: pointer;
       vertical-align: middle;
       border: 0; }
+    header .searchbox .searchbox__input {
+      width: 580px;
+      height: 100%;
+      border: none; }
     header .searchbox .slider_window {
       height: 22px;
+      position: absolute;
+      top: 15px;
       overflow: hidden; }
   header .slider_container {
     text-align: left; }
