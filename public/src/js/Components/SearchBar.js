@@ -1,6 +1,6 @@
 import Component from "../core/Component.js";
 import { _ } from "../utils/dom.js";
-import { debounce } from "../utils/fns.js";
+import { debounce, pipe } from "../utils/fns.js";
 import { getHotKeywords } from "../utils/requestKeyword.js";
 import AutoComplete from "./AutoComplete.js";
 import RollingKeywords from "./RollingKeywords.js";
@@ -67,24 +67,36 @@ SearchBar.prototype.setEvents = function () {
   // this.addEvent("input", "#input_search", debounce(inputKeyword, 1000));
 };
 SearchBar.prototype.handlerOfFocusIn = function () {
-  this.hiddenRollingKeywords();
-  this.toggleHotKeywords();
-  this.toggleWrapSuggestion();
+  const toggle = pipe(
+    this.toggleHotKeywords.bind(this),
+    this.toggleWrapSuggestion,
+    this.toggleRollingKeywords
+  );
+  toggle();
 };
 SearchBar.prototype.handlerOfFocusOut = function () {
-  _.$(".wrap_rollingKeywords").style.display = "block";
-  this.toggleHotKeywords();
-  this.toggleWrapSuggestion();
+  const toggle = pipe(
+    this.toggleHotKeywords.bind(this),
+    this.toggleWrapSuggestion,
+    this.toggleRollingKeywords
+  );
+  toggle();
 };
 SearchBar.prototype.toggleHotKeywords = function () {
   const { onSearch } = this.state;
   this.setState({ onSearch: !onSearch }, false);
   _.$(".suggestion_hot").style.display = !onSearch ? "block" : "none";
+
+  return !onSearch;
 };
-SearchBar.prototype.hiddenRollingKeywords = function () {
-  _.$(".wrap_rollingKeywords").style.display = "none";
-};
-SearchBar.prototype.toggleWrapSuggestion = function () {
-  const { onSearch } = this.state;
+SearchBar.prototype.toggleWrapSuggestion = function (onSearch) {
   _.$(".wrap_suggestion").style.display = onSearch ? "block" : "none";
+  return onSearch;
+};
+SearchBar.prototype.toggleRollingKeywords = function (onSearch) {
+  const isRemainKeyword = function () {
+    return _.$("#input_search").value === "" ? true : false;
+  };
+  _.$(".wrap_rollingKeywords").style.display =
+    !onSearch && isRemainKeyword() ? "block" : "none";
 };
