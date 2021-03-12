@@ -84,9 +84,9 @@ SearchBar.prototype.toggleWrapSuggestion = function (onSearch) {
   return onSearch;
 };
 SearchBar.prototype.toggleRollingKeywords = function (onSearch) {
-  const isRemainKeyword = function () {
-    return _.$("#input_search").value !== "" ? true : false;
+  const isEmpty = function () {
+    return _.$("#input_search").value === "" ? true : false;
   };
   _.$(".wrap_rollingKeywords").style.display =
-    onSearch && isRemainKeyword() ? "none" : "block";
+    !onSearch && isEmpty() ? "block" : "none";
 };
