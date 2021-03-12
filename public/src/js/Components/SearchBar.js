@@ -67,11 +67,14 @@ SearchBar.prototype.setEvents = function () {
   // this.addEvent("input", "#input_search", debounce(inputKeyword, 1000));
 };
 SearchBar.prototype.handlerOfFocusIn = function () {
-  this.toggleHotKeywords();
   this.hiddenRollingKeywords();
+  this.toggleHotKeywords();
+  this.toggleWrapSuggestion();
 };
 SearchBar.prototype.handlerOfFocusOut = function () {
   _.$(".wrap_rollingKeywords").style.display = "block";
+  this.toggleHotKeywords();
+  this.toggleWrapSuggestion();
 };
 SearchBar.prototype.toggleHotKeywords = function () {
   const { onSearch } = this.state;
@@ -80,4 +83,8 @@ SearchBar.prototype.toggleHotKeywords = function () {
 };
 SearchBar.prototype.hiddenRollingKeywords = function () {
   _.$(".wrap_rollingKeywords").style.display = "none";
+};
+SearchBar.prototype.toggleWrapSuggestion = function () {
+  const { onSearch } = this.state;
+  _.$(".wrap_suggestion").style.display = onSearch ? "block" : "none";
 };
