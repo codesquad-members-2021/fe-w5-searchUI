@@ -5,6 +5,7 @@ const inputEvent = function (input, suggestionList, rollingList) {
   this.input = input;
   this.suggestionList = suggestionList;
   this.rollingList = rollingList;
+  this.selectedIndex = -1;
   this.suggestionInner = _.$(".suggestionKeywords", suggestionList);
 };
 
@@ -29,7 +30,7 @@ inputEvent.prototype = {
       this.inputEventHandler(target.value)
     );
     _.on(this.input, "keydown", (e) =>
-      this.KeydownEventHandeler(e.keyCode, e.target.value, this.suggestionList)
+      this.KeydownEventHandeler(e.keyCode, this.suggestionInner)
     );
   },
 
@@ -42,14 +43,21 @@ inputEvent.prototype = {
     urls.requestSearchJsonp(value, "responseJsonpData");
   },
 
-  KeydownEventHandeler(keyCode, inputValue, Parents) {
+  KeydownEventHandeler(keyCode, Parents) {
+    const list = _.$A("li", Parents);
     switch (keyCode) {
       case 38:
-        console.log("up");
+        if (this.selectedIndex >= 0) {
+          this.selectedIndex -= 1;
+        }
+        console.log(this.selectedIndex);
         break;
 
       case 40:
-        console.log("down");
+        if (this.selectedIndex < list.length - 1) {
+          this.selectedIndex += 1;
+        }
+        console.log(this.selectedIndex);
         break;
     }
   },
