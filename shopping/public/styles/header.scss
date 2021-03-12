@@ -86,7 +86,8 @@
   display: flex;
   flex-direction: column;
 
-  .popularWords {
+  .popularWords,
+  .recentKeywords {
     padding: 1em;
   }
 

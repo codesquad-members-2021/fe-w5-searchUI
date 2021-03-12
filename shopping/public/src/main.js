@@ -75,5 +75,5 @@ rollings.rollingKeywordHtml = _.$(".rolling__keyword");
 
 const recommItems = new RecommItems(keywordState, rollings);
 const roller = new Roller(keywordState.searchingInput, rollings);
-recommItems.registerEvent();
+recommItems.registerEvent("popluarWords", "인기 쇼핑 키워드");
 roller.roll();
