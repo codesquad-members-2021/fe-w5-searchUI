@@ -17,6 +17,12 @@ Similarword.prototype = {
   },
   getGroupSuggestion: function (data) {
     const groupSuggestion = data.items.reduce((acc, cur) => {
+      const inputKeyword = data.q;
+      const suggestionKeyword = cur.slice(0, -2);
+      const suggestionKeywordIndex = suggestionKeyword.indexOf(inputKeyword);
+      const highlighting = suggestionKeyword.slice(suggestionKeywordIndex, suggestionKeywordIndex + inputKeyword.length);
+      console.log(highlighting);
+
       acc += `
       <li>
         <a href="/" class="link_keyword">${cur.slice(0, -2)}</a>
@@ -27,7 +33,6 @@ Similarword.prototype = {
     return groupSuggestion;
   },
   drawGroupSuggestion: function (data) {
-    console.log(this.similarwordList);
     this.similarwordList.innerHTML = `${this.getGroupSuggestion(data)}`;
   },
 };
