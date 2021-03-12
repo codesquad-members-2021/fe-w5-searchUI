@@ -1,6 +1,5 @@
 //서버에서 사용하게 될 미들웨어
 /*-------express 객체 선언 부, 우리가 사용할 미들웨어를 비롯해 Express 제공 미들웨어 객체 선언------*/
-
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");

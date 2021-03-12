@@ -7,7 +7,8 @@
     "server-start": "nodemon ./server.js",
     "start": "concurrently --kill-other-on-fail \"npm run watch-scss\" \"npm run server-start\"",
     "start-p": "parcel ./views/index.html --open",
-    "build:sass": "sass stylesheets/scss:dist/css"
+    "build:sass": "sass stylesheets/scss:dist/css",
+    "on": "npx parcel views/index.html --open"
   },
   "dependencies": {
     "concurrently": "^6.0.0",
@@ -23,7 +24,10 @@
   "description": "진행중",
   "main": "app.js",
   "devDependencies": {
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "parcel-bundler": "1.12.3",
+    "prettier": "^2.2.1",
     "sass": "^1.32.8"
   },
   "repository": {

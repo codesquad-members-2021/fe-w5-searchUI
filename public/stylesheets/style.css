@@ -100,7 +100,7 @@
   left: 35px;
   margin: 0;
   font-size: 16px;
-  font-color: #222222;
+  color: #222222;
   font-weight: 400;
 }
 
@@ -276,14 +276,16 @@ main {
   left: 0px;
   width: 41px;
   height: 41px;
-  background: url("//shop1.daumcdn.net/search/cdn/simage/shopping/img/img_special_160823.png") no-repeat;
+  background: url("//shop1.daumcdn.net/search/cdn/simage/shopping/img/img_special_160823.png")
+    no-repeat;
   background-position: 0, -40px;
 }
 #b_paging-btn-prev #prev {
   height: 17px;
   margin: 12px 17px 12px 14px;
   display: block;
-  background: url("//shop1.daumcdn.net/search/cdn/simage/shopping/img/img_special_160823.png") no-repeat;
+  background: url("//shop1.daumcdn.net/search/cdn/simage/shopping/img/img_special_160823.png")
+    no-repeat;
   background-position: -110px, -100px;
 }
 
@@ -294,14 +296,16 @@ main {
   right: 0px;
   width: 41px;
   height: 41px;
-  background: url("//shop1.daumcdn.net/search/cdn/simage/shopping/img/img_special_160823.png") no-repeat;
+  background: url("//shop1.daumcdn.net/search/cdn/simage/shopping/img/img_special_160823.png")
+    no-repeat;
   background-position: 0, -40px;
 }
 #b_paging-btn-next #next {
   height: 17px;
   margin: 12px 17px 12px 14px;
   display: block;
-  background: url("//shop1.daumcdn.net/search/cdn/simage/shopping/img/img_special_160823.png") no-repeat;
+  background: url("//shop1.daumcdn.net/search/cdn/simage/shopping/img/img_special_160823.png")
+    no-repeat;
   background-position: -110px, -100px;
 }
 

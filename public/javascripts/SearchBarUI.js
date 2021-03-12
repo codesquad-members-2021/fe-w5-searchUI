@@ -48,7 +48,7 @@ SearchBarUI.prototype = {
     } else {
       this.$rollingSearchList.style.transition = "transform 0.3s ease-in-out";
       this.$rollingSearchList.style.transform =
-        "translateY(" + -31 * this.rollSize + "px)";
+        "translateY(" + -32 * this.rollSize + "px)";
       this.rollSize++;
     }
   },

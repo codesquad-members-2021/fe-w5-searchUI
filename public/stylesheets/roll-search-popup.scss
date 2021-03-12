@@ -2,6 +2,7 @@ $popup-title-color: #a6a6a6;
 $search-point-color: #f95139;
 
 .popup-search-wrap {
+  display: none;
   position: absolute;
   left: 18%;
   border: 1px solid $search-point-color;
