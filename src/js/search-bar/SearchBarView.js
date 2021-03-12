@@ -37,8 +37,29 @@ SearchBarView.prototype.getEl = function () {
 
 SearchBarView.prototype.onEvents = function () {
   this.$target.addEventListener('mouseleave', this.onMouseleave.bind(this));
+  this.$target.addEventListener('keydown', this.onKeydown.bind(this));
   this.$inputContainer.addEventListener('click', this.onClick.bind(this));
-  this.$input.addEventListener('input', this.onInput.bind(this));
+  this.$input.addEventListener('input', this.onInputClosure().bind(this));
+};
+
+SearchBarView.prototype.onKeydown = function (evt) {
+  if (evt.code === 'ArrowDown' || evt.code === 'ArrowUp') {
+    evt.preventDefault();
+
+    switch (this.suggestionView.getMode()) {
+      // case SuggestionView.MODE__POPULAR_KEYWORD:
+
+      case SuggestionView.MODE__SUGGESTION_FROM_INPUT:
+        evt.code === 'ArrowDown' ? this.suggestionView.selectDown() : this.suggestionView.selectUp();
+        if (!this.suggestionView.getSelectedItem()) this.suggestionView.setMode(SuggestionView.MODE__NOT_FOUND);
+        break;
+
+      case SuggestionView.MODE__NOT_FOUND:
+        if (this.$input.value) this.suggestionView.setMode(SuggestionView.MODE__SUGGESTION_FROM_INPUT);
+        else this.suggestionView.setMode(SuggestionView.MODE__POPULAR_KEYWORD);
+        break;
+    }
+  }
 };
 
 SearchBarView.prototype.onMouseleave = function () {
@@ -63,23 +84,27 @@ SearchBarView.prototype.onClick = function (evt) {
   if (this.suggestionView.getMode() !== SuggestionView.MODE__NOT_FOUND) this.suggestionView.show();
 };
 
-SearchBarView.prototype.onInput = async function () {
-  if (this.$input.value) {
-    const suggestionData = await this.fetchSuggestionData(this.$input.value);
+SearchBarView.prototype.onInputClosure = function () {
+  let prevInputValue;
 
-    if (!suggestionData) {
-      this.suggestionView.hide();
-      this.suggestionView.setMode(SuggestionView.MODE__NOT_FOUND);
-      return;
+  return async evt => {
+    if (this.$input.value && this.$input.value !== prevInputValue) {
+      prevInputValue = this.$input.value;
+      const suggestionData = await this.fetchSuggestionData(this.$input.value);
+
+      if (!suggestionData) {
+        this.suggestionView.hide();
+        this.suggestionView.setMode(SuggestionView.MODE__NOT_FOUND);
+        return;
+      }
+
+      this.suggestionView.setMode(SuggestionView.MODE__SUGGESTION_FROM_INPUT);
+      this.suggestionView.setData(suggestionData);
+    } else if (!this.$input.value && !evt.isComposing) {
+      this.suggestionView.setMode(SuggestionView.MODE__POPULAR_KEYWORD);
+      prevInputValue = '';
     }
-
-    this.suggestionView.setData(suggestionData);
-    this.suggestionView.setMode(SuggestionView.MODE__SUGGESTION_FROM_INPUT);
-    this.suggestionView.show();
-  } else {
-    this.suggestionView.setMode(SuggestionView.MODE__POPULAR_KEYWORD);
-    this.suggestionView.show();
-  }
+  };
 };
 
 SearchBarView.prototype.fetchSuggestionData = function (inputData) {

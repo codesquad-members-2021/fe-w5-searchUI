@@ -16,10 +16,10 @@ $def-border-radius: 10px;
 
 .search-bar {
   display: inline-block;
+  width: $search-bar-width;
+  height: $search-bar-height;
 
   &__inner {
-    width: $search-bar-width;
-    height: $search-bar-height;
     position:relative;
     overflow: hidden;
     border: 1px solid $lightgray;

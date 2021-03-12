@@ -9,11 +9,11 @@ const SUGGESTION_URL = SERVER_URL + '/json/suggest';
 const RECOMMAND_KEYWORD_URL = SERVER_URL + '/json/recomKeyword.json';
 
 const CAROUSEL_INTERVAL = 2000;
-const $mainContainer = _.$('.main-cont');
 
 document.addEventListener('DOMContentLoaded', initViews);
 
 async function initViews() {
+  const $mainContainer = _.$('.main-cont');
   const [carouselView, suggestionView] = await fetch(RECOMMAND_KEYWORD_URL)
     .then(res => res.json())
     .then(json => [

@@ -53,6 +53,18 @@ SuggestionView.prototype.updateView = function () {
   }
 };
 
+SuggestionView.prototype.selectUp = function () {
+  this.suggestionFromInputView.selectUp();
+};
+
+SuggestionView.prototype.selectDown = function () {
+  this.suggestionFromInputView.selectDown();
+};
+
+SuggestionView.prototype.getSelectedItem = function () {
+  return this.suggestionFromInputView.getSelectedItem();
+};
+
 SuggestionView.prototype.show = function () {
   this.$target.hidden = false;
 };
@@ -196,7 +208,6 @@ function SuggestionFromInputView(data) {
 
 SuggestionFromInputView.prototype.init = function () {
   this.$target = this.createEl();
-  // this.appendList();
 };
 
 SuggestionFromInputView.prototype.createEl = function () {
@@ -213,6 +224,18 @@ SuggestionFromInputView.prototype.appendList = function () {
 SuggestionFromInputView.prototype.updateList = function () {
   this.list?.getEl().remove();
   this.appendList();
+};
+
+SuggestionFromInputView.prototype.selectUp = function () {
+  this.list?.selectUp();
+};
+
+SuggestionFromInputView.prototype.selectDown = function () {
+  this.list?.selectDown();
+};
+
+SuggestionFromInputView.prototype.getSelectedItem = function () {
+  return this.list?.getSelectedItem();
 };
 
 SuggestionFromInputView.prototype.show = function () {
@@ -235,6 +258,7 @@ SuggestionFromInputView.prototype.setData = function (data) {
 function SuggestionFromInputList(data) {
   this.$target;
   this.data = data;
+  this.currIdx = -1;
   this.init();
 }
 
@@ -257,6 +281,29 @@ SuggestionFromInputList.prototype.appendListItems = function () {
     });
     this.$target.appendChild(li.getEl());
   });
+};
+
+SuggestionFromInputList.prototype.selectUp = function () {
+  if (this.currIdx === -1) return;
+
+  this.$target.children[this.currIdx].classList.remove('select');
+
+  if (--this.currIdx !== -1) this.$target.children[this.currIdx].classList.add('select');
+};
+
+SuggestionFromInputList.prototype.selectDown = function () {
+  if (this.currIdx !== -1) {
+    this.$target.children[this.currIdx].classList.remove('select');
+  } else if (this.currIdx === this.$target.children.length - 1) {
+    this.currIdx = -1;
+    return;
+  }
+
+  this.$target.children[++this.currIdx].classList.add('select');
+};
+
+SuggestionFromInputList.prototype.getSelectedItem = function () {
+  return this.currIdx === -1 ? null : this.$target.children[this.currIdx];
 };
 
 SuggestionFromInputList.prototype.getEl = function () {
