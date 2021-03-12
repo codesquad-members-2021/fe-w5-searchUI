@@ -61,52 +61,36 @@ SearchController.prototype.getAutoCompleteData = async function (inputValue) {
 // [3] visible 제어
 // 롤링 visible 제어
 SearchController.prototype.visibleRollingControl = function (searchInput = null) {
-    const inputValue = searchInput ? searchInput.value : _.$('input', this.searchBarWrapper).value;        
-    if (inputValue) 
-        _.forceToggleClass(this.searchBarRollingWrapper, 'visibility--hidden', true);
-    else
-        _.forceToggleClass(this.searchBarRollingWrapper, 'visibility--hidden', false);
+    const inputValue = searchInput ? searchInput.value : _.$('input', this.searchBarWrapper).value;
+    _.forceToggleClass(this.searchBarRollingWrapper, 'visibility--hidden', inputValue);            
 };
 
 // 인기 쇼핑 키워드 Visible 제어
 SearchController.prototype.visibleInnerControl = function (searchInput) {
     const similarWrapper = _.$('.similar__list', this.searchSuggestSimilarWrapper);
 
-    _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', false);
-    
-    if (searchInput.value) {                
-        (!similarWrapper.firstChild) && _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', true);
+    const suggestVisibleFlag = searchInput.value && !similarWrapper.firstChild;
+    _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', suggestVisibleFlag);
+    _.forceToggleClass(this.searchSuggestInnerWrapper, 'display--none', searchInput.value);    
+    _.forceToggleClass(this.searchSuggestSimilarWrapper, 'display--none', !searchInput.value);
 
-        _.forceToggleClass(this.searchSuggestInnerWrapper, 'display--none', true);    
-        _.forceToggleClass(this.searchSuggestSimilarWrapper, 'display--none', false); 
-    } else {
-        _.forceToggleClass(this.searchSuggestInnerWrapper, 'display--none', false);    
-        _.forceToggleClass(this.searchSuggestSimilarWrapper, 'display--none', true); 
-    }
 };
 
 // 자동완성 결과 및 인기 쇼핑 키워드 창 Visible 제어
 SearchController.prototype.visibleSuggestionControl = function (searchInput) { 
-    if (searchInput.value) {
-        // 검색창에 검색어가 있을 시 인기 쇼핑 키워드 창 false
-        _.forceToggleClass(this.searchSuggestInnerWrapper, 'display--none', true);        
-        _.forceToggleClass(this.searchSuggestSimilarWrapper, 'display--none', false);
-    } else {
-        // 검색창에 검색어가 없을 시 인기 쇼핑 키워드 창 true
-        _.forceToggleClass(this.searchSuggestInnerWrapper, 'display--none', false);        
-        _.forceToggleClass(this.searchSuggestSimilarWrapper, 'display--none', true);
-    }
+    // 검색창에 검색어가 있을 시 인기 쇼핑 키워드 창 false
+    // 검색창에 검색어가 없을 시 인기 쇼핑 키워드 창 true
+    _.forceToggleClass(this.searchSuggestInnerWrapper, 'display--none', searchInput.value);
+    _.forceToggleClass(this.searchSuggestSimilarWrapper, 'display--none', !searchInput.value);
 };
 
 // 검색창 자동완성 아이템 생성 / 제거 추적용 MutationObserver 설정 (init() 에서 설정해둠)
 SearchController.prototype.setAutoCompleteChangeDetection = function (searchSuggestSimilarWrapper, searchBarWrapper) {
     const similarWrapper = _.$('.similar__list', searchSuggestSimilarWrapper);
     const searchInput = _.$('input', searchBarWrapper);
-    const observer = new MutationObserver(() => {       
-        if (similarWrapper.childNodes.length > 0 || (!searchInput.value) ) 
-            _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', false)
-        else
-            _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', true);        
+    const observer = new MutationObserver(() => {               
+        const suggestVisibleFlag = !(similarWrapper.childNodes.length > 0 || !searchInput.value);
+        _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', suggestVisibleFlag);        
     });
 
     observer.observe(similarWrapper, {
