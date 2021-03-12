@@ -4,14 +4,15 @@ export default class RollingUI {
     }
 
     async init(lists) {
-        const data = await this.loadData();
+        let url = "https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json?_=1615268669995";
+        const data = await this.loadData(url);
         const makeLists = this.makeLists(data);
 
         lists.insertAdjacentHTML("beforeend", makeLists)
     }
 
-    async loadData() {
-        const data = await fetch("https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json?_=1615268669995")
+    async loadData(url) {
+        const data = await fetch(url);
         const json = await data.json();
         return json.list.map(v => v.keyword);
     }
