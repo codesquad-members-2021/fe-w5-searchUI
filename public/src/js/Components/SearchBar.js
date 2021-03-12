@@ -67,9 +67,12 @@ SearchBar.prototype.setEvents = function () {
   });
   const handlerOfInputKeyword = debounce(
     this.handlerOfInputKeyword.bind(this),
-    500
+    200
   );
   this.addEvent("input", "#input_search", handlerOfInputKeyword);
+  this.addEvent("input", "#input_search", ({ target }) => {
+    this.switchSuggestion(target);
+  });
 };
 
 SearchBar.prototype.handlerOfFocusInOut = function () {
@@ -80,15 +83,11 @@ SearchBar.prototype.handlerOfFocusInOut = function () {
   );
   toggle();
 };
+
 SearchBar.prototype.handlerOfInputKeyword = function ({ target }) {
-  console.log(target);
-  this.setState({ searching: true }, false);
-};
-SearchBar.prototype.toggleHotKeywords = function () {
-  const { onSearch } = this.state;
-  this.setState({ onSearch: !onSearch }, false);
-  _.$(".suggestion_hot").style.display = onSearch ? "none" : "block";
-  return !onSearch;
+  const len = target.value.length;
+  // if (len < 2) return;
+  console.log("input!");
 };
 
 SearchBar.prototype.toggleWrapSuggestion = function (onSearch) {
@@ -96,12 +95,38 @@ SearchBar.prototype.toggleWrapSuggestion = function (onSearch) {
   return onSearch;
 };
 
-SearchBar.prototype.toggleRollingKeywords = function (onSearch) {
-  const isEmpty = function () {
-    return _.$("#input_search").value === "" ? true : false;
-  };
-  _.$(".wrap_rollingKeywords").style.display =
-    !onSearch && isEmpty() ? "block" : "none";
+SearchBar.prototype.switchSuggestion = function (target) {
+  const len = target.value.length;
+  if (len > 1) return;
+
+  const { searching } = this.state;
+  !searching || !len
+    ? searching
+      ? this.onHotKeywords()
+      : this.onAutoKeywords()
+    : "null";
+};
+SearchBar.prototype.onHotKeywords = function () {
+  _.$(".suggestion_hot").style.display = "block";
+  _.$(".suggestion_auto").style.display = "none";
+  this.setState({ searching: false }, false);
+};
+
+SearchBar.prototype.onAutoKeywords = function () {
+  _.$(".suggestion_auto").style.display = "block";
+  _.$(".suggestion_hot").style.display = "none";
+  this.setState({ searching: true }, false);
+};
+
+SearchBar.prototype.toggleHotKeywords = function () {
+  let { onSearch, searching } = this.state;
+  onSearch = !onSearch;
+  this.setState({ onSearch }, false);
+
+  _.$(".suggestion_hot").style.display =
+    onSearch && !searching ? "block" : "none";
+
+  return onSearch;
 };
 
 SearchBar.prototype.toggleRollingKeywords = function (onSearch) {
