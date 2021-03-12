@@ -1,4 +1,4 @@
-import _ from "./utils.js";
+import _ from "./utils/utils.js";
 
 const SuggestionList = function (List, ListParents) {
   this.List = List.map((v) => v.keyword);

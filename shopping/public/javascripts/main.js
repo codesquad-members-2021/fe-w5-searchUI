@@ -3,8 +3,8 @@ import Morebtn from "./more.js";
 import RollingList from "./rollingList.js";
 import SuggestionList from "./SuggestionList.js";
 import inputEvent from "./inputEvent.js";
-import _ from "./utils.js";
-import $ from "./DOMselector.js";
+import _ from "./utils/utils.js";
+import $ from "./utils/DOMselector.js";
 const slider = new Slider($.banner);
 const inputevent = new inputEvent($.input, $.suggestion, $.keyword);
 

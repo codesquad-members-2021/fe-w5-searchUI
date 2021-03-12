@@ -1,4 +1,4 @@
-import _ from "./utils.js";
+import _ from "./utils/utils.js";
 
 const inputEvent = function (input, suggestionList, rollingList) {
   this.input = input;

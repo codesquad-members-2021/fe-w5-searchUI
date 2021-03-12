@@ -1,4 +1,4 @@
-import _ from "./utils.js";
+import _ from "./utils/utils.js";
 import listHTML from "./HtmlTemplete.js";
 
 export default class Morebtn {
