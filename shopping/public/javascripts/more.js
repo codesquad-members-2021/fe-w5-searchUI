@@ -1,5 +1,5 @@
 import _ from "./utils/utils.js";
-import listHTML from "./HtmlTemplete.js";
+import HtmlTemplete from "./utils/HtmlTemplete.js";
 
 export default class Morebtn {
   constructor(data, moreBtn, container) {
@@ -22,7 +22,7 @@ export default class Morebtn {
 
   makeHTML() {
     return this.splitedData[this.currentIndex].reduce(
-      (acc, cur) => acc + listHTML(cur.imgurl, cur.text, cur.text2),
+      (acc, cur) => acc + HtmlTemplete.moreListHTML(cur.imgurl, cur.text, cur.text2),
       ""
     );
   }

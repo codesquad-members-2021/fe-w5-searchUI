@@ -5,6 +5,7 @@ import SuggestionList from "./SuggestionList.js";
 import inputEvent from "./inputEvent.js";
 import _ from "./utils/utils.js";
 import $ from "./utils/DOMselector.js";
+import urls from "./utils/urls.js";
 const slider = new Slider($.banner);
 const inputevent = new inputEvent($.input, $.suggestion, $.keyword);
 
@@ -16,16 +17,14 @@ window["responseJsonpData"] = function (data) {
   inputevent.inputValue(data.items.map((value) => value.substr(0, value.length-2)));
 };
 
-fetch("https://shoppinghow.kakao.com/v1.0/shophow/top/planningEvent.json?_=1615454214929")
+fetch(urls.moreList)
   .then((res) => res.json())
   .then((json) => {
     const morebtn = new Morebtn(json.mallEventList, $.moreBtn, $.moreContainer);
     morebtn.init();
   });
 
-fetch(
-  "https://shoppinghow.kakao.com/v1.0/shophow/top/recomKeyword.json?_=1615183888074"
-)
+fetch(urls.topRecomKey)
   .then((data) => new Promise((res) => res(data.json()))) //
   .then((d) => {
     const _rollinglist = new RollingList(d.list, $.keyword);

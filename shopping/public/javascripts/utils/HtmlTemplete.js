@@ -1,5 +1,5 @@
-const listHTML = (imgurl, text, text2) => {
-  return `<li class="shoppinglist">
+const HtmlTemplete = {
+  moreListHTML: (imgurl, text, text2) => `<li class="shoppinglist">
             <img src="${imgurl}">
             <strong>
                 ${text}
@@ -7,7 +7,12 @@ const listHTML = (imgurl, text, text2) => {
             <span>
                 ${text2}
             </span>
-        </li>`;
+        </li>`,
+
+  suggetionListHTML: (keyword, index) =>
+    `<li><span class="num">${index + 1}.</span> ${keyword}</li>`,
+
+  inputListHTML: (keyword) => `<li class="itemList">${keyword}</li>`,
 };
 
-export default listHTML;
+export default HtmlTemplete;

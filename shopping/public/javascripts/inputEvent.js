@@ -1,10 +1,11 @@
 import _ from "./utils/utils.js";
-
+import html from "./utils/HtmlTemplete.js";
+import urls from "./utils/urls.js";
 const inputEvent = function (input, suggestionList, rollingList) {
   this.input = input;
   this.suggestionList = suggestionList;
   this.rollingList = rollingList;
-  this.suggestionInner = _.$(".suggestionKeywords",suggestionList)
+  this.suggestionInner = _.$(".suggestionKeywords", suggestionList);
 };
 
 inputEvent.prototype = {
@@ -16,11 +17,19 @@ inputEvent.prototype = {
     _.on(this.input, "focusin", () =>
       this.FocusEventHandler(this.suggestionList, this.rollingList)
     );
-    _.on(this.input, "focusout", () =>
-      this.FocusEventHandler(this.rollingList, this.suggestionList)
-    );
+    _.on(this.input, "focusout", ({ target }) => {
+      if (target.value) {
+        _.add(this.rollingList, "none");
+        _.add(this.suggestionList, "none");
+      } else {
+        this.FocusEventHandler(this.rollingList, this.suggestionList);
+      }
+    });
     _.on(this.input, "input", ({ target }) =>
       this.inputEventHandler(target.value)
+    );
+    _.on(this.input, "keydown", (e) =>
+      this.KeydownEventHandeler(e.keyCode, e.target.value, this.suggestionList)
     );
   },
 
@@ -28,26 +37,31 @@ inputEvent.prototype = {
     _.remove(target1, "none");
     _.add(target2, "none");
   },
-  requestJsonp(word, callback) {
-    const script = document.createElement("script");
-    script.src = `https://suggest-bar.daum.net/suggest?callback=${callback}&limit=10&mode=json&code=utf_in_out&q=${word}&id=shoppinghow_suggest`;
-    document.body.append(script);
-  },
 
   inputEventHandler(value) {
-    this.requestJsonp(value, "responseJsonpData");
+    urls.requestSearchJsonp(value, "responseJsonpData");
   },
+
+  KeydownEventHandeler(keyCode, inputValue, Parents) {
+    switch (keyCode) {
+      case 38:
+        console.log("up");
+        break;
+
+      case 40:
+        console.log("down");
+        break;
+    }
+  },
+
   insertHTML(Parents) {
     Parents.innerHTML = this.makeTitleHTML();
   },
 
-  makeListHTML(keyword){
-    return `<li class="itemList">${keyword}</li>`
-  },
-  
-
-  inputValue(value){
-    this.suggestionInner.innerHTML = value.map((keyword) => this.makeListHTML(keyword)).reduce((acc,cur) => acc += cur);
+  inputValue(value) {
+    this.suggestionInner.innerHTML = value
+      .map((keyword) => html.inputListHTML(keyword))
+      .reduce((acc, cur) => (acc += cur));
   },
 
   constructor: inputEvent,
