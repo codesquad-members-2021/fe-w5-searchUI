@@ -1,11 +1,15 @@
 import { _ } from './util.js';
 
-const $search = _.$('.search-bar__input');
+const $searchBar = _.$('.header__top__search-bar');
+const $searchBarInput = _.$('.search-bar__input');
+const $searchSuggestions = _.$('.header__top__search-bar__sub-box');
 const $rollingKeywords = _.$('.rolling-keywords');
 const $recommendedKeyword = _.$('.header__top__search-bar__sub-box');
 
 export {
-  $search,
+  $searchBar,
+  $searchBarInput,
+  $searchSuggestions,
   $rollingKeywords,
   $recommendedKeyword
 }
