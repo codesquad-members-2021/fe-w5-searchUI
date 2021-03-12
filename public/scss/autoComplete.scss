@@ -1,0 +1,21 @@
+#input--autoCompleteUI {
+  position: absolute;
+  top: 54px;
+  box-sizing: border-box;
+  border: 1px solid red;
+  border-radius: 10px;
+  background-color: #fff;
+  width: 100%;
+  z-index: 2;
+  font-size: 14px;
+  display: none;
+
+  li {
+    padding: 5px 30px;
+    font-weight: 700;
+  }
+}
+
+#autoCompleteLists {
+  padding: 20px 0px;
+}
