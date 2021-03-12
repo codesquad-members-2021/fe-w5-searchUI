@@ -1,9 +1,10 @@
-import _ from "./utils.js";
-import listHTML from "./HtmlTemplete.js";
+import _ from "./utils/utils.js";
+import HtmlTemplete from "./utils/HtmlTemplete.js";
 
 export default class Morebtn {
   constructor(data, moreBtn, container) {
     this.data = data;
+    this.splitedData = [];
     this.totalData = data.length;
     this.container = container;
     this.moreBtn = moreBtn;
@@ -11,6 +12,8 @@ export default class Morebtn {
   }
 
   init() {
+    this.splitData(4);
+    this.render();
     this.clickEvent();
   }
 
@@ -20,7 +23,7 @@ export default class Morebtn {
 
   makeHTML() {
     return this.splitedData[this.currentIndex].reduce(
-      (acc, cur) => acc + listHTML(cur.imgurl, cur.text, cur.text2),
+      (acc, cur) => acc + HtmlTemplete.moreListHTML(cur.imgurl, cur.text, cur.text2),
       ""
     );
   }
@@ -33,11 +36,10 @@ export default class Morebtn {
     this.currentIndex += 1;
     this.render();
   }
+
   splitData(num) {
-    let splitedData = [];
     for (let i = 0; i < this.totalData; i += num) {
-      splitedData.push(this.data.slice(i, i + num));
+      this.splitedData.push(this.data.slice(i, i + num));
     }
-    return splitedData;
   }
 }

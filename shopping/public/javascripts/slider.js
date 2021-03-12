@@ -1,4 +1,4 @@
-import _ from "./utils.js";
+import _ from "./utils/utils.js";
 
 export default class Slider {
   constructor(banner) {

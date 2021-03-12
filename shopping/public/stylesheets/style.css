@@ -61,7 +61,14 @@
     font-size: 12px; }
 
 .none {
-  visibility: hidden; }
+  display: none; }
+
+.selected {
+  background-color: #f6f6f6; }
+
+.highlight {
+  color: #f95139;
+  font-weight: 600; }
 
 header {
   width: 100%;

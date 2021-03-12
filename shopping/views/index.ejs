@@ -15,7 +15,7 @@
     <div class="header__searchbar">
 
       <div class="header__keywords"></div>
-     
+
       <img class="header__searchbar__img"
         src="https://search1.daumcdn.net/search/cdn/simage/shopping/v2/common/nav/logo_shw.png">
       <div>
@@ -60,7 +60,7 @@
     </div>
     <div class="header__suggestion none">
       <div class="suggestionKeywords">
-    </div>
+      </div>
     </div>
 
   </header>
@@ -69,19 +69,9 @@
     <div class="main__banner layer1">
       <div class="main__banner__top layer1">
         <div class="banner__left">
-          <img src="<%= event.event.imgurl %>">
         </div>
         <div class="banner__right">
           <div class="banner__slider layer2 transitiondefault">
-            <div class="panel">
-              <img src="<%= event.mileageList[0].imgurl %>">
-            </div>
-            <div class="panel">
-              <img src="<%= event.mileageList[1].imgurl %>">
-            </div>
-            <div class="panel">
-              <img src="<%= event.mileageList[2].imgurl %>">
-            </div>
           </div>
           <div class="banner__right__btns">
             <button class="icon_slide prev"></button>
@@ -102,42 +92,6 @@
         </div>
       </div>
       <ul class="shoppinglists layer1">
-        <li class="shoppinglist">
-          <img src="<%= event.mallEventList[0].imgurl%>">
-          <strong>
-            <%= event.mallEventList[0].text %>
-          </strong>
-          <span>
-            <%= event.mallEventList[0].text2 %>
-          </span>
-        </li>
-        <li class="shoppinglist">
-          <img src="<%= event.mallEventList[1].imgurl%>">
-          <strong>
-            <%= event.mallEventList[1].text %>
-          </strong>
-          <span>
-            <%= event.mallEventList[1].text2 %>
-          </span>
-        </li>
-        <li class="shoppinglist">
-          <img src="<%= event.mallEventList[2].imgurl%>">
-          <strong>
-            <%= event.mallEventList[2].text %>
-          </strong>
-          <span>
-            <%= event.mallEventList[2].text2 %>
-          </span>
-        </li>
-        <li class="shoppinglist">
-          <img src="<%= event.mallEventList[3].imgurl%>">
-          <strong>
-            <%= event.mallEventList[3].text %>
-          </strong>
-          <span>
-            <%= event.mallEventList[3].text2 %>
-          </span>
-        </li>
       </ul>
       <button class="more_contents">더보기</button>
     </div>
@@ -145,8 +99,7 @@
   <section class="hotDeal_section"></section>
   <section class="keywords_section"></section>
   <footer></footer>
-  <script type="module" src="./javascripts/utils.js"></script>
-  <script type="module" src="./javascripts/slider.js"></script>
+
   <script type="module" src="./javascripts/main.js"></script>
 </body>
 

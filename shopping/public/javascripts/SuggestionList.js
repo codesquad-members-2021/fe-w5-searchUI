@@ -1,5 +1,5 @@
-import _ from "./utils.js";
-
+import _ from "./utils/utils.js";
+import html from "./utils/HtmlTemplete.js";
 const SuggestionList = function (List, ListParents) {
   this.List = List.map((v) => v.keyword);
   this.ListParents = ListParents;
@@ -15,14 +15,9 @@ SuggestionList.prototype = {
     Parents.innerHTML = this.makeTitleHTML();
   },
 
-  makeListHTML(keyword,index){
-    return `<li><span class="num">${
-      index +1
-    }.</span> ${keyword}</li>`
-  },
 
   makeTitleHTML() {
-    let listHTML = this.List.map((keyword,index) => this.makeListHTML(keyword,index))
+    let listHTML = this.List.map((keyword,index) => html.suggetionListHTML(keyword,index))
     .reduce((acc,curr)=> acc += curr);
     return `<strong class="tit__suggestion">인기 쇼핑 키워드</strong>
     <ol class="suggestion__items">` + listHTML +`</ol>`
