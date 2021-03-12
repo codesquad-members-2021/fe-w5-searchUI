@@ -1,7 +1,7 @@
 import { CLASS_LIST, URL, KEYCODE } from '../util/data';
 import { li, makeAutoCompleteItem, makeRecommendItem, ul } from '../util/htmlTemplate';
 import { autoCompleteParser } from '../util/parser';
-import { getData, _ } from '../util/util';
+import { getData, _, debounce } from '../util/util';
 
 function SearchTab({ data, selector }) {
   this.recommendData = data;
@@ -25,22 +25,11 @@ SearchTab.prototype = {
     this.searchInput.addEventListener('keydown', this.handleKeydown.bind(this));
   },
   handleInput({ target: { value } }) {
-    if (this.timer) clearTimeout(this.timer);
-    this.initAutoCompleteIdx();
-    this.orginInput = value;
-    this.timer = setTimeout(async () => {
-      const autoCompleteData = await getData(URL.autoComplete(value));
-      this.autoCompleteData = autoCompleteParser(autoCompleteData);
-      if (!this.autoCompleteData.length) this.renderSearchTab();
-      else this.renderAutoComplete();
-    }, 1000);
+    this.timer = debounce(this.render.bind(this, value), 1000, this.timer);
   },
   handleKeydown({ keyCode }) {
-    if (keyCode === KEYCODE.UP) {
-      this.moveUpList();
-    } else if (keyCode === KEYCODE.DOWN) {
-      this.moveDownList();
-    }
+    if (keyCode === KEYCODE.UP) this.moveUpList();
+    else if (keyCode === KEYCODE.DOWN) this.moveDownList();
   },
   getRecommendHTML() {
     const { SEARCH_TAB_LIST } = CLASS_LIST;
@@ -71,6 +60,17 @@ SearchTab.prototype = {
   renderAutoComplete() {
     this.hiddenTitle();
     this.searchTab.innerHTML = this.getAutoCompleteHTML();
+  },
+  async render(inputValue) {
+    this.initAutoCompleteIdx();
+    this.orginInput = inputValue;
+    await this.setAutoCompleteData(inputValue);
+    if (!this.autoCompleteData.length) this.renderSearchTab();
+    else this.renderAutoComplete();
+  },
+  async setAutoCompleteData(inputValue) {
+    const autoCompleteData = await getData(URL.autoComplete(inputValue));
+    this.autoCompleteData = autoCompleteParser(autoCompleteData);
   },
   showTitle() {
     this.searchTabTitle.classList.remove(CLASS_LIST.HIDDEN);
