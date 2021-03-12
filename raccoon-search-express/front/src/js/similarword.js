@@ -18,13 +18,17 @@ Similarword.prototype = {
   addEvent: function () {
     this.input.addEventListener('keyup', this.requestData.bind(this));
   },
-  requestData: function () {
+  requestData: async function () {
+    await delay(300);
     return this.fetchAPI.getSimilarword(this.input.value, similarword);
   },
   getGroupSuggestion: function (data) {
-    if (this.isEmptyData(data.items)) {
+    if (this.isEmpty(data.items)) {
       return (this.wrapSuggestion.style.display = 'none');
     }
+
+    if (this.isEmpty(this.input.value)) return;
+
     this.wrapSuggestion.style.display = 'block';
     const groupSuggestion = data.items.reduce((acc, cur) => {
       const inputKeyword = data.q;
@@ -48,13 +52,12 @@ Similarword.prototype = {
     this.similarwordList.innerHTML = `${this.getGroupSuggestion(data)}`;
   },
 
-  isEmptyData: function (data) {
+  isEmpty: function (data) {
     return data.length === 0;
   },
 };
 
-window.similarword = async function similarword(data) {
+window.similarword = function similarword(data) {
   const groupSuggestion = new Similarword();
-  await delay(300);
   return groupSuggestion.drawGroupSuggestion.call(groupSuggestion, data);
 };
