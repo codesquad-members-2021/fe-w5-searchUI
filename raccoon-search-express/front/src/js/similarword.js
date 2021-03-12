@@ -1,4 +1,5 @@
 import { _ } from './const';
+import { delay } from './util';
 import FetchAPI from './fetchAPI';
 
 export default function Similarword() {
@@ -52,7 +53,8 @@ Similarword.prototype = {
   },
 };
 
-window.similarword = function similarword(data) {
+window.similarword = async function similarword(data) {
   const groupSuggestion = new Similarword();
+  await delay(300);
   return groupSuggestion.drawGroupSuggestion.call(groupSuggestion, data);
 };
