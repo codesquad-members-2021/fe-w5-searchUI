@@ -49,6 +49,7 @@ SearchBar.prototype.getTemplate = function () {
   </div>
     `;
 };
+
 SearchBar.prototype.mount = function () {
   const { hotKeywords } = this.state;
   new RollingKeywords(_.$(".wrap_rollingKeywords"), {
@@ -56,6 +57,7 @@ SearchBar.prototype.mount = function () {
   });
   new AutoComplete(_.$(".suggestion_auto"), {});
 };
+
 SearchBar.prototype.setEvents = function () {
   this.addEvent("focusin", "#input_search", () => {
     this.handlerOfFocusInOut();
@@ -63,30 +65,50 @@ SearchBar.prototype.setEvents = function () {
   this.addEvent("focusout", "#input_search", () => {
     this.handlerOfFocusInOut();
   });
+  const handlerOfInputKeyword = debounce(
+    this.handlerOfInputKeyword.bind(this),
+    500
+  );
+  this.addEvent("input", "#input_search", handlerOfInputKeyword);
 };
+
 SearchBar.prototype.handlerOfFocusInOut = function () {
   const toggle = pipe(
     this.toggleHotKeywords.bind(this),
     this.toggleWrapSuggestion,
-    this.toggleRollingKeywords
+    this.toggleRollingKeywords.bind(this)
   );
   toggle();
 };
-
+SearchBar.prototype.handlerOfInputKeyword = function ({ target }) {
+  console.log(target);
+  this.setState({ searching: true }, false);
+};
 SearchBar.prototype.toggleHotKeywords = function () {
   const { onSearch } = this.state;
   this.setState({ onSearch: !onSearch }, false);
   _.$(".suggestion_hot").style.display = onSearch ? "none" : "block";
   return !onSearch;
 };
+
 SearchBar.prototype.toggleWrapSuggestion = function (onSearch) {
   _.$(".wrap_suggestion").style.display = onSearch ? "block" : "none";
   return onSearch;
 };
+
 SearchBar.prototype.toggleRollingKeywords = function (onSearch) {
   const isEmpty = function () {
     return _.$("#input_search").value === "" ? true : false;
   };
   _.$(".wrap_rollingKeywords").style.display =
     !onSearch && isEmpty() ? "block" : "none";
+};
+
+SearchBar.prototype.toggleRollingKeywords = function (onSearch) {
+  _.$(".wrap_rollingKeywords").style.display =
+    !onSearch && this.isEmpty() ? "block" : "none";
+};
+
+SearchBar.prototype.isEmpty = function () {
+  return _.$("#input_search").value === "" ? true : false;
 };
