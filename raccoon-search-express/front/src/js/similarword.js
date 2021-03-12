@@ -20,12 +20,14 @@ Similarword.prototype = {
       const inputKeyword = data.q;
       const suggestionKeyword = cur.slice(0, -2);
       const suggestionKeywordIndex = suggestionKeyword.indexOf(inputKeyword);
+
+      const nonHighlightingFront = suggestionKeyword.slice(0, suggestionKeywordIndex);
       const highlighting = suggestionKeyword.slice(suggestionKeywordIndex, suggestionKeywordIndex + inputKeyword.length);
-      console.log(highlighting);
+      const nonHighlightingBack = suggestionKeyword.slice(suggestionKeywordIndex + inputKeyword.length);
 
       acc += `
       <li>
-        <a href="/" class="link_keyword">${cur.slice(0, -2)}</a>
+        <a href="/" class="link_keyword">${nonHighlightingFront}<span class="emph_word">${highlighting}</span>${nonHighlightingBack}</a>
       </li>
     `;
       return acc;
