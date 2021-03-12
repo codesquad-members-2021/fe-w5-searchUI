@@ -1,15 +1,13 @@
 import { api } from "./utils/api.js";
 import { urls } from "./utils/urls.js";
 import { _ } from "./utils/selector.js";
-import { times, keywordState, rollings } from "./utils/states.js";
+import { keywordState, rollings } from "./utils/states.js";
 import { setHtmls, insertAdjacent, insertContents } from "./setters/setHtmls.js";
 import * as htmlMaker from "./utils/htmlMaker.js";
 import { setCarousel } from "./setters/setCarousel.js";
 // import RecommendedItem from "./search/recommItems.js";
 import RecommItems from "./search/recommItems.js";
-import request from "./utils/request.js";
 import Roller from "./search/roller.js";
-import Keyword from "./search/keyword.js";
 
 // event 상품
 const eventItemHtml = document.querySelector(".event__item");
@@ -66,9 +64,6 @@ const partners = api(urls.partners)(setHtmls, htmlMaker.partnerList, insertConte
 /*********************************** w5 - searchUi *****************************************/
 // 여기서부터 이번주 미션 시작
 // 개략적인 계획
-// 1. 일단 "작동"에 집중한 기능 구현
-// 1-1. 추천검색어
-// 1-2. 롤링
 // 2. 리팩토링
 // 3. 3주차 코드도 리팩토링
 
@@ -80,5 +75,5 @@ rollings.rollingKeywordHtml = _.$(".rolling__keyword");
 
 const recommItems = new RecommItems(keywordState, rollings);
 const roller = new Roller(keywordState.searchingInput, rollings);
-recommItems.registerEvent();
+recommItems.registerEvent("popluarWords", "인기 쇼핑 키워드");
 roller.roll();

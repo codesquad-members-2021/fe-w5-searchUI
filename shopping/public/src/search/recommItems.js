@@ -13,27 +13,25 @@ export default function RecommItems(keywordState, rollings) {
   this.recommWordsToggle = recommWordsToggle;
   this.recommendations = recommendations;
   this.isOutOfToggle = false;
+  this.recentKeywords = []; // 최근검색어
+  this.recentKeywordsTemplate = null;
 }
 
 RecommItems.prototype = Object.create(Keyword.prototype);
 
 RecommItems.prototype.init = async function (className, title) {
   this.popularWords = await this.getTopten();
-  this.topTenWords = this.createToptenToggleTemplate(this.popularWords, className, title);
+  this.topTenWords = this.createTemplate(this.popularWords, className, title);
   this.recommWordsToggle.innerHTML = this.topTenWords;
 };
 
-RecommItems.prototype.createToptenToggleTemplate = function (array, className, title) {
+RecommItems.prototype.createTemplate = function (array, className, title) {
   const mid = Math.floor(array.length / 2);
   const template = (className, num, item) => `<li class="${className}__item" data-id="${num}"><span class="item__rank">${num}</span><span class="item__word">${item}</span></li>`;
   return (
     `<div class="${className}"><span class="${className}__title">${title}</span><div class="${className}__list">` +
     array.reduce((acc, item, i) => {
-      if (i < mid || i > mid) {
-        acc += template(className, i + 1, item);
-      } else {
-        acc += `</ul>` + `<ul class="${className}__batch">` + template(className, i + 1, item);
-      }
+      acc += i < mid || i > mid ? template(className, i + 1, item) : `</ul><ul class="${className}__batch">` + template(className, i + 1, item);
       return acc;
     }, `<ul class="${className}__batch">`) +
     `</ul></div></div>`
@@ -49,10 +47,13 @@ RecommItems.prototype.registerEvent = async function () {
 };
 
 RecommItems.prototype.keydownEvent = function (e) {
-  const { key } = e;
-  if (!key.includes("Arrow") || this.isOutOfToggle) return;
+  const { key, target } = e;
+  if (this.isOutOfToggle) return;
   if (!this.recommWordsToggle.classList.contains("visible")) {
     this.recommWordsToggle.classList.add("visible");
+  }
+  if (key === "Enter") {
+    if (this.recentKeywords.every((e) => e !== target.value)) this.recentKeywords.push(target.value);
   }
   if (key === "ArrowUp") {
     e.preventDefault();
@@ -108,7 +109,7 @@ RecommItems.prototype.colorOff = function () {
 };
 
 RecommItems.prototype.focusinEvent = function () {
-  this.recommWordsToggle.innerHTML = this.topTenWords;
+  this.recommWordsToggle.innerHTML = this.recentKeywordsTemplate ? this.recentKeywordsTemplate : this.topTenWords;
   this.rollingKeywordHtml.classList.add("none");
   this.recommWordsToggle.classList.add("visible");
 };
@@ -130,19 +131,17 @@ RecommItems.prototype.resetTimer = function () {
 
 RecommItems.prototype.loadRelatedWords = async function (inputValue) {
   const data = await request(urls.recommendedWords, inputValue);
-  const { suggestions } = data;
-  const tempSuggestions = suggestions.map((item) => item.value.normalize("NFC"));
-  const set = [...new Set(tempSuggestions)]; // 중복값 제거
-  const tempRecommendations =
+  const dataSet = parseData(data);
+  const templateRecommendations =
     `<div class="recommended">` +
-    set.reduce((acc, item, i) => {
+    dataSet.reduce((acc, item, i) => {
       const highlightOnItem = item.replace(inputValue, `<span class="highlight">${inputValue}</span>`);
       acc += `<span class="recommended__item" data-id="${i}">${highlightOnItem}</span>`;
       return acc;
     }, ``) +
     `</div>`;
-  this.recommWordsToggle.innerHTML = tempRecommendations;
-  this.recommendations = set;
+  this.recommWordsToggle.innerHTML = templateRecommendations;
+  this.recommendations = dataSet;
   this.recommWordsToggle.classList.add("visible");
 };
 
@@ -156,10 +155,22 @@ RecommItems.prototype.inputEvent = function (e) {
   const inputValue = e.target.value;
   this.resetTimer();
   if (inputValue === ``) {
-    this.recommWordsToggle.innerHTML = this.topTenWords;
+    if (this.recentKeywords.length) {
+      this.recentKeywordsTemplate = this.createTemplate(this.recentKeywords, "recentKeywords", "최근 검색어");
+      this.recommWordsToggle.innerHTML = this.recentKeywordsTemplate;
+    } else {
+      this.recommWordsToggle.innerHTML = this.topTenWords;
+    }
   }
   if (inputValue !== ``) {
     // loading 추가?
     this.timer = setTimeout((_) => this.loadRelatedWords(inputValue), times.debounce);
   }
 };
+
+function parseData(data) {
+  const { suggestions } = data;
+  const tempSuggestions = suggestions.map((item) => item.value.normalize("NFC"));
+  const set = [...new Set(tempSuggestions)]; // 중복값 제거
+  return set;
+}

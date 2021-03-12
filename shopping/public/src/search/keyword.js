@@ -27,12 +27,6 @@ async function getTopten() {
   return popularWords;
 }
 
-function createTemplate(array, className) {
-  return array.reduce((acc, item, idx) => {
-    acc += `<div class="${className}"><span class="${className}__rank" data-id=${idx + 1}>${idx + 1}</span>
-        <span class="popularWords__product" data-id=${idx + 1}>${item}</span></div>`;
-    return acc;
-  }, ``);
-}
+function createTemplate() {}
 
 function init() {}

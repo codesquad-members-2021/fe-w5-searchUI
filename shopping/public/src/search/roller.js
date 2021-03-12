@@ -17,15 +17,17 @@ Roller.prototype.init = async function (className) {
   this.rollingContainer.innerHTML = this.topTenWords;
 };
 
+Roller.prototype.createTemplate = function (array, className) {
+  return array.reduce((acc, item, idx) => {
+    acc += `<div class="${className}"><span class="${className}__rank" data-id=${idx + 1}>${idx + 1}</span>
+        <span class="popularWords__product" data-id=${idx + 1}>${item}</span></div>`;
+    return acc;
+  }, ``);
+};
+
 Roller.prototype.roll = async function () {
   await this.init("rolling__items");
   this.rollInterval();
-};
-
-Roller.prototype.rollIntervalFinish = function () {
-  this.rollingContainer.style.transition = `${times.init}ms`;
-  this.rollingContainer.style.transform = `translateY(${times.init})px`;
-  this.currIndex = 0;
 };
 
 Roller.prototype.rollInterval = async function () {
