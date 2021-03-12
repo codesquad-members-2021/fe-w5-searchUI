@@ -13,6 +13,12 @@ const HtmlTemplete = {
     `<li><span class="num">${index + 1}.</span> ${keyword}</li>`,
 
   inputListHTML: (keyword) => `<li class="itemList">${keyword}</li>`,
+
+  sliderHTML: (imgurl) => `<div class="panel">
+              <img src=${imgurl}>
+            </div>`,
+
+  bannerHTML: (imgurl) => `<img src=${imgurl}>`,
 };
 
 export default HtmlTemplete;
