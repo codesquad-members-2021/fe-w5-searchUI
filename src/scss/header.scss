@@ -1,8 +1,9 @@
 header {
   background-color: #fff;
+  z-index: 1;
   .row-search {
     text-align: center;
-    padding: 0 22vw;
+    padding: 0 15vw;
     padding-top: 5vh;
     display: grid;
     grid-template-columns: 1fr 6fr;
@@ -14,15 +15,21 @@ header {
   }
   .search-bar {
     position: relative;
+    height: 0;
+    z-index: 1;
     &__input {
       @extend .fw-600;
-      @extend .f-18;
+      @extend .fs-18;
       border: 1px solid #cecfd1;
       border-radius: 10px;
       background-color: #fff;
       height: 50px;
       width: 90%;
       padding: 0.5em 2em;
+      padding-left: 1em;
+      &.active {
+        border-color: #f95139;
+      }
     }
     &__button {
       position: absolute;
@@ -62,7 +69,7 @@ header {
     }
   }
   .category-button {
-    @extend .f-16;
+    @extend .fs-16;
     border: 0;
     outline: none;
     background: transparent;
@@ -103,7 +110,7 @@ header {
   .header-list {
     display: inline-block;
     li {
-      @extend .f-16;
+      @extend .fs-16;
       @extend .fw-600;
       display: inline-block;
       padding: 0 1em;
@@ -125,7 +132,7 @@ header {
     }
   }
   .login-button {
-    @extend .f-16;
+    @extend .fs-16;
     display: inline-block;
     text-align: center;
     cursor: pointer;
