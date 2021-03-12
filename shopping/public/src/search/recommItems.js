@@ -29,11 +29,11 @@ RecommItems.prototype.createToptenToggleTemplate = function (array, className, t
   return (
     `<div class="${className}"><span class="${className}__title">${title}</span><div class="${className}__list">` +
     array.reduce((acc, item, i) => {
-      if (i < mid || i > mid) {
-        acc += template(className, i + 1, item);
-      } else {
-        acc += `</ul>` + `<ul class="${className}__batch">` + template(className, i + 1, item);
-      }
+      // if (i < mid || i > mid) {
+      //   acc += template(className, i + 1, item);
+      // } else {
+      acc += i < mid || i > mid ? template(className, i + 1, item) : `</ul><ul class="${className}__batch">` + template(className, i + 1, item);
+      // }
       return acc;
     }, `<ul class="${className}__batch">`) +
     `</ul></div></div>`
@@ -133,7 +133,7 @@ RecommItems.prototype.loadRelatedWords = async function (inputValue) {
   const { suggestions } = data;
   const tempSuggestions = suggestions.map((item) => item.value.normalize("NFC"));
   const set = [...new Set(tempSuggestions)]; // 중복값 제거
-  const tempRecommendations =
+  const templateRecommendations =
     `<div class="recommended">` +
     set.reduce((acc, item, i) => {
       const highlightOnItem = item.replace(inputValue, `<span class="highlight">${inputValue}</span>`);
@@ -141,7 +141,7 @@ RecommItems.prototype.loadRelatedWords = async function (inputValue) {
       return acc;
     }, ``) +
     `</div>`;
-  this.recommWordsToggle.innerHTML = tempRecommendations;
+  this.recommWordsToggle.innerHTML = templateRecommendations;
   this.recommendations = set;
   this.recommWordsToggle.classList.add("visible");
 };

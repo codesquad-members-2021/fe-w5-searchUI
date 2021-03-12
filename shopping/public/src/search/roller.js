@@ -22,12 +22,6 @@ Roller.prototype.roll = async function () {
   this.rollInterval();
 };
 
-Roller.prototype.rollIntervalFinish = function () {
-  this.rollingContainer.style.transition = `${times.init}ms`;
-  this.rollingContainer.style.transform = `translateY(${times.init})px`;
-  this.currIndex = 0;
-};
-
 Roller.prototype.rollInterval = async function () {
   while (this.currIndex <= this.itemCount) {
     await delay(times.rolling);
