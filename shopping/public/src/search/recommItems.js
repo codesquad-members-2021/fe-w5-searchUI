@@ -13,7 +13,7 @@ export default function RecommItems(keywordState, rollings) {
   this.recommWordsToggle = recommWordsToggle;
   this.recommendations = recommendations;
   this.isOutOfToggle = false;
-  this.recentKeywords = [];
+  this.recentKeywords = []; // 최근검색어
   this.recentKeywordsTemplate = null;
 }
 
