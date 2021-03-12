@@ -17,6 +17,9 @@ function Animal(eat) {
 Animal.prototype.hunting = function () {
   return `hunting for ${this.eat}`;
 };
+// Animal.prototype.play = function () {
+//   return `playing for ${this.eat}`;
+// };
 
 // 객체 B
 

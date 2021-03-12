@@ -20,6 +20,7 @@ export default class RaccoonShopping {
     this.eventSlider = new EventSlider(this.slide);
     this.mallEventSlider = new MallEventSlider(this.button);
     this.requestHotDealData = new RequestHotDealData(this.page, this.items, this.current);
+    this.similarword = new Similarword();
   }
 
   init() {
@@ -34,6 +35,7 @@ export default class RaccoonShopping {
     this.eventSlider.addEvent();
     this.mallEventSlider.addEvent();
     this.requestHotDealData.addEvent();
+    this.similarword.addEvent();
   }
 
   async createRollingKeyword() {
