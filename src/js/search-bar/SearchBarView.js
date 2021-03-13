@@ -72,6 +72,9 @@ SearchBarView.prototype.onKeydown = function (evt) {
         }
         break;
     }
+  } else if (evt.location === 0) {
+    // FIXME
+    this.suggestionView.changeable = true;
   }
 };
 
