@@ -1,6 +1,7 @@
 // 이 컨트롤러는 상 하단 캐러셀 & 더보기 데이터 등을 포함하고 있음, 추후 분리하여 리팩토링 예정
 
-import _, {fetchData} from '../util.js';
+import _ from '../util.js';
+import {fetchData} from '../dataUtil.js';
 
 class MainController {
     constructor(indexWrappers, controlItems, carouselOptions) {

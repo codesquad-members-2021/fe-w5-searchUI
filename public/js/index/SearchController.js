@@ -1,4 +1,5 @@
-import _, {delay, fetchData, isKorEngNum, isPossibleInput} from "../util.js";
+import _, {delay, isKorEngNum, isPossibleInput } from "../util.js";
+import { fetchData, setCachedData, getCachedData } from '../dataUtil.js';
 
 const SearchController = function(allWrapper) {
     this.allWrapper = allWrapper;
@@ -27,8 +28,8 @@ SearchController.prototype.init = function () {
     this.setAutoCompleteChangeDetection(this.searchSuggestSimilarWrapper, this.searchBarWrapper);
 
     this.makeSuggestionInnerItems(this.searchSuggestInnerWrapper);
-    this.makeRollingItems(this.searchBarRollingWrapper);
-    this.runRollingSearchBar(this.searchBarRollingWrapper);    
+    this.makeRollingItems(this.searchBarRollingWrapper);    
+    this.runRollingSearchBar(this.searchBarRollingWrapper);
 };
 // ========================
 
@@ -45,12 +46,18 @@ SearchController.prototype.getRecomKeywords = async function () {
     }
 };
 
-// getAutoCompleteData, 자동완성 데이터 생성 (아마존 데이터 가져옴) 
+// getAutoCompleteData, 자동완성 데이터 생성 (아마존 데이터 가져옴, 캐시 스토리지 활용)
 SearchController.prototype.getAutoCompleteData = async function (inputValue) {
     const url = `https://completion.amazon.com/api/2017/suggestions?client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&prefix=${inputValue}&limit=11&suggestion-type=KEYWORD`;
     try {
-        const data = await fetchData(url);        
-        const result = data.suggestions.map((v) => v.value);        
+        const cacheStorageName = "Rano-ShoppingHow";
+        let data = await getCachedData(cacheStorageName, url);
+        if (!data) {
+            await setCachedData(cacheStorageName, url);
+            data = await getCachedData(cacheStorageName, url);
+        }
+
+        const result = data.suggestions.map((v) => v.value);
         return result;
     } catch (error) {
         console.error(error);
@@ -169,7 +176,7 @@ SearchController.prototype.searchBarKeyUpEventHandler = function (e) {
     this.visibleRollingControl(target);    
     this.visibleSuggestionControl(target);
     
-    if (!isKorEngNum(key) || !isPossibleInput(code)) return;
+    if (!isKorEngNum(key) || !isPossibleInput(code) || !target.value) return;
 
     this.setBackupSearchInputValue(target);
     this.setDebouncer(() => {
