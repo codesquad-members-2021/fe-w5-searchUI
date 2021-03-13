@@ -3,7 +3,7 @@ import {
 } from "./util.js";
 import {
    SearchUI
-} from "./search_window.js";
+} from "./search.js";
 
 import {
    CarouselCtrl
@@ -59,6 +59,8 @@ const ctrlViewMoreBtn = () => {
    viewMoreBtn.addEventListener('click', viewMoreUrlSetting)
 }
 
+const searchUI = new SearchUI;
+
 function init() {
    playViewMore();
    loadBannerImg();
@@ -67,7 +69,7 @@ function init() {
    playCarousel_hot();
    ctrlCarouselBtn();
    ctrlCarouselBtn_hot();
-   new SearchUI();
+   searchUI.init();
 }
 
 init();

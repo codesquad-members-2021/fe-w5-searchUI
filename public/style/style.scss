@@ -1,29 +1,38 @@
-
 @import "./reset.css";
 @import "./carousel.scss";
 @import "./icon.scss";
 
 $menu_interval: 0.5rem;
 $color-emphasis: #f9624c;
-$color-css-grey: #bbbbbb;
+$color-css-grey: #ebecea;
+$color-css-grey2: #e2e2e2;
 $color-text-grey: #888888;
 $color-background-beige: #f3f3f3;
 $color-background-white: #fff;
 $color-transparent-black: #222222d7;
 $color-transparent: #22222200;
 
-// common
-
-.on {
-  display: block;
+button {
+  color: $color-transparent;
+  box-sizing: border-box;
+  border: none;
+  cursor: pointer;
 }
-
+// common
 .off {
   display: none !important;
 }
 
 .emphasis {
   border: 1px solid $color-emphasis !important;
+}
+
+.emphasis_text {
+  color: $color-emphasis;
+}
+
+.keybord_focus {
+  background-color: $color-css-grey !important;
 }
 
 body {
@@ -73,6 +82,8 @@ p {
 
 .search {
   position: relative;
+  top: 10px;
+
   .search_box {
     width: 650px;
     height: 70px;
@@ -86,7 +97,7 @@ p {
       z-index: 9999;
       width: fit-content;
       position: relative;
-      top: -10px;
+      top: -13px;
       left: -15px;
       font-size: 20px;
       font-weight: 700;
@@ -98,7 +109,6 @@ p {
           span {
             color: $color-text-grey;
           }
-
           span:nth-child(1) {
             margin-right: 10px;
           }
@@ -108,7 +118,7 @@ p {
     .search_input {
       position: absolute;
       top: 8px;
-      width: 600px;
+      width: 550px;
       height: 50px;
       border: none;
       padding-left: 4vh;
@@ -131,6 +141,33 @@ p {
     }
   }
 
+  .searched_keyword_tpl {
+    color: $color-transparent;
+    height: 25px;
+    display: flex;
+    div {
+      margin-top: 10px;
+      margin-left: 10px;
+      cursor: pointer;
+      display: flex;
+      span {
+        color: $color-text-grey;
+        font-size: 12px;
+        display: block;
+      }
+      span:nth-of-type(2) {
+        color: $color-transparent;
+      }
+      &:hover {
+        span:nth-of-type(2) {
+          margin-left: 3px;
+          color: $color-text-grey;
+          background-color: $color-css-grey;
+        }
+      }
+    }
+  }
+
   .hot_keyword_tpl {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -140,6 +177,7 @@ p {
     border-radius: 10px;
     background-color: $color-background-white;
     position: absolute;
+    top: 70px;
     z-index: 9999;
     padding: 30px;
 
@@ -178,6 +216,7 @@ p {
     border-radius: 10px;
     background-color: $color-background-white;
     position: absolute;
+    top: 70px;
     z-index: 9999;
 
     div {
@@ -364,9 +403,15 @@ p {
 }
 
 .see_more_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 80px;
-  border: none;
+  border: $color-css-grey;
+  font-weight: 400;
+  background-color: $color-css-grey2;
+  cursor: pointer;
 }
 
 .section_hot_deal {
