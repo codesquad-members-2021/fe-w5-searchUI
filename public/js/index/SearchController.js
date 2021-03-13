@@ -61,7 +61,7 @@ SearchController.prototype.getAutoCompleteData = async function (inputValue) {
 // [3] visible 제어
 // 롤링 visible 제어
 SearchController.prototype.visibleRollingControl = function (searchInput = null) {
-    const inputValue = searchInput ? searchInput.value : _.$('input', this.searchBarWrapper).value;
+    const inputValue = searchInput ? searchInput.value : _.$('.search__input', this.searchBarWrapper).value;
     _.forceToggleClass(this.searchBarRollingWrapper, 'visibility--hidden', inputValue);            
 };
 
@@ -87,7 +87,7 @@ SearchController.prototype.visibleSuggestionControl = function (searchInput) {
 // 검색창 자동완성 아이템 생성 / 제거 추적용 MutationObserver 설정 (init() 에서 설정해둠)
 SearchController.prototype.setAutoCompleteChangeDetection = function (searchSuggestSimilarWrapper, searchBarWrapper) {
     const similarWrapper = _.$('.similar__list', searchSuggestSimilarWrapper);
-    const searchInput = _.$('input', searchBarWrapper);
+    const searchInput = _.$('.search__input', searchBarWrapper);
     const observer = new MutationObserver(() => {               
         const suggestVisibleFlag = !(similarWrapper.childNodes.length > 0 || !searchInput.value);
         _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', suggestVisibleFlag);        
@@ -115,7 +115,7 @@ SearchController.prototype.allWrapMouseoverEventHandler = function ({target}) {
     _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', true);
     this.visibleRollingControl();
 
-    const focusInput = _.$('input:focus', this.searchBarWrapper);
+    const focusInput = _.$('.search__input:focus', this.searchBarWrapper);
     if (!focusInput) return;
     focusInput.blur();
 };
@@ -129,16 +129,16 @@ SearchController.prototype.searchBarClickEventHandler = function ({target}) {
     const closestTarget = _.closestSelector(target, '.search__bar');
     if (closestTarget !== this.searchBarWrapper) return;
     
-    const searchInput = _.$('input', this.searchBarWrapper);
+    const searchInput = _.$('.search__input', this.searchBarWrapper);
     (searchInput !== target) && searchInput.focus();
     this.visibleInnerControl(searchInput);   
 };
 
 // 검색창 input focus (in & out) (input focus in -> 롤링 가림 / input focus out -> 롤링 활성)
 SearchController.prototype.setSearchInputFocusinoutEvent = function (searchBarWrapper) { 
-    const input = _.$('input', searchBarWrapper);
-    _.addEvent(input, 'focusin', this.visibleRollingControl());
-    _.addEvent(input, 'focusout', this.visibleRollingControl());
+    const searchInput = _.$('.search__input', searchBarWrapper);
+    _.addEvent(searchInput, 'focusin', this.visibleRollingControl());
+    _.addEvent(searchInput, 'focusout', this.visibleRollingControl());
 };
 
 // 검색창 입력 (keydown, keyup)
@@ -155,8 +155,8 @@ SearchController.prototype.searchBarKeyDownEventHandler = function (e) {
         _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', true);
 
     // 방향키 (위 / 아래)에 따른 자동완성창 컨트롤
-    if (keyCode === 38 || keyCode === 40) 
-        this.runAutocompleteKeyboardControl(this.searchSuggestSimilarWrapper, keyCode);
+    if (keyCode === 38 || keyCode === 40)  
+        this.runAutoCompleteArrowKeyControl(this.searchSuggestSimilarWrapper, keyCode);
 };
 
 // 2) keyup
@@ -169,8 +169,9 @@ SearchController.prototype.searchBarKeyUpEventHandler = function (e) {
     this.visibleRollingControl(target);    
     this.visibleSuggestionControl(target);
     
-    if (!isKorEngNum(key) || !isPossibleInput(code)) return;        
+    if (!isKorEngNum(key) || !isPossibleInput(code)) return;
 
+    this.setBackupSearchInputValue(target);
     this.setDebouncer(() => {
         this.removeSuggestionSimilarItems(this.searchSuggestSimilarWrapper);        
         this.makeSuggestionSimilarItems(this.searchSuggestSimilarWrapper, target);  
@@ -187,20 +188,77 @@ SearchController.prototype.setDebouncer = function (callbackFn, ms) {
     this.debouncer = setTimeout(() => callbackFn(), ms); 
 };
 
-// 검색창 자동완성 키보드 컨트롤 (방향키 위 / 아래)
-SearchController.prototype.runAutocompleteKeyboardControl = function (searchSuggestSimilarWrapper, keyCode) {
-    const similarWrapper = _.$('.similar__list', searchSuggestSimilarWrapper);
-    const arrItems = Array.from(similarWrapper.children);
-    if (arrItems.length <= 0) return;
+// 검색창 자동완성 키보드 컨트롤 (방향키 위(code 38) / 아래(code 40) )
+SearchController.prototype.runAutoCompleteArrowKeyControl = function (searchSuggestSimilarWrapper, keyCode) {
+    const similarWrapper = _.$('.similar__list', searchSuggestSimilarWrapper);    
+    const arrliList = Array.from(similarWrapper.children);   // li태그들
+    if (arrliList.length <= 0) return;
 
-    const currSelectedTag = arrItems.find((li) => _.containsClass(_.$('a', li), 'selected'));
+    const params = {
+        arrliList,
+        currSelectedIndex: arrliList.findIndex((li) => _.containsClass(_.$('a', li), 'selected')),
+        firstItem: arrliList[0],
+        lastItem: arrliList[arrliList.length - 1],
+        searchInput: _.$('.search__input', this.searchBarWrapper),
+    };
+
+    this.setClearSelectedTags(arrliList);
+    keyCode === 38
+        ? this.runAutoCompleteArrowUp(params)
+        : this.runAutoCompleteArrowDown(params);
+};
+
+SearchController.prototype.runAutoCompleteArrowUp = function (params) {
+    const {arrliList, currSelectedIndex, lastItem, searchInput} = params;
     
+    const selectedTag = this.setSelectedTag(
+        (currSelectedIndex < 0) ? lastItem : arrliList[currSelectedIndex - 1],
+    );
+    this.setSelectedTextAsInputText(selectedTag, searchInput);
+};
+
+SearchController.prototype.runAutoCompleteArrowDown = function (params) {
+    const {arrliList, currSelectedIndex, firstItem, searchInput} = params;
+    const selectedTag = this.setSelectedTag(
+        (currSelectedIndex < 0) ? firstItem : arrliList[currSelectedIndex + 1],
+    );
+    this.setSelectedTextAsInputText(selectedTag, searchInput);
+};
+
+SearchController.prototype.setSelectedTag = function(liTag) {
+    const aTag = _.$('a', liTag);
+    _.addClass(aTag, 'selected'); 
+    return aTag;
+};
+
+SearchController.prototype.setClearSelectedTags = function(arrliList) {
+    arrliList
+        .filter((li) => _.containsClass(_.$('a', li), 'selected'))
+        .forEach((li) => _.removeClass(_.$('a', li), 'selected'));
+};
+
+SearchController.prototype.setSelectedTextAsInputText = function (selectedTag, searchInput) {
+    if (!selectedTag.innerText)
+        this.getBackupSearchInputValue(searchInput);
+    else
+        searchInput.value = selectedTag.innerText;        
+};
+
+// 자동완성 방향키 선택으로 SearchInput의 Value가 바뀜. 기존에 입력했던 값을 가져오거나 백업. 
+SearchController.prototype.getBackupSearchInputValue = function (searchInput) {
+    const hiddenSearchInput = _.$('.backup-value', this.searchBarWrapper);
+    searchInput.value = hiddenSearchInput.value;
+};
+
+SearchController.prototype.setBackupSearchInputValue = function (searchInput) {
+    const hiddenSearchInput = _.$('.backup-value', this.searchBarWrapper);
+    hiddenSearchInput.value = searchInput.value;
 };
 
 // 검색창 자동완성 아이템 제거
 SearchController.prototype.removeSuggestionSimilarItems = function (searchSuggestSimilarWrapper) {
     const similarWrapper = _.$('.similar__list', searchSuggestSimilarWrapper);   
-    _.allRemoveChildren(similarWrapper);    
+    _.allRemoveChildren(similarWrapper);
 };
 
 // 검색창 자동완성 아이템 생성

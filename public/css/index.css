@@ -360,7 +360,7 @@ a {
   padding: 2px 22px;
   position: relative;
 }
-.header__logo-search .search__bar input {
+.header__logo-search .search__bar .search__input {
   color: #333;
   display: block;
   width: 95%;
