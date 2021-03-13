@@ -89,7 +89,25 @@
 .rollingKeywords > li > span {
   margin-right: 1rem;
 }
+.box_rolling .rollingKeywords {
+  height: 1.4rem;
+  transform: translateY(-2.9rem);
+}
+.rollingKeywords > li {
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  transition: height 1s ease;
+  box-sizing: border-box;
+
+  font-weight: 800;
+  color: rgb(80, 80, 80);
+}
+.rollingKeywords > li > span {
+  margin-right: 1rem;
+}
 .wrap_suggestion {
+  display: none;
   padding: 1.5rem 0;
   border-radius: 0.5rem;
   border: 1px solid red;
