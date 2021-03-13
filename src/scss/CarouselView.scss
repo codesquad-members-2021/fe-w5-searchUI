@@ -1,0 +1,52 @@
+@import 'color.scss';
+@import 'SearchBarView.scss';
+
+$list-item-height: 22px;
+$list-item-cnt: 10;
+
+ol, ul {
+  list-style: none;
+}
+
+.carousel {
+  width: 100%;
+  margin-top: 16px;
+  position: absolute;
+  top: 0;
+  left: 30px;
+  user-select: none;
+  border: none;
+  // border: 1px solid red;
+
+  &.hide {
+    display: none;
+  }
+
+  &.on-slide {
+    transition: top 300ms;
+  }
+
+  &__list {
+    display: inline-block;
+    
+    &__item + &__item {
+      margin-top: 22px;
+    }
+
+    &__item {
+      display: block;
+      height: $list-item-height;
+      line-height: $list-item-height;
+      font-weight: 700;
+      font-size: 20px;
+      text-overflow: ellipsis;
+      color: $gray2;
+      white-space: nowrap;
+      cursor: text;
+
+      &__rank {
+        margin-right: 15px;
+      }
+    }
+  }
+}

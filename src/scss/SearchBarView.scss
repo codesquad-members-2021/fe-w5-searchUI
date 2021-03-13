@@ -1,0 +1,72 @@
+@import 'color.scss';
+
+$search-bar-width: 675px;
+$search-bar-height: 54px;
+$search-bar-btn-width: $search-bar-height;
+$search-bar-btn-height: $search-bar-height;
+$btn-ic-url: url(http://shop1.daumcdn.net/search/cdn/simage/shopping/v2/common/nav/ico_gnb_shw.png);
+$def-border-radius: 10px;
+
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+.search-bar {
+  display: inline-block;
+  width: $search-bar-width;
+  height: $search-bar-height;
+
+  &__inner {
+    position:relative;
+    overflow: hidden;
+    border: 1px solid $lightgray;
+    box-sizing: content-box;
+    border-radius: $def-border-radius;
+    background-color: white;
+
+    &.on-focus {
+      border: 1px solid $redorange;
+    }
+
+    &__input-cont {
+      padding: 16px 60px 14px 30px;
+    }
+
+    &__input {
+      display: inline-block;
+      width: $search-bar-width - $search-bar-btn-width;
+      height: 22px;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 22px;
+      border: 0;
+      outline: 0;
+      color: black;
+      cursor: default;
+    }
+  
+    &__btn {
+      display: inline-block;
+      width: $search-bar-btn-width;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: white;
+      cursor: pointer;
+
+      .btn__ic {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: 15px;
+        left: 14px;
+        background: $btn-ic-url;
+        background-size: 130px 90px;
+      }
+    }
+  }
+}
