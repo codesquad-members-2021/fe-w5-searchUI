@@ -1,5 +1,5 @@
 import { CLASS_LIST, URL, KEYCODE } from '../util/data';
-import { li, makeAutoCompleteItem, makeRecommendItem, ul } from '../util/htmlTemplate';
+import { makeAutoCompleteItem, makeRecommendItem, ul } from '../util/htmlTemplate';
 import { autoCompleteParser } from '../util/parser';
 import { getData, _, debounce } from '../util/util';
 
@@ -11,7 +11,6 @@ function SearchTab({ data, selector }) {
   this.currentIdx = -1;
   this.orginInput;
   this.autoCompleteData;
-  this.timer;
 }
 
 SearchTab.prototype = {
@@ -25,7 +24,7 @@ SearchTab.prototype = {
     this.searchInput.addEventListener('keydown', this.handleKeydown.bind(this));
   },
   handleInput({ target: { value } }) {
-    this.timer = debounce(this.render.bind(this, value), 1000, this.timer);
+    debounce(this.render.bind(this, value), 1000);
   },
   handleKeydown({ keyCode }) {
     if (keyCode === KEYCODE.UP) this.moveUpList();

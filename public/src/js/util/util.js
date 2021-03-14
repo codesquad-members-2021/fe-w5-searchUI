@@ -13,8 +13,9 @@ export const createDom = (tag) => ({ value, classes }) => `<${tag} class='${clas
 
 export const delay = (ms, value = '') => new Promise((resolve) => setTimeout(() => resolve(value), ms));
 
-export const debounce = (fn, delay, timer) => {
+const debounceInit = (timer = null) => (fn, wait) => {
   if (timer) clearTimeout(timer);
-  timer = setTimeout(fn, delay);
-  return timer;
+  timer = setTimeout(fn, wait);
 };
+
+export const debounce = debounceInit();
