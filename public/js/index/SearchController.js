@@ -121,14 +121,24 @@ SearchController.prototype.visibleRollingControl = function (searchInput = null)
 };
 
 // 인기 쇼핑 키워드 Visible 제어
-SearchController.prototype.visibleInnerControl = function (searchInput) {
+SearchController.prototype.visibleInnerControl = async function (searchInput) {
     const similarWrapper = _.$('.similar__list', this.searchSuggestSimilarWrapper);
 
     const suggestVisibleFlag = searchInput.value && !similarWrapper.firstChild;
     _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', suggestVisibleFlag);
-    _.forceToggleClass(this.searchSuggestInnerWrapper, 'display--none', searchInput.value);    
-    _.forceToggleClass(this.searchSuggestSimilarWrapper, 'display--none', !searchInput.value);
 
+    if (!searchInput.value) 
+        await this.visibleRecentControl();
+    
+    this.visibleSuggestionControl(searchInput);
+};
+
+// 최근 검색어 창 Visible 제어 (visibleInnerControl에서 사용)
+SearchController.prototype.visibleRecentControl = async function () {    
+    _.forceToggleClass(this.searchSuggestInnerWrapper, 'display--none', true);
+    _.forceToggleClass(this.searchSuggestRecentWrapper, 'display--none', false);
+    await delay(5000);
+    _.forceToggleClass(this.searchSuggestRecentWrapper, 'display--none', true);
 };
 
 // 자동완성 결과 및 인기 쇼핑 키워드 창 Visible 제어
@@ -138,6 +148,7 @@ SearchController.prototype.visibleSuggestionControl = function (searchInput) {
     _.forceToggleClass(this.searchSuggestInnerWrapper, 'display--none', searchInput.value);
     _.forceToggleClass(this.searchSuggestSimilarWrapper, 'display--none', !searchInput.value);
 };
+
 
 // 검색창 자동완성 아이템 생성 / 제거 추적용 MutationObserver 설정 (init() 에서 설정해둠)
 SearchController.prototype.setAutoCompleteChangeDetection = function (searchSuggestSimilarWrapper, searchBarInput) {
@@ -165,6 +176,7 @@ SearchController.prototype.setAllWrapMouseoverEvent = function (allWrapper) {
 
 SearchController.prototype.allWrapMouseoverEventHandler = function ({target}) {
     const closestTarget = _.closestSelector(target, '.search');
+    this.setClearSimilarSelectedTags(this.searchSuggestSimilarWrapper);
     if (closestTarget) return;
 
     _.forceToggleClass(this.searchSuggestWrapper, 'visibility--hidden', true);
@@ -220,6 +232,7 @@ SearchController.prototype.setSearchBarKeyUpEvent = function (searchBarWrapper) 
 SearchController.prototype.searchBarKeyUpEventHandler = function (e) {
     const { target, key, code } = e;
     
+    _.forceToggleClass(this.searchSuggestRecentWrapper, 'display--none', true);
     this.visibleRollingControl(target);    
     this.visibleSuggestionControl(target);
     
@@ -351,6 +364,13 @@ SearchController.prototype.setClearSelectedTags = function(arrliList) {
     arrliList
         .filter((li) => _.containsClass(_.$('a', li), 'selected'))
         .forEach((li) => _.removeClass(_.$('a', li), 'selected'));
+};
+
+SearchController.prototype.setClearSimilarSelectedTags = function(searchSuggestSimilarWrapper) {
+    // 위 setClearSelectedTags와 흡사하지만, allWrapMouseoverEventHandler에서 단독으로 쓰임
+    const similarWrapper = _.$('.similar__list', searchSuggestSimilarWrapper);    
+    const arrliList = Array.from(similarWrapper.children);
+    this.setClearSelectedTags(arrliList);
 };
 
 SearchController.prototype.setSelectedTextAsInputText = function (selectedTag, searchInput) {
