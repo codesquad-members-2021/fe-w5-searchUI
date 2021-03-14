@@ -1,18 +1,4 @@
-import _ from "./utill.js";
-
-// 이것들을 따로 utill에 모아놔라 
-const rolling_list_box = _.$(".rolling_list_box");
-const input_box = _.$(".search_bar");
-const search_input = _.$(".search_input");
-const search_bar_list = _.$(".search_bar_list");
-const lists = _.$all(".lists");
-const keyword_search_list_box = _.$(".keyword_search_list_box");
-const keyword_search_list = _.$(".keyword_search_list");
-
-const bar_color = "search_bar_color";
-const display_off = "display_off";
-const TRANS_TOP = "trans_top";
-const ON = "on";
+import { _, DOM, CLASS_LIST, delay } from "./utill.js";
 
 let count;
 
@@ -20,7 +6,7 @@ export const View_top10_list = (titles) => {
     // for => forEach 로 수정 완료
     const top_list = titles.top_10.list;
     top_list.forEach((value,index) => {
-        lists[index].innerHTML = `<a href="#">${value.rank} ${value.title}</a>`;
+        DOM.LISTS[index].innerHTML = `<a href="#">${value.rank} ${value.title}</a>`;
     })
 }
 
@@ -32,7 +18,7 @@ const View_search_keywords = (word, search_keyword) => {
         acc = acc + `<li class="keyword_search_lists">${change}</li>`;
         return acc;
     },"");
-    keyword_search_list.innerHTML = str;
+    DOM.KEYWORD_SEARCH_LIST.innerHTML = str;
     return lists;
 }
 
@@ -43,31 +29,38 @@ export const Rolling_slide_top10_title = (titles) => {
         acc = acc + `<div class="rolling_list">${cur.rank} ${cur.title}</div>`;
         return acc;
     },"");
-    rolling_list_box.insertAdjacentHTML("beforeend",str)
+    DOM.ROLLING_LIST_BOX.insertAdjacentHTML("beforeend",str)
 }
 
-export const Rolling_slide = () => {
+export async function Rolling_slide() {
     // 재귀함수 사용하여 계속 반복
-    setTimeout(() => {
-        _.addClass(rolling_list_box, TRANS_TOP,ON);
-        setTimeout (() => {
-            rolling_list_box.insertBefore(rolling_list_box.firstElementChild, null);
-            _.removeClass(rolling_list_box, TRANS_TOP,ON);
-            Rolling_slide();
-        },300);
-    },2000);
+    const play_list1 = () => {
+        _.removeClass(DOM.ROLLING_LIST_BOX, CLASS_LIST.TRANS_TOP,CLASS_LIST.ON);
+        DOM.ROLLING_LIST_BOX.insertBefore(DOM.ROLLING_LIST_BOX.firstElementChild, null);
+        Rolling_slide();
+    }
+
+    const play_list2 = () => {
+        _.addClass(DOM.ROLLING_LIST_BOX, CLASS_LIST.TRANS_TOP,CLASS_LIST.ON);
+    }
+
+    await delay(play_list2, 2000);
+    await delay(play_list1,300);
 }
+
+const a = new Rolling();
+
 
 export const init_searchBar_Event = () => {
     document.addEventListener("click", (e) => {
         let close = !!e.target.closest(".search_bar");
-        let contain = _.contains(input_box, bar_color);
+        let contain = _.contains(DOM.INPUT_BOX, CLASS_LIST.BAR_COLOR);
         
         if(close && !contain) {
-            _.addClass(input_box,bar_color);
-            _.removeClass(search_bar_list,display_off);
-            if(search_input.value !== "") {
-                _.removeClass(keyword_search_list_box,display_off);
+            _.addClass(DOM.INPUT_BOX, CLASS_LIST.BAR_COLOR);
+            _.removeClass(DOM.SEARCH_BAR_LIST,CLASS_LIST.DISPLAY_OFF);
+            if(DOM.SEARCH_INPUT.value !== "") {
+                _.removeClass(DOM.KEYWORD_SEARCH_LIST_BOX,CLASS_LIST.DISPLAY_OFF);
             }
         }
     })
@@ -77,24 +70,24 @@ export const init_searchBar_Event = () => {
         let box_in = e.target.closest(".search_bar_list");
     
         if(!close && !box_in) {
-            _.removeClass(input_box, bar_color);
-            _.addClass(search_bar_list,display_off);
-            _.addClass(keyword_search_list_box,display_off);
-            if(search_input.value === "") {
-                _.addClass(keyword_search_list_box, display_off);
-            } else if(close && box_in && search_input.value !== "") {
-                _.removeClass(keyword_search_list_box,display_off);
+            _.removeClass(DOM.INPUT_BOX, CLASS_LIST.BAR_COLOR);
+            _.addClass(DOM.SEARCH_BAR_LIST,CLASS_LIST.DISPLAY_OFF);
+            _.addClass(DOM.KEYWORD_SEARCH_LIST_BOX,CLASS_LIST.DISPLAY_OFF);
+            if(DOM.SEARCH_INPUT.value === "") {
+                _.addClass(DOM.KEYWORD_SEARCH_LIST_BOX, CLASS_LIST.DISPLAY_OFF);
+            } else if(close && box_in && DOM.SEARCH_INPUT.value !== "") {
+                _.removeClass(DOM.KEYWORD_SEARCH_LIST_BOX,CLASS_LIST.DISPLAY_OFF);
             }
         }
     })
     
-    search_input.addEventListener("input", (e) => {
+    DOM.SEARCH_INPUT.addEventListener("input", (e) => {
         if(e.data !== null) {
-            _.addClass(rolling_list_box, display_off);
-            _.removeClass(keyword_search_list_box,display_off);
-        } else if(search_input.value == "") {
-            _.removeClass(rolling_list_box,display_off);
-            _.addClass(keyword_search_list_box,display_off);
+            _.addClass(DOM.ROLLING_LIST_BOX, CLASS_LIST.DISPLAY_OFF);
+            _.removeClass(DOM.KEYWORD_SEARCH_LIST_BOX,CLASS_LIST.DISPLAY_OFF);
+        } else if(DOM.SEARCH_INPUT.value == "") {
+            _.removeClass(DOM.ROLLING_LIST_BOX,CLASS_LIST.DISPLAY_OFF);
+            _.addClass(DOM.KEYWORD_SEARCH_LIST_BOX,CLASS_LIST.DISPLAY_OFF);
         }
     
         if(count) clearTimeout(count);

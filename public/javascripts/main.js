@@ -6,7 +6,7 @@ const promise = fetch("http://localhost:3000/image") // 여기서 서버에 요�
 .then(json => best(json))
 .then(json => carousel(json))
 .then(json => mouse_slide(json))
-.then(json =>  plus(json));
+.then(json => plus(json));
 
 const top_10 = fetch("http://localhost:3000/top_10") // 여기서 서버에 요청함                       
 .then(response => response.json())                   // 그럼 router의 image.js에서 파일을 읽어서 보내줌. 

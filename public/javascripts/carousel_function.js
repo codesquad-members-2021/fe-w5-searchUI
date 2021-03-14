@@ -1,4 +1,4 @@
-import _ from "./utill.js"
+import {_, DOM, CLASS_LIST} from "./utill.js"
 
 // 더보기 구현
 const hot_deal = _.$(".hot_dael_box");

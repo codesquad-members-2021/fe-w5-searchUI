@@ -1,26 +1,18 @@
-import _ from "./utill.js";
-const TRANS_RIGHT = "trans_right";
-const TRANS_LEFT = "trans_left";
-const ON = "on";
-const carouselSlide = _.$(".carousel_slide");
-const RIGHT = _.$(".right"); 
-const LEFT = _.$(".left");
+import { _, DOM, CLASS_LIST } from "./utill.js";
 
-
-RIGHT.addEventListener('click', (e) => {
-    _.addClass(carouselSlide,TRANS_RIGHT,ON);
+DOM.RIGHT.addEventListener('click', (e) => {
+    _.addClass(DOM.CAROUSEL_SLIDE,CLASS_LIST.TRANS_RIGHT,CLASS_LIST.ON);
     setTimeout(() => {
-        _.removeClass(carouselSlide,TRANS_RIGHT,ON);
-        carouselSlide.insertBefore(carouselSlide.firstElementChild, null);
+        _.removeClass(DOM.CAROUSEL_SLIDE,CLASS_LIST.TRANS_RIGHT,CLASS_LIST.ON);
+        DOM.CAROUSEL_SLIDE.insertBefore(DOM.CAROUSEL_SLIDE.firstElementChild, null);
     },300)
 });
 
 
-LEFT.addEventListener("click", () => {
-    carouselSlide_.addClass(TRANS_LEFT);
-    carouselSlide_.addClass(ON);
+DOM.LEFT.addEventListener("click", () => {
+    _.addClass(DOM.CAROUSEL_SLIDE,CLASS_LIST.TRANS_LEFT,CLASS_LIST.ON);
     setTimeout(() => {
-        _.removeClass(carouselSlide,TRANS_LEFT,ON);
-        carouselSlide.insertBefore(carouselSlide.lastElementChild,carouselSlide.firstElementChild);
+        _.removeClass(DOM.CAROUSEL_SLIDE,CLASS_LIST.TRANS_LEFT,CLASS_LIST.ON);
+        DOM.CAROUSEL_SLIDE.insertBefore(DOM.CAROUSEL_SLIDE.lastElementChild,DOM.CAROUSEL_SLIDE.firstElementChild);
     },300)
 });
