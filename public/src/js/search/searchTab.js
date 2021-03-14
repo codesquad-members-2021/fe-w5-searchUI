@@ -30,12 +30,15 @@ SearchTab.prototype = {
     if (keyCode === KEYCODE.UP) this.moveUpList();
     else if (keyCode === KEYCODE.DOWN) this.moveDownList();
   },
+  _isBetween(target, start, end) {
+    return start <= target && target < end;
+  },
   _makeRecommendListHTML(start, end) {
-    const recommendListHTML = this.recommendData.reduce((acc, data, idx) => {
-      if (start <= idx && idx < end) return acc + makeRecommendItem(idx + 1, data);
-      else return acc;
-    }, '');
-    return recommendListHTML;
+    const recommendListHTML = this.recommendData
+      .map((item, idx) => (this._isBetween(idx, start, end) ? { idx: idx + 1, value: item } : ''))
+      .map((value) => (value ? makeRecommendItem(value) : ''));
+
+    return recommendListHTML.join('');
   },
   getRecommendHTML() {
     const { SEARCH_TAB_LIST } = CLASS_LIST;
@@ -48,11 +51,15 @@ SearchTab.prototype = {
   },
   getAutoCompleteHTML() {
     const { AUTOCOMPLETE_LIST } = CLASS_LIST;
-    const autoCompleteList = this.autoCompleteData.reduce((acc, autoData, idx) => {
-      if (idx === this.currentIdx)
-        return acc + makeAutoCompleteItem({ value: autoData, keyword: this.orginInput, isCurrentValue: true });
-      else return acc + makeAutoCompleteItem({ value: autoData, keyword: this.orginInput });
-    }, '');
+    const autoCompleteList = this.autoCompleteData
+      .map((item, idx) =>
+        idx === this.currentIdx
+          ? { value: item, keyword: this.orginInput, isCurrentValue: true }
+          : { value: item, keyword: this.orginInput }
+      )
+      .map((value) => makeAutoCompleteItem(value))
+      .reduce((acc, cur) => acc + cur);
+
     const autoCompleteHTML = ul({ value: autoCompleteList, classes: [AUTOCOMPLETE_LIST] });
     return autoCompleteHTML;
   },
