@@ -3,12 +3,16 @@ import { makeAutoCompleteItem, makeRecommendItem, ul } from '../util/htmlTemplat
 import { autoCompleteParser } from '../util/parser';
 import { getData, _, debounce } from '../util/util';
 
+const MAX_AUTOCOMPLETE = 10;
+// 자동완성 기능에서 화살표를 사용해 움직일 때 input박스에 있는 상태는 index -1로 설정
+const INITIAL_INDEX = -1;
+
 function SearchTab({ data, selector }) {
   this.recommendData = data;
   this.searchTab = selector.searchTab;
   this.searchInput = selector.searchInput;
   this.searchTabTitle = selector.searchTabTitle;
-  this.currentIdx = -1;
+  this.currentIdx = INITIAL_INDEX;
   this.orginInput;
   this.autoCompleteData;
 }
@@ -80,7 +84,7 @@ SearchTab.prototype = {
   },
   async setAutoCompleteData(inputValue) {
     const autoCompleteData = await getData(URL.autoComplete(inputValue));
-    this.autoCompleteData = autoCompleteParser(autoCompleteData);
+    this.autoCompleteData = autoCompleteParser(autoCompleteData.suggestions).slice(0, MAX_AUTOCOMPLETE);
   },
   showTitle() {
     this.searchTabTitle.classList.remove(CLASS_LIST.HIDDEN);
@@ -89,7 +93,7 @@ SearchTab.prototype = {
     this.searchTabTitle.classList.add(CLASS_LIST.HIDDEN);
   },
   moveUpList() {
-    if (this.currentIdx - 1 < 0) {
+    if (this._isLastAutoCompleteIdx()) {
       this.backUpInputValue();
     } else {
       this.currentIdx--;
@@ -98,7 +102,7 @@ SearchTab.prototype = {
     this.renderAutoComplete();
   },
   moveDownList() {
-    if (this.currentIdx + 1 >= this.autoCompleteData.length) {
+    if (this._isLastAutoCompleteIdx()) {
       this.backUpInputValue();
     } else {
       this.currentIdx++;
@@ -106,12 +110,18 @@ SearchTab.prototype = {
     }
     this.renderAutoComplete();
   },
+  _isFirstAutoCompleteIdx() {
+    this.currentIdx - 1 < 0;
+  },
+  _isLastAutoCompleteIdx() {
+    return this.currentIdx + 1 >= this.autoCompleteData.length;
+  },
   backUpInputValue() {
     this.searchInput.value = this.orginInput;
     this.initAutoCompleteIdx();
   },
   initAutoCompleteIdx() {
-    this.currentIdx = -1;
+    this.currentIdx = INITIAL_INDEX;
   },
 };
 

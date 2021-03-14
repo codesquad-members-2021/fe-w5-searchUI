@@ -15,7 +15,4 @@ export const hotDealParser = (data) =>
 
 export const recommendParser = (data) => data.map((v) => v.keyword).slice(0, 10);
 
-export const autoCompleteParser = (data) => {
-  const autoCompleteList = data.suggestions.map((v) => v.value);
-  return autoCompleteList.length > 10 ? autoCompleteList.slice(0, 10) : autoCompleteList;
-};
+export const autoCompleteParser = (suggestions) => suggestions.map((v) => v.value);
