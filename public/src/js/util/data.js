@@ -10,6 +10,7 @@ export const CLASS_LIST = {
   SEARCH_TAB_LIST: 'search-tab__list',
   AUTOCOMPLETE_LIST: 'auto-complete__list',
   AUTOCOMPLETE_ITEM: 'auto-complete__item',
+  CURRENT_VALUE: 'current-value',
 };
 
 export const URL = {

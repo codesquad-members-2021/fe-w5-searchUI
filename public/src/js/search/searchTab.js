@@ -54,11 +54,11 @@ SearchTab.prototype = {
     return recommendHTML;
   },
   getAutoCompleteHTML() {
-    const { AUTOCOMPLETE_LIST } = CLASS_LIST;
+    const { AUTOCOMPLETE_ITEM, AUTOCOMPLETE_LIST, CURRENT_VALUE } = CLASS_LIST;
     const autoCompleteList = this.autoCompleteData
       .map((item, idx) =>
         idx === this.currentIdx
-          ? { value: item, keyword: this.orginInput, isCurrentValue: true }
+          ? { value: item, keyword: this.orginInput, classArgs: [AUTOCOMPLETE_ITEM, CURRENT_VALUE] }
           : { value: item, keyword: this.orginInput }
       )
       .map((value) => makeAutoCompleteItem(value))
