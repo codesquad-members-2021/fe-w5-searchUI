@@ -26,21 +26,19 @@ export const makeMoreBtn = ({ now, total, fold = false }) => `
 <span><i class="fas fa-angle-${fold ? 'up' : 'down'}"></i></span>
 `;
 
-export const makeRecommendItem = (idx, value) => `<li><span><strong>${idx}</strong></span><span>${value}</span></li>`;
+export const makeRecommendItem = ({ idx, value }) =>
+  `<li><span><strong>${idx}</strong></span><span>${value}</span></li>`;
 
-export const makeAutoCompleteItem = ({ value, keyword, isCurrentValue = false }) => {
-  const { AUTOCOMPLETE_ITEM } = CLASS_LIST;
-  if (value.indexOf(keyword) < 0)
-    return li({ value, classes: [AUTOCOMPLETE_ITEM, isCurrentValue ? 'current-value' : ''] });
-  else {
-    const keywordLength = keyword.length;
-    const keywordIdx = value.indexOf(keyword);
-    const newValue =
-      value.slice(0, keywordIdx) +
-      span({ value: keyword, classes: ['text-red'] }) +
-      value.slice(keywordIdx + keywordLength);
-    return li({ value: newValue, classes: [AUTOCOMPLETE_ITEM, isCurrentValue ? 'current-value' : ''] });
-  }
+export const makeAutoCompleteItem = ({ value, keyword, classArgs = [] }) => {
+  if (value.indexOf(keyword) < 0) return li({ value, classes: classArgs });
+
+  const keywordLength = keyword.length;
+  const keywordIdx = value.indexOf(keyword);
+  const newValue =
+    value.slice(0, keywordIdx) +
+    span({ value: keyword, classes: ['text-red'] }) +
+    value.slice(keywordIdx + keywordLength);
+  return li({ value: newValue, classes: classArgs });
 };
 
 const span = createDom('span');

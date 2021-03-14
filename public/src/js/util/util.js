@@ -11,10 +11,11 @@ export const getData = (url) => fetch(url).then((res) => res.json());
 
 export const createDom = (tag) => ({ value, classes }) => `<${tag} class='${classes.join(' ')}'>${value}</${tag}>`;
 
-export const delay = (value, ms) => new Promise((resolve) => setTimeout(() => resolve(value), ms));
+export const delay = (ms, value = '') => new Promise((resolve) => setTimeout(() => resolve(value), ms));
 
-export const debounce = (fn, delay, timer) => {
+const debounceInit = (timer = null) => (fn, wait) => {
   if (timer) clearTimeout(timer);
-  timer = setTimeout(fn, delay);
-  return timer;
+  timer = setTimeout(fn, wait);
 };
+
+export const debounce = debounceInit();

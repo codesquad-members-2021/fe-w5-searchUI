@@ -83,13 +83,13 @@ async function init() {
   const searchTabArg = { data: recommendData, selector: searchTabSelector };
   const searchTab = new SearchTab(searchTabArg);
   searchTab.init();
-}
 
-//토글
-const toggleList = [
-  { check: searchContainer, show: rollingContainer, hidden: searchTabContainer, showOption: searchInput },
-];
-const toggle = new Toggle(toggleList);
-toggle.init();
+  //토글
+  const toggleList = [
+    { check: searchContainer, show: rollingContainer, hidden: searchTabContainer, showOption: searchInput },
+  ];
+  const toggle = new Toggle(toggleList);
+  toggle.init();
+}
 
 init();

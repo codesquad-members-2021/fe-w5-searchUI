@@ -21,15 +21,13 @@ RecommendRolling.prototype = {
     if (this.step > this.rollingData.length) {
       this.render();
       this.step = 0;
-      await delay('', 0);
-      this.rolling();
-      this.autoRolling();
+      //render,rolling 둘다 element.style을 다루기 때문에 render먼저 완료 하기 위해 delay추가
+      await delay(0);
     } else {
-      setTimeout(() => {
-        this.rolling();
-        this.autoRolling();
-      }, 3000);
+      await delay(3000);
     }
+    this.rolling();
+    this.autoRolling();
   },
   rolling() {
     this.step++;
@@ -37,12 +35,13 @@ RecommendRolling.prototype = {
   },
   getrollingHTML() {
     const { PLACEHOLDER_ITEM } = CLASS_LIST;
-    let rollingHTML = this.rollingData.reduce(
-      (acc, cur, idx) => acc + li({ value: `${idx + 1}. ${cur}`, classes: [PLACEHOLDER_ITEM] }),
-      ''
-    );
-    rollingHTML += li({ value: `1. ${this.rollingData[0]}`, classes: [PLACEHOLDER_ITEM] });
-    return rollingHTML;
+    const rollingHTML = this.rollingData
+      .map((item, idx) => `${idx + 1}. ${item}`)
+      .map((value) => li({ value, classes: [PLACEHOLDER_ITEM] }));
+
+    rollingHTML.push(rollingHTML[0]);
+
+    return rollingHTML.join('');
   },
   render() {
     this.setRollingAnimation({ moveY: 0, transition: 'none' });
