@@ -35,12 +35,13 @@ RecommendRolling.prototype = {
   },
   getrollingHTML() {
     const { PLACEHOLDER_ITEM } = CLASS_LIST;
-    let rollingHTML = this.rollingData.reduce(
-      (acc, cur, idx) => acc + li({ value: `${idx + 1}. ${cur}`, classes: [PLACEHOLDER_ITEM] }),
-      ''
-    );
-    rollingHTML += li({ value: `1. ${this.rollingData[0]}`, classes: [PLACEHOLDER_ITEM] });
-    return rollingHTML;
+    const rollingHTML = this.rollingData
+      .map((item, idx) => `${idx + 1}. ${item}`)
+      .map((value) => li({ value, classes: [PLACEHOLDER_ITEM] }));
+
+    rollingHTML.push(rollingHTML[0]);
+
+    return rollingHTML.join('');
   },
   render() {
     this.setRollingAnimation({ moveY: 0, transition: 'none' });
