@@ -21,7 +21,7 @@ RecommendRolling.prototype = {
     if (this.step > this.rollingData.length) {
       this.render();
       this.step = 0;
-      await delay('', 0);
+      await delay(0);
       this.rolling();
       this.autoRolling();
     } else {
