@@ -31,14 +31,18 @@ SearchTab.prototype = {
     if (keyCode === KEYCODE.UP) this.moveUpList();
     else if (keyCode === KEYCODE.DOWN) this.moveDownList();
   },
+  _makeRecommendListHTML(start, end) {
+    const recommendListHTML = this.recommendData.reduce((acc, data, idx) => {
+      if (start <= idx && idx < end) return acc + makeRecommendItem(idx + 1, data);
+      else return acc;
+    }, '');
+    return recommendListHTML;
+  },
   getRecommendHTML() {
     const { SEARCH_TAB_LIST } = CLASS_LIST;
-    let firstList = '';
-    let secondList = '';
-    this.recommendData.forEach((data, idx) => {
-      if (idx < this.recommendData.length / 2) firstList += makeRecommendItem(idx + 1, data);
-      else secondList += makeRecommendItem(idx + 1, data);
-    });
+    const dataLength = this.recommendData.length;
+    const firstList = this._makeRecommendListHTML(0, dataLength / 2);
+    const secondList = this._makeRecommendListHTML(dataLength / 2, dataLength);
     const recommendHTML =
       ul({ value: firstList, classes: [SEARCH_TAB_LIST] }) + ul({ value: secondList, classes: [SEARCH_TAB_LIST] });
     return recommendHTML;
