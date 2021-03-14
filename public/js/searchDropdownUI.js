@@ -88,7 +88,7 @@ SearchDropDownUI.prototype.makeLists = function (data) {
 
 SearchDropDownUI.prototype.keyupHandler = async function ({ keyCode }) {
     await this.pickSeenScreen(this.inputSelector);
-    await this.autoCompleteInit(this.autoCompleteLists, keyCode);
+    await this.initAutoComplete(this.autoCompleteLists, keyCode);
     this.directionKeyEventHandler(keyCode);
 }
 
@@ -102,14 +102,14 @@ SearchDropDownUI.prototype.pickSeenScreen = function (inputSelector) {
     _.$("#input--autoCompleteUI").style.display = "block";
 };
 
-SearchDropDownUI.prototype.autoCompleteInit = function (el, keyCode) {
+SearchDropDownUI.prototype.initAutoComplete = function (el, keyCode) {
     if (keyCode === 38 || keyCode === 40) return
     this.defaultInputValue = this.inputSelector.value;
     const makeAutoCompleteData = async () => {
         let url = `https://completion.amazon.com/api/2017/suggestions?session-id=133-4736477-7395454&customer-id=&request-id=4YM3EXKRH1QJB16MSJGT&page-type=Gateway&lop=en_US&site-variant=desktop&client-info=amazon-search-ui&mid=ATVPDKIKX0DER&alias=aps&b2b=0&fresh=0&ks=71&prefix=${this.inputSelector.value}&event=onKeyPress&limit=11&fb=1&suggestion-type=KEYWORD`
-        const data = await this.autoCompleteLoadData(url);
+        const data = await this.loadAutoCompleteData(url);
         const giveHighlight = await this.giveHighlight(data);
-        const makeLists = this.autoCompleteMakeLists(giveHighlight);
+        const makeLists = this.makeAutoCompleteLists(giveHighlight);
 
         await this.clearLists(el);
         el.insertAdjacentHTML("beforeend", makeLists)
@@ -117,7 +117,7 @@ SearchDropDownUI.prototype.autoCompleteInit = function (el, keyCode) {
     this.debouncer(makeAutoCompleteData, 300)
 }
 
-SearchDropDownUI.prototype.autoCompleteLoadData = async function (url) {
+SearchDropDownUI.prototype.loadAutoCompleteData = async function (url) {
     const data = await fetch(url);
     const json = await data.json();
     const suggestions = json.suggestions.map((v) => v.value);
@@ -125,7 +125,7 @@ SearchDropDownUI.prototype.autoCompleteLoadData = async function (url) {
     return suggestions.length === 0 ? "" : suggestions
 };
 
-SearchDropDownUI.prototype.autoCompleteMakeLists = function (data) {
+SearchDropDownUI.prototype.makeAutoCompleteLists = function (data) {
     let innerHTML = "";
     if (data.length === 0) return ""
     for (let i = 0; i < data.length; i++) {
