@@ -41,7 +41,7 @@
         padding: 2px 22px;
         position: relative;
 
-        input {
+        .search__input {
             color: $black;
             display: block;
             width: 95%;
@@ -123,12 +123,12 @@
             color: #222;
         }
 
-        li > a:hover {
+        li > a:hover, a.selected {
             background-color: #f0f0f0;
         }
     }
 
-    .search__suggestion__inner {
+    .search__suggestion__inner, .search__suggestion__recent {
         font-size: 13px;
 
         p {
@@ -140,14 +140,16 @@
             letter-spacing: $header-letterSpacing;
         }
 
-        .inner__list {
+        .inner__list, .recent__list {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(5, 1fr);
 
             grid-auto-flow: column;
         }
+    }
 
+    .search__suggestion__inner {
         .inner__list > li {
             overflow: hidden;
             height: 21px;
@@ -159,6 +161,14 @@
         li > span {
             margin-right: 10px;
             font-weight: 700;
+        }
+    }
+
+    .search__suggestion__recent {
+        .recent__list > li {
+            display: flex;
+            justify-content: space-between;
+            padding-right: 20px;
         }
     }
     // 미션 5 ------------------------------------------------------ END

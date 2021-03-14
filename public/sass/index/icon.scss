@@ -20,6 +20,10 @@
 }
 
 .wh {
+    &-8 {
+        width: 8px;
+        height: 8px;    
+    }
     &-23 {
         width: 23px;
         height: 23px;
@@ -108,5 +112,10 @@
         @extend .icon__comm2, .w-31, .h-18;
         background-position: 0 -850px;
         margin: 8px 4px 0 0;
+    }
+
+    &-remove {
+        @extend .icon__carousel, .wh-8;
+        background-position: -149.5px -57.5px;
     }
 }

@@ -4,7 +4,7 @@
   background-size: 130px 90px;
   display: block;
 }
-.icon__carousel, .i-slide__paging--next, .i-slide__paging--prev {
+.icon__carousel, .i-remove, .i-slide__paging--next, .i-slide__paging--prev {
   background: url("/img/img_home.png") no-repeat;
   display: block;
 }
@@ -17,6 +17,10 @@
   display: block;
 }
 
+.wh-8, .i-remove {
+  width: 8px;
+  height: 8px;
+}
 .wh-23, .i-search {
   width: 23px;
   height: 23px;
@@ -72,6 +76,9 @@
 .i-theme {
   background-position: 0 -850px;
   margin: 8px 4px 0 0;
+}
+.i-remove {
+  background-position: -149.5px -57.5px;
 }
 
 body {
@@ -360,7 +367,7 @@ a {
   padding: 2px 22px;
   position: relative;
 }
-.header__logo-search .search__bar input {
+.header__logo-search .search__bar .search__input {
   color: #333;
   display: block;
   width: 95%;
@@ -428,13 +435,13 @@ a {
   letter-spacing: -1.15px;
   color: #222;
 }
-.header__logo-search .search__suggestion__similarwords li > a:hover {
+.header__logo-search .search__suggestion__similarwords li > a:hover, .header__logo-search .search__suggestion__similarwords a.selected {
   background-color: #f0f0f0;
 }
-.header__logo-search .search__suggestion__inner {
+.header__logo-search .search__suggestion__inner, .header__logo-search .search__suggestion__recent {
   font-size: 13px;
 }
-.header__logo-search .search__suggestion__inner p {
+.header__logo-search .search__suggestion__inner p, .header__logo-search .search__suggestion__recent p {
   display: block;
   padding: 6px 0 8px;
   font-size: 16px;
@@ -442,7 +449,7 @@ a {
   color: #a6a6a6;
   letter-spacing: -1.15px;
 }
-.header__logo-search .search__suggestion__inner .inner__list {
+.header__logo-search .search__suggestion__inner .inner__list, .header__logo-search .search__suggestion__inner .recent__list, .header__logo-search .search__suggestion__recent .inner__list, .header__logo-search .search__suggestion__recent .recent__list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(5, 1fr);
@@ -458,6 +465,11 @@ a {
 .header__logo-search .search__suggestion__inner li > span {
   margin-right: 10px;
   font-weight: 700;
+}
+.header__logo-search .search__suggestion__recent .recent__list > li {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 20px;
 }
 
 .header__menu {

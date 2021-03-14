@@ -18,14 +18,15 @@
 
                     <div class="search">                        
                         <div class="search__bar">
-                            <input                            
+                            <input
                                 type="text"
-                                id="search"
+                                class="search__input"
                                 name="search"
-                                size="55"
-                                autocomplete="off"                                                                
-                            />                        
-                            <button type="button">
+                                autocomplete="off"                                
+                            />
+                            <input type="hidden" class="backup-value" value=''/>
+
+                            <button type="button" class="search__btn">
                                 <span class="i-search"></span>
                             </button>
 
@@ -40,9 +41,14 @@
                             </div>
 
                             <div class="search__suggestion__inner display--none">
-                                <p>인기 쇼핑 키워드</p>                                
+                                <p>인기 쇼핑 키워드</p>
                                 <ul class="inner__list"></ul>
-                            </div>  
+                            </div>
+
+                            <div class="search__suggestion__recent display--none">
+                                <p>최근 검색어</p>
+                                <ul class="recent__list"></ul>
+                            </div>
                         </div>
                     </div>
 
