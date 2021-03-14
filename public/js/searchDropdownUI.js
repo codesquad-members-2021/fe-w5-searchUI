@@ -59,28 +59,16 @@ SearchDropDownUI.prototype.changeToDefaultStyle = function () {
 SearchDropDownUI.prototype.makeLists = function (data) {
     let innerHTML = "";
     for (let i = 0; i <= 9; i++) {
+        let li = `<li><span class="numRank">${i + 1}.</span><span>${data[i]}</span></li>`;
+
         if (i % 5 === 0) {
-            innerHTML += `
-            <ul class="lists--keywords">
-                <li>
-                    <span class="numRank">${i + 1}.</span>
-                    <span>${data[i]}</span>
-                </li>`;
+            innerHTML += `<ul class="lists--keywords">${li}`;
         }
         else if (i % 5 === 4) {
-            innerHTML += `
-                <li>
-                    <span class="numRank">${i + 1}.</span>
-                    <span>${data[i]}</span>
-                </li>
-            </ul>`;
+            innerHTML += `${li}</ul>`;
         }
         else {
-            innerHTML += `
-            <li>
-                <span class="numRank">${i + 1}.</span>
-                <span>${data[i]}</span>
-            </li>`;
+            innerHTML += li;
         }
     }
     return innerHTML
@@ -128,10 +116,9 @@ SearchDropDownUI.prototype.loadAutoCompleteData = async function (url) {
 SearchDropDownUI.prototype.makeAutoCompleteLists = function (data) {
     let innerHTML = "";
     if (data.length === 0) return ""
-    for (let i = 0; i < data.length; i++) {
-        if (i >= 10) break;
-        innerHTML += `<li>${data[i]}</li>`
-    }
+    data.reduce((acc, curr) => {
+        innerHTML += `<li>${curr}</li>`
+    }, innerHTML)
     return innerHTML
 };
 
