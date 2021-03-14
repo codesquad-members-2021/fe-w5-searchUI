@@ -21,15 +21,13 @@ RecommendRolling.prototype = {
     if (this.step > this.rollingData.length) {
       this.render();
       this.step = 0;
+      //render,rolling 둘다 element.style을 다루기 때문에 render먼저 완료 하기 위해 delay추가
       await delay(0);
-      this.rolling();
-      this.autoRolling();
     } else {
-      setTimeout(() => {
-        this.rolling();
-        this.autoRolling();
-      }, 3000);
+      await delay(3000);
     }
+    this.rolling();
+    this.autoRolling();
   },
   rolling() {
     this.step++;
