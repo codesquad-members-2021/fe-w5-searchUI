@@ -109,8 +109,13 @@
   transform: translateY(4px);
   li {
     color: $medium-gray2;
-    font-weight: 600;
+    font-weight: 800;
     height: 30px;
     font-size: 20px;
+
+    .num-rank {
+      margin-right: 15px;
+      font-style: italic;
+    }
   }
 }
