@@ -1,7 +1,7 @@
-import { _ } from './util/util.js';
+import { _, getData } from './util/util.js';
 import { $searchBarInput, $rollingKeywords } from './util/ref.js';
+import { SearchBar, RollingUI, KeywordSuggestion } from './searchBar.js';
 import { URL, KEYCODE } from './util/data.js';
-import initSearchBar from './searchBar.js';
 const { log } = console;
 
 $searchBarInput.addEventListener('input', () => {
@@ -12,4 +12,13 @@ $searchBarInput.addEventListener('input', () => {
     .then(console.log);
 })
 
-initSearchBar();
+const searchBar = new SearchBar();
+searchBar.registerEvent();
+
+// ================================== ● rolling ● ==================================
+const suggestionData = getData(URL.RECOMMEND);
+const rolling = new RollingUI();
+
+
+const keywordSuggestion = new KeywordSuggestion();
+keywordSuggestion.render();
