@@ -1,4 +1,3 @@
-import { URL } from './util/data.js';
 import { CLASS_LIST } from './util/cssClasses.js';
 import { delay } from './util/util.js';
 
@@ -73,19 +72,16 @@ class Rolling {
 }
 
 class KeywordSuggestion {
-  constructor({ ui }) {
-    this.ui = ui
+  constructor({ domElem, suggestionData }) {
+    this.domElem = domElem;
+    this.suggestionData = suggestionData;
   }
 
   async render() {
-    const recommendedKeywords = await fetch(URL.RECOMMEND)
-      .then(res => res.json())
-      .then(jsonData => jsonData.list.map(v => v.keyword));
-  
-    const renderedValue = recommendedKeywords.reduce((prev, curr, idx) => {
-      return prev + `<li>${recommendedKeywords[idx]}</li>`
+    const renderedValue = this.suggestionData.reduce((prev, _, idx) => {
+      return prev + `<li>${this.suggestionData[idx]}</li>`
     }, '<ol>')
-    this.ui.innerHTML = renderedValue + '</ol>';
+    this.domElem.innerHTML = renderedValue + '</ol>';
   }
 }
 

@@ -37,7 +37,11 @@ async function initSuggestion() {
   const rolling = new Rolling(rollingArgs);
   
   // keyword suggestion
-  const keywordSuggestion = new KeywordSuggestion({ ui: $searchSuggestions});
+  const suggestionArgs = {
+    domElem: $searchSuggestions,
+    suggestionData: recommendList
+  }
+  const keywordSuggestion = new KeywordSuggestion(suggestionArgs);
   keywordSuggestion.render();
 }
 
