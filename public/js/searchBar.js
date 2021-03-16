@@ -2,8 +2,8 @@ import { CLASS_LIST } from './util/cssClasses.js';
 import { delay } from './util/util.js';
 
 class SearchBar {
-  constructor({ ui, inputArea, suggestions }) {
-    this.ui = ui;
+  constructor({ domElem, inputArea, suggestions }) {
+    this.domElem = domElem;
     this.inputArea = inputArea;
     this.suggestions = suggestions;
   }
@@ -15,7 +15,7 @@ class SearchBar {
       this.suggestions.classList.remove(HIDDEN);
     })
 
-    this.ui.addEventListener('mouseleave', () => {
+    this.domElem.addEventListener('mouseleave', () => {
       this.inputArea.blur();
       this.suggestions.classList.add(HIDDEN);
     });

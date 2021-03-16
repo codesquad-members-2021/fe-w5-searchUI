@@ -16,7 +16,7 @@ $searchBarInput.addEventListener('input', () => {
 
 // search bar
 const searchBarArgs = {
-  ui: $searchBar,
+  domElem: $searchBar,
   inputArea: $searchBarInput,
   suggestions: $searchSuggestions
 };
