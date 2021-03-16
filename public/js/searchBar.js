@@ -50,22 +50,26 @@ class Rolling {
   async roll() {
     await delay('', 2000);
     const rollngTimeoutId = setTimeout(() => {
-      this.setRollingAnimation();
+      this.setAnimation();
       this.currItemIdx++;
       if(this.currItemIdx === 11) {
-        this.currY = 4;
-        this.list.style.transform = '';
-        this.list.style.transition = '';
-        this.currItemIdx = 0;
+        this.resetStates();
       }
       this.roll()
     }, 1000);
   }
 
-  setRollingAnimation() {
+  setAnimation() {
     this.list.style.transform = `translateY(${this.currY - this.heightOfOneItem}px)`;
     this.list.style.transition = 'all 0.5s'
     this.currY -= this.heightOfOneItem;
+  }
+
+  resetStates() {
+    this.currY = 4;
+    this.list.style.transform = '';
+    this.list.style.transition = '';
+    this.currItemIdx = 0;
   }
 
   async init(){
