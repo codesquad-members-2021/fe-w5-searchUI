@@ -18,7 +18,8 @@ $searchBarInput.addEventListener('input', () => {
 const searchBarArgs = {
   domElem: $searchBar,
   inputArea: $searchBarInput,
-  suggestions: $searchSuggestions
+  suggestions: $searchSuggestions,
+  rollingKeywords: $rollingKeywords
 };
 const searchBar = new SearchBar(searchBarArgs);
 searchBar.registerEvent();

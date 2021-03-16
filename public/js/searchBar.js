@@ -2,10 +2,11 @@ import { CLASS_LIST } from './util/cssClasses.js';
 import { delay } from './util/util.js';
 
 class SearchBar {
-  constructor({ domElem, inputArea, suggestions }) {
+  constructor({ domElem, inputArea, suggestions, rollingKeywords }) {
     this.domElem = domElem;
     this.inputArea = inputArea;
     this.suggestions = suggestions;
+    this.rollingKeywords = rollingKeywords;
   }
 
   registerEvent() {
@@ -13,11 +14,13 @@ class SearchBar {
 
     this.inputArea.addEventListener('focus', () => {
       this.suggestions.classList.remove(HIDDEN);
+      this.rollingKeywords.classList.add(HIDDEN);
     })
 
     this.domElem.addEventListener('mouseleave', () => {
       this.inputArea.blur();
       this.suggestions.classList.add(HIDDEN);
+      this.rollingKeywords.classList.remove(HIDDEN);
     });
   }
 }
