@@ -25,9 +25,6 @@ class SearchBar {
 
 class Rolling {
   constructor({ list }) {
-    // constructor에서는 직접적으로 async, await 사용이 불가능하니,
-    // constructor에서 init 함수를 호출하고,
-    // init 함수에서 변수를 정의해주자.
     this.list = list;
     this.currItemIdx = 0;
     this.currY = 4;
@@ -51,7 +48,7 @@ class Rolling {
   }
 
   async roll() {
-    await delay('', 1000);
+    await delay('', 2000);
     const rollngTimeoutId = setTimeout(() => {
       this.setRollingAnimation();
       this.currItemIdx++;
@@ -67,7 +64,7 @@ class Rolling {
 
   setRollingAnimation() {
     this.list.style.transform = `translateY(${this.currY - this.heightOfOneItem}px)`;
-    this.list.style.transition = 'all 1s'
+    this.list.style.transition = 'all 0.5s'
     this.currY -= this.heightOfOneItem;
   }
 
