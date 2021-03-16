@@ -77,11 +77,18 @@ class KeywordSuggestion {
     this.suggestionData = suggestionData;
   }
 
-  async render() {
-    const renderedValue = this.suggestionData.reduce((prev, _, idx) => {
-      return prev + `<li>${this.suggestionData[idx]}</li>`
-    }, '<ol>')
-    this.domElem.innerHTML = renderedValue + '</ol>';
+  getSuggestionHtml() {
+    let suggestionHtml = this.suggestionData.map((keyword, idx) => `<li><span class="num-rank">${idx + 1}</span>${keyword}</li>`).join('');
+    suggestionHtml = `
+      <div class="suggestion-title">인기 쇼핑 키워드</div>
+      <ol class="suggestion-keywords">${suggestionHtml}</ol>
+    `;
+    return suggestionHtml;
+  }
+
+  render() {
+    const renderedValue = this.getSuggestionHtml();
+    this.domElem.innerHTML = renderedValue;
   }
 }
 

@@ -93,6 +93,31 @@
   top: 100%;
   left: 0;
   z-index: 1;
+  padding: 30px;
+
+  .suggestion-title {
+    font-weight: 700;
+    color: $medium-gray2;
+    margin-bottom: 15px;
+  }
+
+  .suggestion-keywords {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    row-gap: 15px;
+    column-gap: 15px;
+
+    li {
+      font-size: 14px;
+      .num-rank {
+        color: $dark-gray;
+        font-style: italic;
+        font-weight: 800;
+        margin-right: 10px;
+      }
+    }
+  }
 }
 
 .rolling-keywords-container {
