@@ -1,5 +1,6 @@
 import { CLASS_LIST } from './util/cssClasses.js';
 import { delay } from './util/util.js';
+import { URL, KEYCODE } from './util/data.js';
 
 class SearchBar {
   constructor({ domElem, inputArea, suggestions, rollingKeywords }) {
@@ -95,4 +96,24 @@ class KeywordSuggestion {
   }
 }
 
-export { SearchBar, Rolling, KeywordSuggestion }
+class AutoComplete {
+  constructor({ domElem, rollingKeywords }) {
+    this.domElem = domElem;
+    this.rollingKeywords = rollingKeywords;
+  }
+
+  registerEvent() {
+    this.domElem.addEventListener('input', () => {
+      const { HIDDEN } = CLASS_LIST;
+      this.rollingKeywords.classList.add(HIDDEN);
+      
+      const searchInput = this.domElem.value;
+      fetch(URL.autoComplete(searchInput))
+        .then(res => res.json())
+        .then(jsonData => jsonData.suggestions.map(v => v.value))
+        .then(console.log);
+    })
+  }
+}
+
+export { SearchBar, Rolling, KeywordSuggestion, AutoComplete }

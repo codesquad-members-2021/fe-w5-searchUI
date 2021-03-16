@@ -1,18 +1,10 @@
 import { _, getData } from './util/util.js';
 import { $searchBar, $searchBarInput, $searchSuggestions, $rollingKeywords } from './util/ref.js';
-import { SearchBar, Rolling, KeywordSuggestion } from './searchBar.js';
+import { SearchBar, Rolling, KeywordSuggestion, AutoComplete } from './searchBar.js';
 import { URL, KEYCODE } from './util/data.js';
 import { parseRecommendedList } from './util/parser.js';
 const { log } = console;
 
-// auto-complete - 나중에 작업할 것
-$searchBarInput.addEventListener('input', () => {
-  const searchInput = $searchBarInput.value;
-  fetch(URL.autoComplete(searchInput))
-    .then(res => res.json())
-    .then(jsonData => jsonData.suggestions.map(v => v.value))
-    .then(console.log);
-})
 
 // search bar
 const searchBarArgs = {
@@ -47,3 +39,15 @@ async function initSuggestion() {
 }
 
 initSuggestion();
+
+// auto complete
+async function initAutoComplete() {
+  const autoCompleteArgs = {
+    domElem: $searchBarInput,
+    rollingKeywords: $rollingKeywords
+  }
+  const autoComplete = new AutoComplete(autoCompleteArgs);
+  autoComplete.registerEvent();
+}
+
+initAutoComplete();
