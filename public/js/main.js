@@ -1,9 +1,10 @@
 import { _, getData } from './util/util.js';
-import { $searchBarInput, $rollingKeywords } from './util/ref.js';
-import { SearchBar, RollingUI, KeywordSuggestion } from './searchBar.js';
+import { $searchBar, $searchBarInput, $searchSuggestions, $rollingKeywords } from './util/ref.js';
+import { SearchBar, Rolling, KeywordSuggestion } from './searchBar.js';
 import { URL, KEYCODE } from './util/data.js';
 const { log } = console;
 
+// auto-complete - 나중에 작업할 것
 $searchBarInput.addEventListener('input', () => {
   const searchInput = $searchBarInput.value;
   fetch(URL.autoComplete(searchInput))
@@ -12,13 +13,17 @@ $searchBarInput.addEventListener('input', () => {
     .then(console.log);
 })
 
-const searchBar = new SearchBar();
+// ================================== ● rolling ● ==================================
+
+const searchBar = new SearchBar({ ui: $searchBar, inputArea: $searchBarInput, suggestions: $searchSuggestions });
 searchBar.registerEvent();
 
 // ================================== ● rolling ● ==================================
+
 const suggestionData = getData(URL.RECOMMEND);
-const rolling = new RollingUI();
+const rolling = new Rolling({ list: $rollingKeywords });
 
+// ============================= ● keyword suggestion ● =============================
 
-const keywordSuggestion = new KeywordSuggestion();
+const keywordSuggestion = new KeywordSuggestion({ ui: $searchSuggestions});
 keywordSuggestion.render();
