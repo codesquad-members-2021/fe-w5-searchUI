@@ -24,27 +24,21 @@ class SearchBar {
 }
 
 class Rolling {
-  constructor({ list }) {
-    this.list = list;
+  constructor({ domElem, rollingData }) {
+    this.domElem = domElem;
+    this.rollingData = rollingData;
     this.currItemIdx = 0;
     this.currY = 4;
     this.heightOfOneItem = 30;
     this.init();
   }
 
-  async getKeywords() {
-    const recommendedKeywords = await fetch(URL.RECOMMEND)
-      .then(res => res.json())
-      .then(jsonData => jsonData.list.map(v => v.keyword).slice(0, 10));
-    return recommendedKeywords
-  }
-
   render() {
-    let renderingValue = this.keywords.reduce((prev, curr, idx) => {
-      return prev + `<li><span class="num-rank">${idx + 1}</span>${this.keywords[idx]}</li>`
+    let renderingValue = this.rollingData.reduce((prev, curr, idx) => {
+      return prev + `<li><span class="num-rank">${idx + 1}</span>${this.rollingData[idx]}</li>`
     }, '')
-    renderingValue += `<li><span class="num-rank">1</span>${this.keywords[0]}</li>`
-    this.list.innerHTML = renderingValue;
+    renderingValue += `<li><span class="num-rank">1</span>${this.rollingData[0]}</li>`
+    this.domElem.innerHTML = renderingValue;
   }
 
   async roll() {
@@ -60,20 +54,19 @@ class Rolling {
   }
 
   setAnimation() {
-    this.list.style.transform = `translateY(${this.currY - this.heightOfOneItem}px)`;
-    this.list.style.transition = 'all 0.5s'
+    this.domElem.style.transform = `translateY(${this.currY - this.heightOfOneItem}px)`;
+    this.domElem.style.transition = 'all 0.5s'
     this.currY -= this.heightOfOneItem;
   }
 
   resetStates() {
     this.currY = 4;
-    this.list.style.transform = '';
-    this.list.style.transition = '';
+    this.domElem.style.transform = '';
+    this.domElem.style.transition = '';
     this.currItemIdx = 0;
   }
 
   async init(){
-    this.keywords = await this.getKeywords();
     this.render();
     this.roll();
   }
