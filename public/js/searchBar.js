@@ -19,9 +19,15 @@ class SearchBar {
     })
 
     this.domElem.addEventListener('mouseleave', () => {
-      this.inputArea.blur();
-      this.suggestions.classList.add(HIDDEN);
-      this.rollingKeywords.classList.remove(HIDDEN);
+      if(this.inputArea.value === '') {
+        this.inputArea.blur();
+        this.suggestions.classList.add(HIDDEN);
+        this.rollingKeywords.classList.remove(HIDDEN);
+      }
+      if(this.inputArea.value) {
+        this.inputArea.blur();
+        this.suggestions.classList.add(HIDDEN);
+      }
     });
   }
 }
