@@ -11,24 +11,21 @@ class SearchBar {
   }
 
   registerEvent() {
-    const { HIDDEN } = CLASS_LIST;
+    this.inputArea.addEventListener('focus', this._handleInputFocus.bind(this, CLASS_LIST));
+    this.domElem.addEventListener('mouseleave', this._handleMouseleave.bind(this, CLASS_LIST));
+  }
 
-    this.inputArea.addEventListener('focus', () => {
-      this.suggestions.classList.remove(HIDDEN);
-      this.rollingKeywords.classList.add(HIDDEN);
-    })
+  _handleInputFocus({ HIDDEN }) {
+    this.suggestions.classList.remove(HIDDEN);
+    this.rollingKeywords.classList.add(HIDDEN);
+  }
 
-    this.domElem.addEventListener('mouseleave', () => {
-      if(this.inputArea.value === '') {
-        this.inputArea.blur();
-        this.suggestions.classList.add(HIDDEN);
-        this.rollingKeywords.classList.remove(HIDDEN);
-      }
-      if(this.inputArea.value) {
-        this.inputArea.blur();
-        this.suggestions.classList.add(HIDDEN);
-      }
-    });
+  _handleMouseleave({ HIDDEN }) {
+    this.inputArea.blur();
+    this.suggestions.classList.add(HIDDEN);
+    if(this.inputArea.value === '') {
+      this.rollingKeywords.classList.remove(HIDDEN);
+    }
   }
 }
 
