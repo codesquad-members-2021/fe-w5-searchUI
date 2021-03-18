@@ -112,19 +112,24 @@ class KeywordSuggestion {
 }
 
 class AutoComplete {
-  constructor({ domElem, rollingKeywords }) {
+  constructor({ domElem, rollingKeywords, searchSuggestions }) {
     this.domElem = domElem;
     this.rollingKeywords = rollingKeywords;
+    this.searchSuggestions = searchSuggestions;
   }
 
   registerEvent() {
     this.domElem.addEventListener('input', async () => {
       const { HIDDEN } = CLASS_LIST;
       this.rollingKeywords.classList.add(HIDDEN);
+      this.searchSuggestions.classList.remove(HIDDEN);
       
       const searchInput = this.domElem.value;
       const { suggestions: suggestionListInfo } = await getData(URL.autoComplete(searchInput));
       const autoCompleteList = parseAutoCompleteList(suggestionListInfo);
+
+      const renderedValue = autoCompleteList.map(keyword => `<li class="suggestion">${keyword}</li>`).join('');
+      this.searchSuggestions.innerHTML = renderedValue;
     })
   }
 }

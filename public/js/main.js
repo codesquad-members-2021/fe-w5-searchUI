@@ -42,7 +42,8 @@ initSuggestion();
 function initAutoComplete() {
   const autoCompleteArgs = {
     domElem: $searchBarInput,
-    rollingKeywords: $rollingKeywords
+    rollingKeywords: $rollingKeywords,
+    searchSuggestions: $searchSuggestions
   }
   const autoComplete = new AutoComplete(autoCompleteArgs);
   autoComplete.registerEvent();

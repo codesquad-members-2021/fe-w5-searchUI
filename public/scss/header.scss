@@ -95,6 +95,12 @@
   z-index: 1;
   padding: 30px;
 
+  .suggestion {
+    list-style: none;
+    font-size: 14px;
+    padding: 3px 0px;
+  }
+
   .suggestion-title {
     font-weight: 700;
     color: $medium-gray2;
