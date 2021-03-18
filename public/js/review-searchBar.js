@@ -1,6 +1,6 @@
 import { CLASS_LIST } from './util/cssClasses.js';
 import { delay } from './util/util.js';
-import { URL, KEYCODE } from './util/data.js';
+import { URL, KEYCODE } from './util/constants.js';
 
 class SearchBar {
   constructor({ domElem, inputArea, suggestions, rollingKeywords }) {
