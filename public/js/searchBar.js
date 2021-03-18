@@ -116,20 +116,55 @@ class AutoComplete {
     this.domElem = domElem;
     this.rollingKeywords = rollingKeywords;
     this.searchSuggestions = searchSuggestions;
+    this.selectedItemIdx = null;
   }
 
   registerEvent() {
     this.domElem.addEventListener('input', async () => {
+      const searchInput = this.domElem.value;
       const { HIDDEN } = CLASS_LIST;
+
+      if(searchInput === '') {
+        // 인기검색어를 다시 불러와서 화면에 넣어줘야 함..
+        // 구조를 뜯어 고쳐야 할 것 같은 느낌..
+      }
+
       this.rollingKeywords.classList.add(HIDDEN);
       this.searchSuggestions.classList.remove(HIDDEN);
       
-      const searchInput = this.domElem.value;
       const { suggestions: suggestionListInfo } = await getData(URL.autoComplete(searchInput));
       const autoCompleteList = parseAutoCompleteList(suggestionListInfo);
 
       const renderedValue = autoCompleteList.map(keyword => `<li class="suggestion">${keyword}</li>`).join('');
       this.searchSuggestions.innerHTML = renderedValue;
+    })
+
+    this.domElem.addEventListener('keydown', ({ keyCode }) => {
+      const autoCompleteItems = this.searchSuggestions.children;
+      const ITEMS_COUNT = autoCompleteItems.length;
+
+      if(keyCode === KEYCODE.DOWN) {
+        if(this.selectedItemIdx === null) {
+          this.selectedItemIdx = 0
+          autoCompleteItems[this.selectedItemIdx].classList.add('suggestion-selected');
+          console.log(autoCompleteItems[this.selectedItemIdx])
+          this.selectedItemIdx++;
+          return;
+        }
+        if(this.selectedItemIdx >= ITEMS_COUNT) {
+          autoCompleteItems[this.selectedItemIdx - 1].classList.remove('suggestion-selected');
+          this.selectedItemIdx = null;
+        }
+        if(this.selectedItemIdx) {
+          autoCompleteItems[this.selectedItemIdx - 1].classList.remove('suggestion-selected');
+          autoCompleteItems[this.selectedItemIdx].classList.add('suggestion-selected');
+          this.selectedItemIdx++;
+        }
+      }
+
+      if(keyCode === KEYCODE.UP) {
+
+      }
     })
   }
 }

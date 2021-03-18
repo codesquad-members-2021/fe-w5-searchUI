@@ -98,7 +98,14 @@
   .suggestion {
     list-style: none;
     font-size: 14px;
-    padding: 3px 0px;
+    padding: 3px 5px;
+  }
+  .suggestion-selected {
+    background-color: $light-gray1;
+  }
+  .suggestion:hover {
+    cursor: pointer;
+    background-color: $light-gray1;
   }
 
   .suggestion-title {
