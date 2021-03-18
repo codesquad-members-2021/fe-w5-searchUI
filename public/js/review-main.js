@@ -1,7 +1,7 @@
 import { _, getData } from './util/util.js';
 import { $searchBar, $searchBarInput, $searchSuggestions, $rollingKeywords } from './util/ref.js';
 import { SearchBar, Rolling, KeywordSuggestion, AutoComplete } from './searchBar.js';
-import { URL, KEYCODE } from './util/data.js';
+import { URL, KEYCODE } from './util/constants.js';
 import { parseRecommendedList } from './util/parser.js';
 const { log } = console;
 
