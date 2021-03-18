@@ -39,7 +39,7 @@ async function initSuggestion() {
 initSuggestion();
 
 // auto complete
-async function initAutoComplete() {
+function initAutoComplete() {
   const autoCompleteArgs = {
     domElem: $searchBarInput,
     rollingKeywords: $rollingKeywords

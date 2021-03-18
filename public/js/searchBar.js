@@ -1,6 +1,7 @@
 import { CLASS_LIST } from './util/cssClasses.js';
 import { delay, getData } from './util/util.js';
 import { URL, KEYCODE } from './util/constants.js';
+import { parseAutoCompleteList } from './util/parser.js';
 
 class SearchBar {
   constructor({ domElem, inputArea, suggestions, rollingKeywords }) {
@@ -117,15 +118,13 @@ class AutoComplete {
   }
 
   registerEvent() {
-    this.domElem.addEventListener('input', () => {
+    this.domElem.addEventListener('input', async () => {
       const { HIDDEN } = CLASS_LIST;
       this.rollingKeywords.classList.add(HIDDEN);
       
       const searchInput = this.domElem.value;
-      fetch(URL.autoComplete(searchInput))
-        .then(res => res.json())
-        .then(jsonData => jsonData.suggestions.map(v => v.value))
-        .then(console.log);
+      const { suggestions: suggestionListInfo } = await getData(URL.autoComplete(searchInput));
+      const autoCompleteList = parseAutoCompleteList(suggestionListInfo);
     })
   }
 }
