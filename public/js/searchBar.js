@@ -142,12 +142,12 @@ class AutoComplete {
     this.domElem.addEventListener('keydown', ({ keyCode }) => {
       const autoCompleteItems = this.searchSuggestions.children;
       const ITEMS_COUNT = autoCompleteItems.length;
+      const { HIDDEN } = CLASS_LIST;
 
       if(keyCode === KEYCODE.DOWN) {
         if(this.selectedItemIdx === null) {
           this.selectedItemIdx = 0
           autoCompleteItems[this.selectedItemIdx].classList.add('suggestion-selected');
-          console.log(autoCompleteItems[this.selectedItemIdx])
           this.selectedItemIdx++;
           return;
         }
@@ -163,7 +163,16 @@ class AutoComplete {
       }
 
       if(keyCode === KEYCODE.UP) {
-
+        if(this.selectedItemIdx === null) this.searchSuggestions.classList.toggle(HIDDEN);
+        if(this.selectedItemIdx === 0) {
+          autoCompleteItems[this.selectedItemIdx].classList.remove('suggestion-selected');
+          this.selectedItemIdx = null;
+        }
+        if(this.selectedItemIdx >= 1) {
+          autoCompleteItems[this.selectedItemIdx].classList.remove('suggestion-selected');
+          autoCompleteItems[this.selectedItemIdx - 1].classList.add('suggestion-selected');
+          this.selectedItemIdx--;
+        }
       }
     })
   }
